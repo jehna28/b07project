@@ -9,6 +9,28 @@
     <string name="scroller">Scroller</string>
     <string name="spinner">Spinner</string>
     <string name="manage_items">Manage Items</string>
+    <string name="penguin_description">Image of a penguin on Earth</string>
+    <string name="create_account">Create Account</string>
+    <string name="new_user">New user?</string>
+    <string name="login">Login</string>
+    <string name="returning_user">Returning user?</string>
+    <string name="planetze_logo">Planetze Logo</string>
+    <string name="register">REGISTER</string>
+    <string name="first_name">First Name</string>
+    <string name="please_input_first_name">Please input first name</string>
+    <string name="please_input_last_name">Please input last name</string>
+    <string name="last_name">Last Name</string>
+    <string name="please_input_email_adress">Please input email-adress</string>
+    <string name="email">Email</string>
+    <string name="please_input_strong_password">Please input strong password</string>
+    <string name="password">Password</string>
+    <string name="please_confirm_password">Please confirm password</string>
+    <string name="go_back">Go back</string>
+    <string name="loginTitle">LOGIN</string>
+    <string name="enter_email_adress">Enter email adress</string>
+    <string name="enter_password">Enter password</string>
+    <string name="loginBtn">Log in</string>
+    <string name="image_of_woman_siting_on_a_bench_with_company_phone_application">Image of woman siting on a bench with company phone application</string>
 
     <string-array name="categories_array">
         <item>Books</item>

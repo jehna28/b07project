@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/register_background_gradient"
+    tools:context=".RegisterActivity">
+
+    <TextView
+        android:id="@+id/registerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/register"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/firstNameLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/please_input_first_name"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/registerText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="30dp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/firstNametxtField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/first_name"
+        android:inputType="text"
+        android:autofillHints="name"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="2dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <TextView
+        android:id="@+id/lastNameLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/please_input_last_name"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/firstNametxtField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/lastNametxtField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/last_name"
+        android:inputType="text"
+        android:autofillHints="name"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="2dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/please_input_email_adress"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/lastNametxtField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/emailTxtField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/emailLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="2dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <TextView
+        android:id="@+id/passwordLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/please_input_strong_password"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/emailTxtField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordTxtField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="2dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <TextView
+        android:id="@+id/passwordConfrimLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/please_confirm_password"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTxtField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordConfirmTxtField"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfrimLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="2dp"
+        android:layout_marginHorizontal="60dp"/>
+
+    <Button
+        android:id="@+id/continueBtn"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="Continue"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmTxtField"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="120dp"/>
+
+    <Button
+        android:id="@+id/goBackbtn"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="@string/go_back"
+        android:background="@android:color/transparent"
+        android:textColor="@color/defaultBtnPurple"
+        app:layout_constraintTop_toBottomOf="@id/continueBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="120dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

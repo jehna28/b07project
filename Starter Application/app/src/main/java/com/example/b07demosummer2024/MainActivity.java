@@ -13,9 +13,13 @@ import androidx.fragment.app.FragmentTransaction;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
+import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +39,30 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
         }
+
+        /////////////////////////////////////////////////////////
+
+        // Added code to test if Login works
+        TextView tView = findViewById(R.id.textView);
+
+        String user =  getIntent().getStringExtra("userKey");
+
+        if (user != null) {
+            tView.setText(user);
+        }
+
+        Button testSignOutBtn = findViewById(R.id.testSignOutBtn);
+
+        testSignOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void loadFragment(Fragment fragment) {
