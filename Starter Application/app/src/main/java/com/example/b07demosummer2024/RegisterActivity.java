@@ -150,14 +150,20 @@ public class RegisterActivity extends AppCompatActivity {
                                         DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
 
                                         // Add last name and first name to current user node in list of users in db
-                                        users.child("firstName").setValue(formattedFirstName);
-                                        users.child("lastName").setValue(formattedLastName);
+                                        //users.child("firstName").setValue(formattedFirstName);
+                                        //users.child("lastName").setValue(formattedLastName);
+                                        users.child("name").child("firstName").setValue(formattedFirstName);
+                                        users.child("name").child("lastName").setValue(formattedLastName);
 
 
                                         // Send a verification link to verify email for new user
                                         user.sendEmailVerification();
 
                                         Toast.makeText(RegisterActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
 
                                         //later we have to switch this to login page, and then login
                                     }
