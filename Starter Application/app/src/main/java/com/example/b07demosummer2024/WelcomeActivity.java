@@ -30,8 +30,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // if user is singed on go to home screen
         if (user != null) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("userKey", user.getUid());
+            Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
             startActivity(intent);
             finish();
         }

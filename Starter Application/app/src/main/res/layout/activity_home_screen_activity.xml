@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeScreenActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_background_gradient">
+
+        <TextView
+            android:id="@+id/welcomeTxtHomeScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/welcome"
+            android:textColor="@color/defaultBtnPurple"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.129"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userFirstNameTxtHomeScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/defaultBtnPurple"
+            android:textSize="40sp"
+            app:layout_constraintStart_toStartOf="@id/welcomeTxtHomeScreen"
+            app:layout_constraintTop_toBottomOf="@+id/welcomeTxtHomeScreen"/>
+
+        <TextView
+            android:id="@+id/betterTxtMessageHomeScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="start"
+            android:text="You're ahead of 20% of people worldwide!"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@id/welcomeTxtHomeScreen"
+            app:layout_constraintTop_toBottomOf="@id/userFirstNameTxtHomeScreen" />
+
+        <TextView
+            android:id="@+id/totalEmissionsTxtMessageHomeScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="20 tonnes of CO2"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:textSize="40sp"
+            android:textColor="@color/defaultBtnPurple"
+            android:fontFamily="sans-serif-condensed-medium"
+            app:layout_constraintTop_toBottomOf="@+id/betterTxtMessageHomeScreen"
+            app:layout_constraintStart_toStartOf="@id/welcomeTxtHomeScreen" />
+
+        <TextView
+            android:id="@+id/emissionDescriptionTxtHomeScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:gravity="start"
+            android:text="@string/total_carbon_emissions"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@id/welcomeTxtHomeScreen"
+            app:layout_constraintTop_toBottomOf="@id/totalEmissionsTxtMessageHomeScreen" />
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChartHomeScreen"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/emissionDescriptionTxtHomeScreen"
+            android:layout_marginTop="40dp"/>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationViewHomeScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/home_screen_navigation_menu"
+            app:labelVisibilityMode="unlabeled"
+            app:itemIconSize="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:itemIconTint="@null"
+            android:background="@color/white"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/drawerNavigationView"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/home_screen_navigation_drawer"
+        app:itemIconSize="36dp"
+        app:itemVerticalPadding="20dp" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
+

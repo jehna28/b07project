@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".SettingsActivity"
+    android:background="@drawable/register_background_gradient">
+
+    <TextView
+        android:id="@+id/SettingsTxtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/settingsSettings"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/emailVerifyTxtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/SettingsTxtSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:layout_marginVertical="30dp"/>
+
+    <ImageView
+        android:id="@+id/verifyImgSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_icon"
+        app:layout_constraintStart_toEndOf="@+id/emailVerifyTxtSettings"
+        app:layout_constraintTop_toTopOf="@+id/emailVerifyTxtSettings"
+        app:layout_constraintBottom_toBottomOf="@+id/emailVerifyTxtSettings"
+        android:layout_marginStart="16dp"/>
+
+    <Button
+        android:id="@+id/resendVerificationEmailBtnSettings"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="@string/re_send_verification_email"
+        android:gravity="start|center_vertical"
+        android:background="@android:color/transparent"
+        android:textColor="@color/defaultBtnPurple"
+        app:layout_constraintTop_toBottomOf="@+id/verifyImgSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:paddingLeft="0dp"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/enterOldPasswordTxtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_old_password"
+        app:layout_constraintTop_toBottomOf="@id/resendVerificationEmailBtnSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:layout_marginTop="10dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordTxtFieldSettings"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        app:layout_constraintTop_toBottomOf="@+id/enterOldPasswordTxtSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="120dp"/>
+
+    <TextView
+        android:id="@+id/enterNewPasswordTxtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_new_password"
+        app:layout_constraintTop_toBottomOf="@id/passwordTxtFieldSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:layout_marginTop="20dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordNewTxtFieldSettings"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        app:layout_constraintTop_toBottomOf="@+id/enterNewPasswordTxtSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="120dp"/>
+
+    <Button
+        android:id="@+id/changePasswordBtnSettings"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="@string/change_password"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/passwordNewTxtFieldSettings"
+        app:layout_constraintStart_toStartOf="@+id/resetInitialDataBtnSettings"
+        app:layout_constraintEnd_toEndOf="@+id/resetInitialDataBtnSettings"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/resetPasswordBtnSettings"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="@string/forgot_password"
+        android:gravity="start|center_vertical"
+        android:background="@android:color/transparent"
+        android:textColor="@color/defaultBtnPurple"
+        app:layout_constraintTop_toBottomOf="@id/changePasswordBtnSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:paddingStart="0dp"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/resetInitialDataTxtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reinitialize_primary_emission_data"
+        app:layout_constraintTop_toBottomOf="@id/resetPasswordBtnSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:layout_marginTop="25dp"/>
+
+    <Button
+        android:id="@+id/resetInitialDataBtnSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/reset_primary_data"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/resetInitialDataTxtSettings"
+        app:layout_constraintStart_toStartOf="@+id/SettingsTxtSettings"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/resetAllDataTxtSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_all_data"
+        app:layout_constraintTop_toBottomOf="@id/resetInitialDataBtnSettings"
+        app:layout_constraintStart_toStartOf="@id/SettingsTxtSettings"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/resetAllDataBtnSettings"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="@string/reset_data"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/resetAllDataTxtSettings"
+        app:layout_constraintStart_toStartOf="@+id/resetInitialDataBtnSettings"
+        app:layout_constraintEnd_toEndOf="@+id/resetInitialDataBtnSettings"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/goHomeSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/go_home"
+        android:background="@android:color/transparent"
+        android:textColor="@color/defaultBtnPurple"
+        app:layout_constraintTop_toBottomOf="@id/resetAllDataBtnSettings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

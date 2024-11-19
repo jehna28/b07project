@@ -41,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
     //Firebase Auth
     private FirebaseAuth mAuth;
 
+    private FirebaseDatabase mDataBase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Initialize text fields
         editTxtFirstName = findViewById(R.id.firstNametxtField);
-        editTxtLastName =  findViewById(R.id.lastNametxtField);
+        editTxtLastName =  findViewById(R.id.lastNameTxtField);
         editTxtEmail = findViewById(R.id.emailTxtField);
         editTxtPassword = findViewById(R.id.passwordTxtField);
         editTxtConfirmPassword = findViewById(R.id.passwordConfirmTxtField);
@@ -142,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (user != null) {
 
                                         // Open instance of real-time db
-                                        FirebaseDatabase mDataBase = FirebaseDatabase.getInstance();
+                                        mDataBase = FirebaseDatabase.getInstance();
 
                                         // Open branch users (Creates branch if it doesn't exist/for the first user)
                                         // Note getUid() returns a unique address that's special to every user, we're using it as the new node for this
@@ -150,8 +152,6 @@ public class RegisterActivity extends AppCompatActivity {
                                         DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
 
                                         // Add last name and first name to current user node in list of users in db
-                                        //users.child("firstName").setValue(formattedFirstName);
-                                        //users.child("lastName").setValue(formattedLastName);
                                         users.child("name").child("firstName").setValue(formattedFirstName);
                                         users.child("name").child("lastName").setValue(formattedLastName);
 

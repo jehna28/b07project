@@ -29,9 +29,7 @@
         android:text="@string/enter_email_adress"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/loginText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="60dp"
+        app:layout_constraintStart_toStartOf="@id/loginText"
         android:layout_marginVertical="30dp" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -42,22 +40,18 @@
         android:inputType="textEmailAddress"
         android:autofillHints="emailAddress"
         app:layout_constraintTop_toBottomOf="@+id/emailLabelLogin"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/loginText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
         android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"/>
 
     <TextView
         android:id="@+id/passwordLabelLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/enter_password"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/emailTxtFieldLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="60dp"
+        app:layout_constraintStart_toStartOf="@id/loginText"
         android:layout_marginVertical="30dp" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -68,11 +62,10 @@
         android:inputType="textPassword"
         android:autofillHints="password"
         app:layout_constraintTop_toBottomOf="@+id/passwordLabelLogin"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/loginText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
         android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"/>
 
     <Button
         android:id="@+id/loginBtn"
@@ -90,7 +83,7 @@
         android:id="@+id/forgotPasswordBtn"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:text="Forgot password"
+        android:text="@string/forgot_password"
         android:background="@android:color/transparent"
         android:textColor="@color/defaultBtnPurple"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"

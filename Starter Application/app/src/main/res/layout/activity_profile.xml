@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".ProfileActivity"
+    android:background="@drawable/register_background_gradient">
+
+    <TextView
+        android:id="@+id/ProfileSettingsTxtProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="@string/profile_settings"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/firstNameLabelProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_your_first_name"
+        app:layout_constraintTop_toBottomOf="@id/ProfileSettingsTxtProfile"
+        app:layout_constraintStart_toStartOf="@id/ProfileSettingsTxtProfile"
+        android:layout_marginVertical="50dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/firstNameTxtFieldProfile"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/first_name"
+        android:inputType="text"
+        android:autofillHints="name"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameLabelProfile"
+        app:layout_constraintStart_toStartOf="@id/ProfileSettingsTxtProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="2dp"/>
+
+    <TextView
+        android:id="@+id/lastNameLabelProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_your_last_name"
+        app:layout_constraintTop_toBottomOf="@id/firstNameTxtFieldProfile"
+        app:layout_constraintStart_toStartOf="@id/ProfileSettingsTxtProfile"
+        android:layout_marginVertical="30dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/lastNameTxtFieldProfile"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:hint="@string/last_name"
+        android:inputType="text"
+        android:autofillHints="name"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameLabelProfile"
+        app:layout_constraintStart_toStartOf="@id/ProfileSettingsTxtProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="2dp"/>
+
+    <Button
+        android:id="@+id/confirmBtnProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="@string/save_changes"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameTxtFieldProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="120dp"/>
+
+    <Button
+        android:id="@+id/goBackBtnProfile"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:text="@string/go_home"
+        android:textSize="18sp"
+        android:background="@android:color/transparent"
+        android:textColor="@color/defaultBtnPurple"
+        app:layout_constraintTop_toBottomOf="@id/confirmBtnProfile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="120dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

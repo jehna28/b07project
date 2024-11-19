@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navHome"
+        android:icon="@drawable/home_icon"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/navEcoTracker"
+        android:icon="@drawable/notepad_icon"
+        android:title="@string/eco_tracker" />
+
+    <item
+        android:id="@+id/navEcoGauge"
+        android:icon="@drawable/chart_icon"
+        android:title="@string/eco_gauge" />
+
+    <item
+        android:id="@+id/navOther"
+        android:icon="@drawable/menu_icon"
+        android:title="@string/settings" />
+</menu>

@@ -16,7 +16,7 @@
         android:layout_marginTop="48dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:text="@string/register"
-        android:textSize="40dp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.239"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,11 +27,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/please_input_first_name"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/registerText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="60dp"
+        app:layout_constraintStart_toStartOf="@id/registerText"
         android:layout_marginVertical="30dp" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -42,49 +39,41 @@
         android:inputType="text"
         android:autofillHints="name"
         app:layout_constraintTop_toBottomOf="@+id/firstNameLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/registerText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
-        android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="2dp"/>
 
     <TextView
         android:id="@+id/lastNameLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/please_input_last_name"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/firstNametxtField"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="60dp"/>
+        app:layout_constraintStart_toStartOf="@id/registerText"
+        android:layout_marginTop="20dp"/>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/lastNametxtField"
+        android:id="@+id/lastNameTxtField"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:hint="@string/last_name"
         android:inputType="text"
         android:autofillHints="name"
         app:layout_constraintTop_toBottomOf="@+id/lastNameLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/registerText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
         android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"/>
 
     <TextView
         android:id="@+id/emailLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/please_input_email_adress"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintTop_toBottomOf="@+id/lastNametxtField"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="60dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/lastNameTxtField"
+        app:layout_constraintStart_toStartOf="@id/registerText"
+        android:layout_marginTop="20dp"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/emailTxtField"
@@ -94,23 +83,19 @@
         android:inputType="textEmailAddress"
         android:autofillHints="emailAddress"
         app:layout_constraintTop_toBottomOf="@+id/emailLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/registerText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
         android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"/>
 
     <TextView
         android:id="@+id/passwordLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/please_input_strong_password"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/emailTxtField"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="60dp"/>
+        app:layout_constraintStart_toStartOf="@id/registerText"
+        android:layout_marginTop="20dp"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/passwordTxtField"
@@ -120,11 +105,10 @@
         android:inputType="textPassword"
         android:autofillHints="password"
         app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/registerText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
         android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"/>
 
     <TextView
         android:id="@+id/passwordConfrimLabel"
@@ -133,10 +117,8 @@
         android:text="@string/please_confirm_password"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/passwordTxtField"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="60dp"/>
+        app:layout_constraintStart_toStartOf="@id/registerText"
+        android:layout_marginTop="20dp"/>
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/passwordConfirmTxtField"
@@ -146,17 +128,16 @@
         android:inputType="textPassword"
         android:autofillHints="password"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfrimLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/registerText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
         android:layout_marginTop="2dp"
-        android:layout_marginHorizontal="60dp"/>
+        android:layout_marginEnd="60dp"/>
 
     <Button
         android:id="@+id/continueBtn"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:text="Continue"
+        android:text="@string/continueRegister"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmTxtField"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

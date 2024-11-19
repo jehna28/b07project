@@ -65,7 +65,7 @@ public class LoginActivityView extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Create an Intent to switch to Welcome Screen
-                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -82,10 +82,7 @@ public class LoginActivityView extends AppCompatActivity {
     public void goHome(String user) {
 
         // Create an Intent to switch to Home Screen (right now set to main activity for to see if this works)
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-
-        // Pass user id
-        intent.putExtra("userKey", user);
+        Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
         startActivity(intent);
         finish();
 
