@@ -175,7 +175,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                         PieDataSet dataSet = new PieDataSet(entries, "");
 
                         // Set the fill color for the visible slice and a transparent color for the invisible slice
-                        dataSet.setColors(Color.parseColor("#A8E6CF"), Color.TRANSPARENT);
+                        dataSet.setColors(Color.parseColor("#009899"), Color.TRANSPARENT);
 
                         // Set the space between slices
                         dataSet.setSliceSpace(2f);

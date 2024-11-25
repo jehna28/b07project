@@ -2,7 +2,7 @@
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="#A8E6CF"
+                android:startColor="@color/defaultBtnBlue1"
                 android:centerColor="#FFFFFF"
                 android:endColor="#FFFFFF"
                 android:angle="270"
