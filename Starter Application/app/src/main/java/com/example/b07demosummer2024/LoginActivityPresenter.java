@@ -37,11 +37,11 @@ public class LoginActivityPresenter {
              */
 
             @Override
-            public void LoginSuccess(String user) {
+            public void LoginSuccess() {
                 view.toastMsg("Login Successful!");
 
                 // Go to home screen after successful login and pass along User
-                view.goHome(user);
+                view.goHome();
 
             }
 
@@ -62,7 +62,7 @@ public class LoginActivityPresenter {
             return;
         }
 
-        // Check if email is valid, jsut a simple check for now that checks if email has the symbol '@'
+        // Check if email is valid, just a simple check for now that checks if email has the symbol '@'
         if (!(email.contains("@"))) {
             view.toastMsg("Invalid email, please enter valid email");
         }

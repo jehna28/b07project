@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -33,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button resendVerificationBtn, changePasswordBtn, forgotPasswordBtn, resetPrimaryDataBtn, resetAllDataBtn, goHomeBtn;
+    private Button resendVerificationBtn, changePasswordBtn, forgotPasswordBtn, resetPrimaryDataBtn, resetAllDataBtn;
     private TextInputEditText oldPasswordTxtField, newPasswordTxtField;
 
     private FirebaseAuth mAuth;
@@ -61,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
         forgotPasswordBtn = findViewById(R.id.resetPasswordBtnSettings);
         resetPrimaryDataBtn = findViewById(R.id.resetInitialDataBtnSettings);
         resetAllDataBtn = findViewById(R.id.resetAllDataBtnSettings);
-        goHomeBtn = findViewById(R.id.goHomeSettings);
 
         oldPasswordTxtField = findViewById(R.id.passwordTxtFieldSettings);
         newPasswordTxtField = findViewById(R.id.passwordNewTxtFieldSettings);
@@ -98,16 +98,16 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // On click listener to go home
-        goHomeBtn.setOnClickListener(new View.OnClickListener() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
-            public void onClick(View v) {
-                // Intent to back to home screen
+            public void handleOnBackPressed() {
                 Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         // On click listener for forgot password
         forgotPasswordBtn.setOnClickListener(new View.OnClickListener() {

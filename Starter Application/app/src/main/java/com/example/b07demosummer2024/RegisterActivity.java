@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -36,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText editTxtFirstName, editTxtLastName, editTxtEmail, editTxtPassword, editTxtConfirmPassword;
 
     // Buttons
-    private Button backBtn, continueBtn;
+    private Button continueBtn;
 
     //Firebase Auth
     private FirebaseAuth mAuth;
@@ -61,22 +62,20 @@ public class RegisterActivity extends AppCompatActivity {
         editTxtPassword = findViewById(R.id.passwordTxtField);
         editTxtConfirmPassword = findViewById(R.id.passwordConfirmTxtField);
 
-        // Back button to go back to welcome page
-        backBtn = findViewById(R.id.goBackbtn);
 
         // Continue Button to save information and proceed with account building
         continueBtn = findViewById(R.id.continueBtn);
 
-        // Method to go back to welcome page
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
-            public void onClick(View v) {
-                // Create an Intent to switch to Welcome Screen
+            public void handleOnBackPressed() {
                 Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         // Method to attempt to register new User
         continueBtn.setOnClickListener(new View.OnClickListener() {

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -42,7 +43,6 @@ public class ProfileActivity extends AppCompatActivity {
         editTxtFirstName = findViewById(R.id.firstNameTxtFieldProfile);
         editTxtLastName = findViewById(R.id.lastNameTxtFieldProfile);
         Button saveChangesBtn = findViewById(R.id.confirmBtnProfile);
-        Button goBackBtn = findViewById(R.id.goBackBtnProfile);
 
         // On click listener for save changes button to automatically update db and app interface with changed first name and/or last name
         saveChangesBtn.setOnClickListener(new View.OnClickListener() {
@@ -98,15 +98,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Back button to go back to homepage
-        goBackBtn.setOnClickListener(new View.OnClickListener() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
-            public void onClick(View v) {
-                // Make intent to go back to home screen
+            public void handleOnBackPressed() {
                 Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

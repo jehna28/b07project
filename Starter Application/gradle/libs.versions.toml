@@ -12,6 +12,7 @@ firebaseDatabase = "21.0.0"
 firebase-bom = "33.5.1"
 
 [libraries]
+mockito = { module = "org.mockito:mockito-core", version = "4.11.0" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

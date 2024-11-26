@@ -25,7 +25,7 @@ public class LoginActivityModel {
     */
 
     public interface LoginCallback {
-        void LoginSuccess(String user);
+        void LoginSuccess();
         void LoginFailure(String errorMessage);
     }
 
@@ -47,7 +47,7 @@ public class LoginActivityModel {
                                 which will eventually get passed to the view and into the next view (homes screen)
                                 */
 
-                                callback.LoginSuccess(user.getUid());
+                                callback.LoginSuccess();
                             }
                         } else {
 

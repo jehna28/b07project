@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@drawable/login_background_gradient"
-    tools:context=".RegisterActivity">
+    tools:context=".LoginActivityView">
 
     <TextView
         android:id="@+id/loginText"
@@ -94,31 +94,17 @@
         android:layout_marginTop="15dp"
         android:layout_marginHorizontal="120dp"/>
 
-    <Button
-        android:id="@+id/goBackBtnLogin"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:text="@string/go_back"
-        android:background="@android:color/transparent"
-        android:textColor="@color/brightBlue"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:flow_horizontalBias="0.5"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="120dp"/>
-
     <ImageView
         android:id="@+id/phoneWomanImag"
         android:layout_width="340dp"
         android:layout_height="269dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="150dp"
         android:contentDescription="@string/image_of_woman_siting_on_a_bench_with_company_phone_application"
         android:src="@drawable/company_photo_edited"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goBackBtnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

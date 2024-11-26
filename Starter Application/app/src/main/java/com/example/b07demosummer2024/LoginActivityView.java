@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +15,7 @@ public class LoginActivityView extends AppCompatActivity {
 
     // UI elements used
     private TextInputEditText emailTxtField, passwordTxtField;
-    private Button loginBtn, forgotPasswordBtn, goBackBtn;
+    private Button loginBtn, forgotPasswordBtn;
 
     private LoginActivityPresenter presenter;
 
@@ -29,7 +30,6 @@ public class LoginActivityView extends AppCompatActivity {
 
         loginBtn = findViewById(R.id.loginBtn);
         forgotPasswordBtn = findViewById(R.id.forgotPasswordBtn);
-        goBackBtn = findViewById(R.id.goBackBtnLogin);
 
         presenter = new LoginActivityPresenter(this, new LoginActivityModel());
 
@@ -60,17 +60,16 @@ public class LoginActivityView extends AppCompatActivity {
             }
         });
 
-        goBackBtn.setOnClickListener(new View.OnClickListener() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
-            public void onClick(View v) {
-
-                // Create an Intent to switch to Welcome Screen
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(intent);
                 finish();
-
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     public void toastMsg(String message) {
@@ -79,9 +78,9 @@ public class LoginActivityView extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void goHome(String user) {
+    public void goHome() {
 
-        // Create an Intent to switch to Home Screen (right now set to main activity for to see if this works)
+        // Create an Intent to switch to Home Screen
         Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
         startActivity(intent);
         finish();

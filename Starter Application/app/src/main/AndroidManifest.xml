@@ -60,6 +60,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".CountrySelectionActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".QuizActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
