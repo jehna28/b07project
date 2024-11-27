@@ -186,5 +186,14 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        // On click listener to reset primary emission data (takes you back to quiz)
+        resetPrimaryDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, CountrySelectionActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

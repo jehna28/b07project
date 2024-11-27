@@ -64,8 +64,11 @@
             android:name=".CountrySelectionActivity"
             android:exported="false"/>
         <activity
-            android:name=".QuizActivity"
+            android:name=".quiz_and_results.quiz.QuizActivity"
             android:exported="false"/>
+        <activity
+            android:name=".quiz_and_results.results.ResultsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

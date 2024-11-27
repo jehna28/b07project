@@ -1,0 +1,7 @@
+Question	Strategy to Use
+How often do you buy new clothes?	
+Do you buy second-hand or eco-friendly products?	SecondHandStrategy
+"How many electronic devices (phones, laptops, etc.) have you purchased in the past year?"	DeviceStrategy
+How often do you recycle?	RecycleStrategy
+	
+	

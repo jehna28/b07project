@@ -1,0 +1,7 @@
+Question	Strategy to Use
+What best describes your diet?	DietStrategy
+How often do you eat beef?	BeefStrategy
+How often do you eat pork?	PorkStrategy
+How often do you eat chicken?	ChickenStrategy
+How often do you eat fish/seafood?	SeafoodStrategy
+How often do you waste food or throw away uneaten leftovers?	LeftoversStrategy

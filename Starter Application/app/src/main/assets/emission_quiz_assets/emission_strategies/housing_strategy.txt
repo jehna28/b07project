@@ -1,0 +1,6 @@
+Question	Strategy to Use
+What type of home do you live in?	HomeEnergyStrategy
+How many people live in your household?	
+What is the size of your home?	
+What type of energy do you use to heat your home?	
+"Do you use any renewable energy sources for electricity or heating (e.g., solar, wind)?"	

@@ -1,0 +1,7 @@
+Question	Strategy to Use
+What type of car do you drive?	
+How many kilometers/miles do you drive per year?	DrivingStrategy
+"How often do you use public transportation (bus, train, subway)?"	
+"How much time do you spend on public transport per week (bus, train, subway)?"	PublicTransportStrategy
+"How many short-haul flights (less than 1,500 km / 932 miles) have you taken in the past year?"	ShortHaulStrategy
+"How many long-haul flights (more than 1,500 km / 932 miles) have you taken in the past year?"	LongHaulStrategy
