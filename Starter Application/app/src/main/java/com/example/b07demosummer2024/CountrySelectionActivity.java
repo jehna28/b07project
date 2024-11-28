@@ -77,14 +77,14 @@ public class CountrySelectionActivity extends AppCompatActivity {
             if (user != null) {
                 FirebaseDatabase db = FirebaseDatabase.getInstance();
                 String userID = user.getUid();
-                DatabaseReference ref = db.getReference("Users").child(userID);
+                DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData");
                 ref.child("country").setValue(country);
                 ref.child("countryAverage").setValue(average);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to save country...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Failed to save country...", Toast.LENGTH_SHORT).show();
         }
     }
 

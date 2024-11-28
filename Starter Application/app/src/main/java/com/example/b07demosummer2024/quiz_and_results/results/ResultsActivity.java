@@ -64,6 +64,7 @@ public class ResultsActivity extends AppCompatActivity {
                 getIntent().getStringArrayExtra("QUESTIONS"),
                 getIntent().getStringArrayExtra("RESPONSES"),
                 getIntent().getStringArrayExtra("CATEGORIES"));
+
         // initialize resultsManager (to handle logic regarding the computation of their footprint)
         try {
             resultsManager = new ResultsManager(data, this);
@@ -73,11 +74,19 @@ public class ResultsActivity extends AppCompatActivity {
             Toast.makeText(this, "Currently unable to show results, moving to home screen...", Toast.LENGTH_LONG).show();
             goBackHome();
         }
+
         // update gui components to display the user's footprint results
         setFootprintTexts(footprints);
         setPieChart(footprints);
+
         // save the calculated footprint results to the database
-        resultsManager.saveToDB(footprints);
+        try {
+            resultsManager.saveToDB(footprints);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to save footprints...", Toast.LENGTH_SHORT).show();
+        }
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             // go back to home page once user is done with the quiz and results

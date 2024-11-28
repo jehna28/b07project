@@ -2,6 +2,7 @@ package com.example.b07demosummer2024.quiz_and_results.results;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.b07demosummer2024.R;
 import com.example.b07demosummer2024.quiz_and_results.results.calculators.ConsumptionCalculator;
@@ -103,28 +104,23 @@ public class ResultsManager {
     }
     public void saveToDB(Dictionary<String, Double> footprints){
         // save the user's partial and total footprints in the database
-        try {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                float total = (float) (double) footprints.get("TOTAL");
-                float food = (float) (double) footprints.get("FOOD");
-                float transportation = (float) (double) footprints.get("TRANSPORTATION");
-                float housing = (float) (double) footprints.get("HOUSING");
-                float consumption = (float) (double) footprints.get("CONSUMPTION");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            float total = (float) (double) footprints.get("TOTAL");
+            float food = (float) (double) footprints.get("FOOD");
+            float transportation = (float) (double) footprints.get("TRANSPORTATION");
+            float housing = (float) (double) footprints.get("HOUSING");
+            float consumption = (float) (double) footprints.get("CONSUMPTION");
 
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                String userID = user.getUid();
-                // save the partial footprints under parent annualFootprint
-                DatabaseReference ref = db.getReference("Users").child(userID).child("annualFootprint");
-                ref.child("total").setValue(total);
-                ref.child("food").setValue(food);
-                ref.child("transportation").setValue(transportation);
-                ref.child("housing").setValue(housing);
-                ref.child("consumption").setValue(consumption);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+            FirebaseDatabase db = FirebaseDatabase.getInstance();
+            String userID = user.getUid();
+            // save the partial footprints under parent annualFootprint
+            DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData").child("annualFootprint");
+            ref.child("total").setValue(total);
+            ref.child("food").setValue(food);
+            ref.child("transportation").setValue(transportation);
+            ref.child("housing").setValue(housing);
+            ref.child("consumption").setValue(consumption);
         }
     }
 
