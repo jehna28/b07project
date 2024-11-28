@@ -24,20 +24,20 @@ public class DrivingStrategy implements QuestionStrategy {
         }
         double carFactor = getCarFactor(carType);
         double distance = getDistance(response);
-//        Log.d("drivingStrategy", "carFactor: " + String.valueOf(carFactor));
-//        Log.d("drivingStrategy", "distance: " + String.valueOf(distance));
-        Log.d("drivingStrategy", "returning " + String.valueOf(carFactor*distance));
+//        //Log.d("drivingStrategy", "carFactor: " + String.valueOf(carFactor));
+//        //Log.d("drivingStrategy", "distance: " + String.valueOf(distance));
+        //Log.d("drivingStrategy", "returning " + String.valueOf(carFactor*distance));
         return carFactor*distance;
     }
     private double getCarFactor(String carType) {
-        Log.d("drivingStrategy", "car type: " + carType);
+        //Log.d("drivingStrategy", "car type: " + carType);
         if (carType.equals("Diesel")) return DIESEL;
         else if (carType.equals("Hybrid")) return HYBRID;
         else if (carType.equals("Electric")) return ELECTRIC;
         else return GASOLINE;
     }
     private double getDistance(String response){
-        Log.d("drivingStrategy", "distance: " + response);
+        //Log.d("drivingStrategy", "distance: " + response);
         if (response.equals("Up to 5,000 km (3,000 miles)")) return 5000;
         else if (response.equals("5,000-10,000 km (3,000-6,000 miles)")) return 10000;
         else if (response.equals("10,000-15,000 km (6,000-9,000 miles)")) return 15000;

@@ -30,7 +30,7 @@ public class PublicTransportStrategy implements QuestionStrategy {
     public double getEmissions(ArrayList<QuestionData> data, String response) {
 
         String frequency = getFrequency(data);
-        Log.d("publicTransportStrategy", "frequency: " + frequency + ", response: " + response);
+        //Log.d("publicTransportStrategy", "frequency: " + frequency + ", response: " + response);
         int frequencyIndex = 0;
         int durationIndex = 0;
         for (int f = 0; f < frequencies.length; f++){
@@ -43,7 +43,7 @@ public class PublicTransportStrategy implements QuestionStrategy {
                 durationIndex = d;
             }
         }
-        Log.d("publicTransportStrategy", "returning " + transportEmissions[frequencyIndex][durationIndex]);
+        //Log.d("publicTransportStrategy", "returning " + transportEmissions[frequencyIndex][durationIndex]);
         return transportEmissions[frequencyIndex][durationIndex];
     }
 

@@ -56,23 +56,23 @@ public class ResultsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Log.d("debug", "successfully entered results");
+        //Log.d("debug", "successfully entered results");
         nextButton = findViewById(R.id.nextButton);
         DataPackage data = new DataPackage(
                 getIntent().getStringArrayExtra("QUESTIONS"),
                 getIntent().getStringArrayExtra("RESPONSES"),
                 getIntent().getStringArrayExtra("CATEGORIES"));
-        //Log.d("resultsActivity", "initialized datapackage");
+        ////Log.d("resultsActivity", "initialized datapackage");
         //data.displayQuestionData();
         resultsManager = new ResultsManager(data, this);
         footprints = resultsManager.getFootprints();
         setFootprintTexts(footprints);
         setPieChart(footprints);
+        resultsManager.saveToDB(footprints);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultsManager.saveToDB(footprints);
                 Intent intent = new Intent(ResultsActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }
@@ -84,15 +84,16 @@ public class ResultsActivity extends AppCompatActivity {
         comparisonText = findViewById(R.id.comparisonText);
 
         double totalFootprint = footprints.get("TOTAL");
-        String country = "Canada"; // PLACEHOLDER, GET FROM DB LATER
-
         totalText.setText(String.valueOf(totalFootprint));
 
-        double globalAverage = 14.249212; // PLACEHOLDER, GET FROM DB LATER
-        double difference = Math.abs(((totalFootprint - globalAverage) / globalAverage) * 100);
+        String country = resultsManager.getCountry();
+        double countryAverage = resultsManager.getCountryAverage();
+
+        double difference = Math.abs(((totalFootprint - countryAverage) / countryAverage) * 100);
         String differencePercent = String.format(Locale.CANADA, "%.2f", difference);
         String belowAbove = "below";
-        if (totalFootprint >= globalAverage) belowAbove = "above";
+        if (totalFootprint >= countryAverage) belowAbove = "above";
+
         String comparison = "Your carbon footprint is " +
                 differencePercent + "% " +
                 belowAbove + " the national average for " + country;

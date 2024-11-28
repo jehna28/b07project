@@ -54,11 +54,11 @@ public class RecycleStrategy implements QuestionStrategy {
         int clothesIndex = getClothesIndex(newClothes);
         int deviceIndex = getDeviceIndex(numDevices);
         int recycleIndex = getRecycleIndex(response);
-        Log.d("recycleStrategy", "clothes reducing by " + String.valueOf(clothesReduction[recycleIndex][clothesIndex]));
-        Log.d("recycleStrategy", "device reducing by " + String.valueOf(deviceReduction[recycleIndex][deviceIndex]));
+        //Log.d("recycleStrategy", "clothes reducing by " + String.valueOf(clothesReduction[recycleIndex][clothesIndex]));
+        //Log.d("recycleStrategy", "device reducing by " + String.valueOf(deviceReduction[recycleIndex][deviceIndex]));
         total -= deviceReduction[recycleIndex][deviceIndex];
         total -= clothesReduction[recycleIndex][clothesIndex];
-        Log.d("recycleStrategy", "returning " + String.valueOf(total));
+        //Log.d("recycleStrategy", "returning " + String.valueOf(total));
         return total;
     }
 

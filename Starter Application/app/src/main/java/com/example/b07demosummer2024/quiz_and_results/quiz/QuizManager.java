@@ -34,7 +34,6 @@ public class QuizManager {
     }
 
     public String getCurrentResponse(){ // returns saved response at currentIndex, null if no response
-        ////Log.d("quizManager", "returning"+responseManager.getResponse(currentIndex));
         return responseManager.getResponse(currentIndex);
     }
 
@@ -61,10 +60,8 @@ public class QuizManager {
         // go back one question
         currentIndex--;
         // keep going back to until the last answered question
-        ////Log.d("quizManager", "before loop, current index = " + currentIndex)
         while (currentIndex > 0 && responseManager.getResponse(currentIndex) == null) {
             currentIndex--;
-            ////Log.d("quizManager", "currentIndex now "+currentIndex);
         }
     }
 

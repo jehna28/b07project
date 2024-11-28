@@ -20,7 +20,7 @@ public class DeviceStrategy implements QuestionStrategy {
         else if (response.equals("2")) total = TWO;
         else if (response.equals("3")) total = THREE;
         else if (response.equals("4 or more")) total = FOURPLUS;
-        Log.d("deviceStrategy", "returning "+String.valueOf(total));
+        //Log.d("deviceStrategy", "returning "+String.valueOf(total));
         return total;
     }
 }

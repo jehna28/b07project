@@ -1,7 +1,6 @@
 package com.example.b07demosummer2024.quiz_and_results.results.calculators;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.example.b07demosummer2024.quiz_and_results.results.category_strategies.CategoryStrategy;
 import com.example.b07demosummer2024.quiz_and_results.results.category_strategies.StrategyReader;
@@ -37,9 +36,7 @@ public abstract class EmissionCalculator {
     }
     public EmissionCalculator(ArrayList<QuestionData> data, Context context, String category, String strategyFile){
         this.data = filterData(data, category);
-        //Log.d("transpCalc", "filtered data");
         this.strategies = new StrategyReader(context, strategyFile).getStrategies();
-        ////Log.d("transpCalc", "initialized strategies");
         this.strategyMap = initializeStrategyMap();
     }
     public double getFootprint(){
@@ -49,7 +46,6 @@ public abstract class EmissionCalculator {
             String strategy = "";
             String question = data.get(i).getQuestion();
             String response = data.get(i).getResponse();
-            Log.d("calc", "now looking at \nQ: "+question + "\nA: "+response);
             if (response.isEmpty()) continue;
             for (int j = 0; j < this.strategies.size(); j++) {
                 if (question.equals(this.strategies.get(j).getQuestion())) {
@@ -59,11 +55,9 @@ public abstract class EmissionCalculator {
             }
             QuestionStrategy strategyToUse = strategyMap.get(strategy);
             if (strategyToUse != null) {
-                Log.d("calc", "about to apply strategy: " + strategy);
                 total += strategyToUse.getEmissions(data, response);
             }
         }
-        Log.d("calc", "PARTIAL CONSUMPTION: " + String.valueOf(total));
         return total;
     }
     protected Map<String, QuestionStrategy> initializeStrategyMap(){

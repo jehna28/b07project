@@ -19,7 +19,7 @@ public class BeefStrategy implements QuestionStrategy {
         if (response.equals("Daily")) total = DAILY;
         else if (response.equals("Frequently (3-5 times/week)")) total = FREQUENTLY;
         else if (response.equals("Occasionally (1-2 times/week)")) total = OCCASIONALLY;
-        Log.d("beefStrategy", "returning " + String.valueOf(total));
+        //Log.d("beefStrategy", "returning " + String.valueOf(total));
         return total;
     }
 }

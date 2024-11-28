@@ -91,9 +91,7 @@ public class CountrySelectionActivity extends AppCompatActivity {
     private ArrayList<String> loadCountriesFromCSV() {
         ArrayList<String> countryList = new ArrayList<>();
         try {
-            Log.d("debug", "getting file");
             InputStream is = getAssets().open("Global_Averages.csv"); // Ensure this matches your file name
-            Log.d("debug", "got file");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -120,7 +118,6 @@ public class CountrySelectionActivity extends AppCompatActivity {
                 String[] row = line.split(",");
                 if (!row[1].equals("Emissions (per capita)")) { // Skip the header row
                     averageList.add(Double.valueOf(row[1])); // Add the country's average
-                    Log.d("check", String.valueOf(Double.valueOf(row[1])));
                 }
             }
             reader.close();

@@ -7,14 +7,11 @@ public class ResponseManager {
         responses = new String[numQuestions];
     }
     public String getResponse(int index) {
-        //Log.d("responseManager", "returning"+responses[index]);
         return responses[index];
     }
 
     public void deleteResponse(int index) {
-        ////Log.d("responseManager", "before deleting: "+responses[index]);
         responses[index] = null;
-        ////Log.d("responseManager", "after deleting: "+responses[index]);
     }
 
     public String[] getResults(){ // returns responses with all null responses replace with empty string
@@ -32,6 +29,5 @@ public class ResponseManager {
 
     public void saveResponse(String response, int index) {
         responses[index] = response;
-        //Log.d("responseManager", "saved response: " + responses[index]);
     }
 }

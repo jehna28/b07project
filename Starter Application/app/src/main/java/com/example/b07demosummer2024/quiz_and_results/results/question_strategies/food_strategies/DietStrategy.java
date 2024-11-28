@@ -17,7 +17,7 @@ public class DietStrategy implements QuestionStrategy {
         if (response.equals("Vegetarian")) total = VEGETARIAN;
         else if (response.equals("Vegan")) total = VEGAN;
         else if (response.equals("Pescatarian (fish/seafood)")) total = PESCATARIAN;
-        Log.d("dietStrategy", "returning " + String.valueOf(total));
+        //Log.d("dietStrategy", "returning " + String.valueOf(total));
         return total;
     }
 }

@@ -8,9 +8,7 @@ public class QuestionReader {
     public static ArrayList<Question> loadQuestions(InputStream inputStream){
         ArrayList<Question> questions = new ArrayList<Question>();
         try {
-            //Log.d("questionReader", "getting file");
             Scanner input = new Scanner(inputStream);
-            //Log.d("questionReader", "got file");
             // skip headers
             if(input.hasNext()) input.nextLine();
             while (input.hasNext()) {
@@ -25,14 +23,10 @@ public class QuestionReader {
                 for (int i = 0; i < options.length; i++){
                     options[i] = tokens[i+5].replaceAll("\"","");
                 }
-                for (int i = 0; i < tokens.length; i++) {
-                    //Log.d("questionReader", tokens[i]);
-                }
                 questions.add(new Question(question, category, branching, branchingOptions, skippable, options));
             }
         }
         catch (Exception e) {
-            //Log.d("questionReader", "error");
             throw new RuntimeException(e);
         }
         return questions;

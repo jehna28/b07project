@@ -19,7 +19,7 @@ public class LeftoversStrategy implements QuestionStrategy {
         if (response.equals("Rarely")) total = RARELY;
         else if (response.equals("Occasionally")) total = OCCASIONALLY;
         else if (response.equals("Frequently")) total = FREQUENTLY;
-        Log.d("leftoversStrategy", "returning " + String.valueOf(total));
+        //Log.d("leftoversStrategy", "returning " + String.valueOf(total));
         return total;
     }
 }

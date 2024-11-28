@@ -29,7 +29,7 @@ public class SecondHandStrategy implements QuestionStrategy {
         double clothesFactor = getClothesFactor(newClothes);
         double secondHandScale = getScale(response);
         total = clothesFactor*secondHandScale;
-        Log.d("secondHandStrategy", "returning " + String.valueOf(total));
+        //Log.d("secondHandStrategy", "returning " + String.valueOf(total));
         return total;
     }
     private double getClothesFactor(String newClothes){

@@ -15,7 +15,7 @@ public class ShortHaulStrategy implements QuestionStrategy {
         else if (response.equals("3-5 flights")) total = 600;
         else if (response.equals("6-10 flights")) total = 1200;
         else if (response.equals("More than 10 flights")) total = 1800;
-        Log.d("shortHaulStrategy", "returning "+String.valueOf(total));
+        //Log.d("shortHaulStrategy", "returning "+String.valueOf(total));
         return total;
     }
 }

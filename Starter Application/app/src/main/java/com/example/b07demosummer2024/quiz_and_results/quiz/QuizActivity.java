@@ -44,7 +44,6 @@ public class QuizActivity extends AppCompatActivity {
         quizManager = getQuizManager();
         // display first question
         loadQuestion();
-        //Log.d("quizActivity", "loaded first question");
 
         // set listener for when button is pressed
         buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +78,6 @@ public class QuizActivity extends AppCompatActivity {
 
         // get current question to display
         Question currentQ = quizManager.getCurrentQuestion();
-        ////Log.d("quizActivity", "got current question");
 
         // update progress bar
         progressBar.setProgress(quizManager.getCurrentIndex());
@@ -89,15 +87,12 @@ public class QuizActivity extends AppCompatActivity {
         textQuestion.setText(currentQ.getQuestion());
         radioOptions.removeAllViews();
         radioOptions.clearCheck();
-        ////Log.d("quizActivity", "set text and cleared previous radio buttons");
 
         // get array of all options for the current question
         String[] currentOptions = currentQ.getOptions();
-        ////Log.d("quizActivity", "got array of all options");
 
         // add radiobuttons for each option using a for-loop
         for (int i = 0; i < currentOptions.length; i++) {
-            ////Log.d("quizActivity", "entered for-loop");
             // initialize and add radio button to group, setting text to display option
             RadioButton newRadioOption = new RadioButton(this);
             newRadioOption.setText(currentOptions[i]);
@@ -160,10 +155,6 @@ public class QuizActivity extends AppCompatActivity {
         String[] questions = quizManager.getQuestionArr();
         String[] responses = quizManager.getResults();
         String[] categories = quizManager.getCategories();
-        /*for (int i = 0; i < responses.length; i++){
-            //Log.d("responses", responses[i]);
-        }*/
-        int[] startIndices = quizManager.getIndices();
         intent.putExtra("RESPONSES", responses);
         intent.putExtra("CATEGORIES", categories);
         intent.putExtra("QUESTIONS", questions);
