@@ -24,7 +24,7 @@
 
 
     <TextView
-        android:id="@+id/total_questions"
+        android:id="@+id/categoryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="35dp"
@@ -49,7 +49,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintTop_toBottomOf="@id/total_questions"
+        app:layout_constraintTop_toBottomOf="@id/categoryText"
         app:layout_constraintVertical_bias="0.172">
 
 

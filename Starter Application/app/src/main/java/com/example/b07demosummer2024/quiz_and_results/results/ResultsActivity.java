@@ -110,9 +110,16 @@ public class ResultsActivity extends AppCompatActivity {
 
         double totalFootprint = footprints.get("TOTAL");
         totalText.setText(String.valueOf(totalFootprint));
-
-        String country = resultsManager.getCountry();
-        double countryAverage = resultsManager.getCountryAverage();
+        String country = "Canada";
+        double countryAverage = 14.249212;
+        try {
+            country = resultsManager.getCountry();
+            countryAverage = resultsManager.getCountryAverage();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to compare with your country's average, comparing to Canada by default...", Toast.LENGTH_LONG).show();
+        }
 
         double difference = Math.abs(((totalFootprint - countryAverage) / countryAverage) * 100);
         String differencePercent = String.format(Locale.CANADA, "%.2f", difference);

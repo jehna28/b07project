@@ -57,23 +57,18 @@ public class ResultsManager {
         // obtain the user's saved country from the database
         // default country is Canada
         String[] country = new String[]{"Canada"};
-        try {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                String userID = user.getUid();
-                DatabaseReference ref = db.getReference("Users").child(userID).child("country");
-                ref.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        country[0] = task.getResult().getValue(String.class);
-                    } else {
-                        Log.e("Firebase", "Error getting country", task.getException());
-                    }
-                });
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            FirebaseDatabase db = FirebaseDatabase.getInstance();
+            String userID = user.getUid();
+            DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData").child("country");
+            ref.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    country[0] = task.getResult().getValue(String.class);
+                } else {
+                    Log.e("Firebase", "Error getting country", task.getException());
+                }
+            });
         }
         return country[0];
     }
@@ -82,23 +77,18 @@ public class ResultsManager {
         // obtain the user's saved country's average from the database
         // default country is Canada's average
         double[] average = new double[]{14.249212};
-        try {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user != null) {
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                String userID = user.getUid();
-                DatabaseReference ref = db.getReference("Users").child(userID).child("countryAverage");
-                ref.get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        average[0] = task.getResult().getValue(Double.class);
-                    } else {
-                        Log.e("Firebase", "Error getting country average", task.getException());
-                    }
-                });
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            FirebaseDatabase db = FirebaseDatabase.getInstance();
+            String userID = user.getUid();
+            DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData").child("countryAverage");
+            ref.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    average[0] = task.getResult().getValue(Double.class);
+                } else {
+                    Log.e("Firebase", "Error getting country average", task.getException());
+                }
+            });
         }
         return average[0];
     }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,13 +20,13 @@ import com.example.b07demosummer2024.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
 import com.example.b07demosummer2024.quiz_and_results.results.ResultsActivity;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class QuizActivity extends AppCompatActivity {
 
     private QuizManager quizManager;
     private TextView textQuestion;
+    private TextView textCategory;
     private Button buttonNext;
     private RadioGroup radioOptions;
     private ProgressBar progressBar;
@@ -40,6 +39,7 @@ public class QuizActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         buttonNext = findViewById(R.id.buttonNext);
         textQuestion = findViewById(R.id.textQuestion);
+        textCategory = findViewById(R.id.categoryText);
         radioOptions = findViewById(R.id.radioOptions);
         // initialize manager (to handle logic)
         quizManager = getQuizManager();
@@ -88,6 +88,9 @@ public class QuizActivity extends AppCompatActivity {
         textQuestion.setText(currentQ.getQuestion());
         radioOptions.removeAllViews();
         radioOptions.clearCheck();
+
+        // set text to display question category
+        textCategory.setText(currentQ.getCategory());
 
         // get array of all options for the current question
         String[] currentOptions = currentQ.getOptions();
