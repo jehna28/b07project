@@ -46,6 +46,7 @@ public class CountrySelectionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String country = countrySpinner.getSelectedItem().toString();
                 if (country.equals("Find country")) {
+                    // toast for when the user has not yet selected a country
                     incompleteToast();
                 }
                 else {
@@ -60,6 +61,7 @@ public class CountrySelectionActivity extends AppCompatActivity {
     }
 
     private double getCountryAverage(ArrayList<String> countries, String country){
+        // get the average for the selected country, 0 if country cannot be found
         ArrayList<Double> averageList = loadAveragesFromCSV();
         int index = countries.indexOf(country);
         if (index != -1) {
@@ -68,8 +70,7 @@ public class CountrySelectionActivity extends AppCompatActivity {
         return 0;
     }
     private void saveCountryToDB(String country, double average){
-        Log.d("save", "saving "+country+ ", " + String.valueOf(average));
-
+        // save the user's selected country and the corresponding average to the database
         try {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {

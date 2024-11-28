@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -31,14 +30,15 @@ import java.util.Locale;
 
 public class ResultsActivity extends AppCompatActivity {
 
-    ResultsManager resultsManager;
-    Dictionary<String, Double> footprints;
-    TextView totalText;
-    TextView comparisonText;
-    PieChart chart;
-    Button nextButton;
+    private ResultsManager resultsManager;
+    private Dictionary<String, Double> footprints;
+    private TextView totalText;
+    private TextView comparisonText;
+    private PieChart chart;
+    private Button nextButton;
 
     final int[] CHART_COLOURS = {
+            // set the colours for the pie chart to match the app's theme
             Color.rgb(65, 164, 165),
             Color.rgb(109, 178, 180),
             Color.rgb(161, 197, 201),
@@ -56,21 +56,23 @@ public class ResultsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        //Log.d("debug", "successfully entered results");
+        // initialize fields
         nextButton = findViewById(R.id.nextButton);
         DataPackage data = new DataPackage(
                 getIntent().getStringArrayExtra("QUESTIONS"),
                 getIntent().getStringArrayExtra("RESPONSES"),
                 getIntent().getStringArrayExtra("CATEGORIES"));
-        ////Log.d("resultsActivity", "initialized datapackage");
-        //data.displayQuestionData();
+        // initialize resultsManager (to handle logic regarding the computation of their footprint)
         resultsManager = new ResultsManager(data, this);
         footprints = resultsManager.getFootprints();
+        // update gui components to display the user's footprint results
         setFootprintTexts(footprints);
         setPieChart(footprints);
+        // save the calculated footprint results to the database
         resultsManager.saveToDB(footprints);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
+            // go back to home page once user is done with the quiz and results
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ResultsActivity.this, HomeScreenActivity.class);
@@ -80,6 +82,7 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     private void setFootprintTexts(Dictionary<String, Double> footprints) {
+        // update the gui text views to match the user's data
         totalText = findViewById(R.id.totalText);
         comparisonText = findViewById(R.id.comparisonText);
 
@@ -103,22 +106,26 @@ public class ResultsActivity extends AppCompatActivity {
 
     private void setPieChart(Dictionary<String, Double> footprints) {
 
+        // get values for the partial footprints
         float food = (float) (double) footprints.get("FOOD");
         float transportation = (float) (double) footprints.get("TRANSPORTATION");
         float housing = (float) (double) footprints.get("HOUSING");
         float consumption = (float) (double) footprints.get("CONSUMPTION");
 
+        // set chart to point to the pie chart view
         chart = (PieChart) findViewById(R.id.chart);
 
+        // add data entries to be displayed in the pie chart
         List<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(food, "Food"));
         entries.add(new PieEntry(transportation, "Transportation"));
         entries.add(new PieEntry((float) 4.73, "Housing")); // change to housing later
         entries.add(new PieEntry(consumption, "Consumption"));
         PieDataSet dataSet = new PieDataSet(entries, "Breakdown of Annual Footprint");
+
+        // style the pie chart
         dataSet.setColors(CHART_COLOURS);
         PieData data = new PieData(dataSet);
-
         Typeface typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD);
         chart.setEntryLabelColor(0xFFFFFFFF);
         dataSet.setValueTextColor(0xFFFFFFFF);
@@ -126,8 +133,12 @@ public class ResultsActivity extends AppCompatActivity {
         dataSet.setValueTextSize(14f);
         chart.setEntryLabelTypeface(typeface);
         dataSet.setValueTypeface(typeface);
+
+        // hide the pie chart's legend and description
         chart.getLegend().setEnabled(false);
         chart.getDescription().setEnabled(false);
+
+        // draw pie chart
         chart.setData(data);
         chart.animateY(1000);
         chart.invalidate();

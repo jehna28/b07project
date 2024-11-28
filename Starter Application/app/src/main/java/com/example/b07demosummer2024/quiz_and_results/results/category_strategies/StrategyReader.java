@@ -6,19 +6,22 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StrategyReader {
-    Context context;
-    String fileName;
+    private Context context;
+    private String fileName;
     public StrategyReader(Context context, String fileName){
         this.context = context;
         this.fileName = fileName;
     }
     public ArrayList<CategoryStrategy> getStrategies(){
+        // gets an array list of category strategies from the given file
         ArrayList<CategoryStrategy> formulas = new ArrayList<>();
         try {
             Scanner input = new Scanner(context.getAssets().open(fileName));
             // skip headers
             if(input.hasNext()) input.nextLine();
             while (input.hasNext()) {
+                // save the question and the corresponding strategy to implement,
+                // then initialize a CategoryStrategy object with that information
                 String line = input.nextLine();
                 String[] tokens = line.split("\\t");
                 String question = tokens[0].replaceAll("\"", "");

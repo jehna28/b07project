@@ -1,12 +1,12 @@
 package com.example.b07demosummer2024.quiz_and_results.quiz;
 
 public class Question {
-    String question;
-    String category;
-    int branching;
-    String branchingOption;
-    boolean skippable;
-    String[] options;
+    private String question;
+    private String category;
+    private int branching;
+    private String branchingOption;
+    private boolean skippable;
+    private String[] options;
 
     public Question(String question, String category, int branching, String branchingOption, boolean skippable, String[] options) {
         this.question = question;
@@ -27,6 +27,9 @@ public class Question {
     }
     public boolean getSkippable(){
         return this.skippable;
+    }
+    public String getBranchingOption() {
+        return this.branchingOption;
     }
     public String[] getOptions(){
         return this.options;

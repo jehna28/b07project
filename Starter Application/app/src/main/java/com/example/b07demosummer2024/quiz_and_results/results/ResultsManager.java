@@ -21,12 +21,13 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 public class ResultsManager {
-    ArrayList<QuestionData> data;
-    TransportationCalculator transportationCalculator;
-    FoodCalculator foodCalculator;
-    ConsumptionCalculator consumptionCalculator;
-    HousingCalculator housingCalculator;
+    private ArrayList<QuestionData> data;
+    private TransportationCalculator transportationCalculator;
+    private FoodCalculator foodCalculator;
+    private ConsumptionCalculator consumptionCalculator;
+    private HousingCalculator housingCalculator;
     public ResultsManager(DataPackage data, Context context) {
+        // initialize fields
         this.data = data.getQuestionData();
         transportationCalculator = new TransportationCalculator(this.data, context);
         foodCalculator = new FoodCalculator(this.data, context);
@@ -35,7 +36,9 @@ public class ResultsManager {
     }
 
     public Dictionary<String, Double> getFootprints(){
+        // return a dictionary with each category and the corresponding footprints
         Dictionary<String, Double> footprints = new Hashtable<>();
+        // get the partial footprints, convert them to tons, then save the values in the dictionary
         double transportation = convertKgtoTons(transportationCalculator.getFootprint());
         double food = convertKgtoTons(foodCalculator.getFootprint());
         double consumption = convertKgtoTons(consumptionCalculator.getFootprint());
@@ -50,6 +53,8 @@ public class ResultsManager {
     }
 
     public String getCountry() {
+        // obtain the user's saved country from the database
+        // default country is Canada
         String[] country = new String[]{"Canada"};
         try {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -73,6 +78,8 @@ public class ResultsManager {
     }
 
     public double getCountryAverage() {
+        // obtain the user's saved country's average from the database
+        // default country is Canada's average
         double[] average = new double[]{14.249212};
         try {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -95,6 +102,7 @@ public class ResultsManager {
         return average[0];
     }
     public void saveToDB(Dictionary<String, Double> footprints){
+        // save the user's partial and total footprints in the database
         try {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
@@ -106,6 +114,7 @@ public class ResultsManager {
 
                 FirebaseDatabase db = FirebaseDatabase.getInstance();
                 String userID = user.getUid();
+                // save the partial footprints under parent annualFootprint
                 DatabaseReference ref = db.getReference("Users").child(userID).child("annualFootprint");
                 ref.child("total").setValue(total);
                 ref.child("food").setValue(food);

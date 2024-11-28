@@ -26,9 +26,9 @@ import java.io.InputStream;
 public class QuizActivity extends AppCompatActivity {
 
     private QuizManager quizManager;
-    TextView textQuestion;
-    Button buttonNext;
-    RadioGroup radioOptions;
+    private TextView textQuestion;
+    private Button buttonNext;
+    private RadioGroup radioOptions;
     private ProgressBar progressBar;
 
     @Override
@@ -40,7 +40,7 @@ public class QuizActivity extends AppCompatActivity {
         buttonNext = findViewById(R.id.buttonNext);
         textQuestion = findViewById(R.id.textQuestion);
         radioOptions = findViewById(R.id.radioOptions);
-        // initialize manager (logic code)
+        // initialize manager (to handle logic)
         quizManager = getQuizManager();
         // display first question
         loadQuestion();
@@ -107,6 +107,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void styleRadioButton(RadioButton button){
+        // set the style of the radio button
         button.setTextColor(getResources().getColor(R.color.white));
         button.setBackgroundResource(R.drawable.radio_button_bg);
         Typeface typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD);
@@ -120,8 +121,10 @@ public class QuizActivity extends AppCompatActivity {
         }
 
     private QuizManager getQuizManager(){
+        // initialize the QuizManager by sending the question file as an argument
         AssetManager assetManager = getAssets();
         try {
+            // make sure the file name matches the quiz questions .txt file!
             InputStream inputStream = assetManager.open("emission_quiz_assets/emission_quiz_questions/quiz_questions.txt");
             return new QuizManager(inputStream);
         }
@@ -145,9 +148,9 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void goToResults(){
+        // save and send the saved responses to ResultsActivity
         Intent intent = new Intent(QuizActivity.this, ResultsActivity.class);
         saveData(intent);
-        Log.d("debug", "saved data, about to go to results");
         startActivity(intent);
     }
 
@@ -161,6 +164,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void incompleteToast(){
+        // toast for when the user does not select an option
         Toast.makeText(this, "Please select an option", Toast.LENGTH_SHORT).show();
     }
 

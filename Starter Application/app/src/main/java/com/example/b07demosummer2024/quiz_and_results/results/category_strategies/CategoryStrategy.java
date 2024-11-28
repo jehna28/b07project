@@ -1,8 +1,8 @@
 package com.example.b07demosummer2024.quiz_and_results.results.category_strategies;
 
 public class CategoryStrategy {
-    String question;
-    String strategy;
+    private String question;
+    private String strategy;
 
     public CategoryStrategy(){
         this.question = "";

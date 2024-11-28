@@ -26,41 +26,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class EmissionCalculator {
-    ArrayList<QuestionData> data;
-    ArrayList<CategoryStrategy> strategies;
-    Map<String, QuestionStrategy> strategyMap;
+    protected ArrayList<QuestionData> data;
+    protected ArrayList<CategoryStrategy> strategies;
+    protected Map<String, QuestionStrategy> strategyMap;
     public EmissionCalculator(){
         this.data = new ArrayList<>();
         this.strategies = new ArrayList<>();
         this.strategyMap = new HashMap<>();
     }
     public EmissionCalculator(ArrayList<QuestionData> data, Context context, String category, String strategyFile){
+        // initialize a StrategyReader and strategyMap, filter then assign data to the field
         this.data = filterData(data, category);
         this.strategies = new StrategyReader(context, strategyFile).getStrategies();
         this.strategyMap = initializeStrategyMap();
     }
     public double getFootprint(){
         double total = 0;
-
+        // step through each of the questions + responses
         for (int i = 0; i < data.size(); i++) {
             String strategy = "";
             String question = data.get(i).getQuestion();
             String response = data.get(i).getResponse();
+            // skip the question if the user did not answer
             if (response.isEmpty()) continue;
+            // if the user answered, get the question's corresponding strategy to apply
             for (int j = 0; j < this.strategies.size(); j++) {
                 if (question.equals(this.strategies.get(j).getQuestion())) {
                     strategy = this.strategies.get(j).getStrategy();
                     break;
                 }
             }
+            // get the strategy from the map
             QuestionStrategy strategyToUse = strategyMap.get(strategy);
             if (strategyToUse != null) {
+                // apply the strategy and add the result to the total
                 total += strategyToUse.getEmissions(data, response);
             }
         }
         return total;
     }
     protected Map<String, QuestionStrategy> initializeStrategyMap(){
+        // initialize the strategy map
+        // the keys in the map correspond to the QuesetionStrategy object to apply
+        // when adding new strategies for new questions, declare them here!
         strategyMap = new HashMap<>();
         strategyMap.put("SecondHandStrategy", new SecondHandStrategy());
         strategyMap.put("DeviceStrategy", new DeviceStrategy());
@@ -79,6 +87,7 @@ public abstract class EmissionCalculator {
         return strategyMap;
     }
     protected ArrayList<QuestionData> filterData(ArrayList<QuestionData> data, String category){
+        // filter questions to retrieve only the data concerning the given category
         ArrayList<QuestionData> filteredData = new ArrayList<>();
         for (int i = 0; i < data.size(); i++){
             if (data.get(i).getCategory().equals(category)) {

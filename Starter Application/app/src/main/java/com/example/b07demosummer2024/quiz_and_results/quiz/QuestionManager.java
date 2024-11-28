@@ -4,29 +4,23 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class QuestionManager {
-    private ArrayList<Question> questions;
-    private final int NUM_CAR_Q = 2;
-    private final int NUM_DIET_Q = 4;
-    private final int[] CATEGORY_START_INDICES = new int[]{0, 7, 13, 20};
-    //[first transportation q, first food q, first housing q, first consumption q]
-
+    private ArrayList<Question> questions;  // list of all questions
     public QuestionManager(InputStream inputStream){
+        // gets all the questions from the file
         questions = QuestionReader.loadQuestions(inputStream);
     }
     public Question getQuestion(int index){
+        // returns the question at a specific index
         return questions.get(index);
     }
 
     public int getNumQuestions(){
+        // returns the total number of questions
         return questions.size();
     }
 
-    public int[] getCategoryIndices(){
-        return CATEGORY_START_INDICES;
-    }
-
     public String[] getQuestionArr(){
-    // gets an array of all questions
+        // gets an array of all questions
         String[] questionArr = new String[getNumQuestions()];
         for (int i = 0; i < getNumQuestions(); i++) {
             questionArr[i] = getQuestion(i).getQuestion();
@@ -35,7 +29,7 @@ public class QuestionManager {
     }
 
     public String[] getCategoryArr(){
-    // gets an array of each question's category
+        // gets an array of each question's category
         String[] categoryArr = new String[getNumQuestions()];
         for (int i = 0; i < getNumQuestions(); i++) {
             categoryArr[i] = getQuestion(i).getCategory();
@@ -44,14 +38,15 @@ public class QuestionManager {
     }
 
     public boolean isSkippable(Question question){
-        return question.skippable;
+        // returns true if the question can be skipped, false otherwise
+        return question.getSkippable();
     }
 
     public int numToSkip(Question question, String response){
-    // returns num questions > 0 that will be skipped if on a branching question, 0 if not branching
+        // returns num questions > 0 that will be skipped if on a branching question, 0 if not branching
         int toSkip = 0;
-        if (question.branching != 0 && !response.equals(question.branchingOption)) {
-            toSkip = question.branching;
+        if (question.getBranching() != 0 && !response.equals(question.getBranchingOption())) {
+            toSkip = question.getBranching();
         }
         return toSkip;
     }

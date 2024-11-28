@@ -6,14 +6,17 @@ import java.util.Scanner;
 
 public class QuestionReader {
     public static ArrayList<Question> loadQuestions(InputStream inputStream){
+        // returns an array list of questions read from the questions file
         ArrayList<Question> questions = new ArrayList<Question>();
         try {
             Scanner input = new Scanner(inputStream);
             // skip headers
             if(input.hasNext()) input.nextLine();
+            // parse through each line
             while (input.hasNext()) {
                 String line = input.nextLine();
                 String[] tokens = line.split("\\t");
+                // save each question and their respective categories, options, and other information
                 String question = tokens[0].replaceAll("\"", "");
                 String category = tokens[1].replaceAll("\"", "");
                 int branching = Integer.valueOf(tokens[2]);
@@ -23,6 +26,7 @@ public class QuestionReader {
                 for (int i = 0; i < options.length; i++){
                     options[i] = tokens[i+5].replaceAll("\"","");
                 }
+                // create a new question object with the read information, then add to the array list
                 questions.add(new Question(question, category, branching, branchingOptions, skippable, options));
             }
         }
