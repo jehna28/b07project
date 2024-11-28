@@ -1,11 +1,14 @@
 package com.example.b07demosummer2024.quiz_and_results.quiz;
 
+import android.widget.Toast;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class QuestionReader {
-    public static ArrayList<Question> loadQuestions(InputStream inputStream){
+    public static ArrayList<Question> loadQuestions(InputStream inputStream) throws RuntimeException{
         // returns an array list of questions read from the questions file
         ArrayList<Question> questions = new ArrayList<Question>();
         try {
@@ -31,7 +34,8 @@ public class QuestionReader {
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Unable to read from questions file...");
         }
         return questions;
     }

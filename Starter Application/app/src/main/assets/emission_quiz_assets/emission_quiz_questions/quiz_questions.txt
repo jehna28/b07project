@@ -7,7 +7,7 @@ How many kilometers/miles do you drive per year?	Transportation	0		True	"Up to 5
 "How many short-haul flights (less than 1,500 km / 932 miles) have you taken in the past year?"	Transportation	0		False	None	1-2 flights	3-5 flights	6-10 flights	More than 10 flights	
 "How many long-haul flights (more than 1,500 km / 932 miles) have you taken in the past year?"	Transportation	0		False	None	1-2 flights	3-5 flights	6-10 flights	More than 10 flights	
 What best describes your diet?	Food	4	Meat-based (eat all types of animal products)	False	Vegetarian	Vegan	Pescatarian (fish/seafood)	Meat-based (eat all types of animal products)		
-How often do you eat beef?	Food	0		True	Daily	Frequently (3-5 times/week)	Occasionally (1-2 times/week)	Never		
+How often do you eat beef?	Food	0		True	Daily	Frequently (3-5 times/week)	Occasionally (1-2 times/week)	Never
 How often do you eat pork?	Food	0		True	Daily	Frequently (3-5 times/week)	Occasionally (1-2 times/week)	Never		
 How often do you eat chicken?	Food	0		True	Daily	Frequently (3-5 times/week)	Occasionally (1-2 times/week)	Never		
 How often do you eat fish/seafood?	Food	0		True	Daily	Frequently (3-5 times/week)	Occasionally (1-2 times/week)	Never		

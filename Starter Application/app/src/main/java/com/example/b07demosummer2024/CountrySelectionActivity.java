@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.b07demosummer2024.quiz_and_results.quiz.QuizActivity;
+import com.example.b07demosummer2024.quiz_and_results.results.ResultsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -83,6 +84,7 @@ public class CountrySelectionActivity extends AppCompatActivity {
         }
         catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, "Failed to save country...", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -104,7 +106,8 @@ public class CountrySelectionActivity extends AppCompatActivity {
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d("debug", "error");
+            Toast.makeText(this, "Currently unable to select country, moving to home screen...", Toast.LENGTH_LONG).show();
+            goBackHome();
         }
         return countryList;
     }
@@ -124,7 +127,15 @@ public class CountrySelectionActivity extends AppCompatActivity {
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(this, "Currently unable to select country, moving to home screen...", Toast.LENGTH_LONG).show();
+            goBackHome();
         }
         return averageList;
+    }
+    private void goBackHome(){
+        // force user to the home screen if exceptions occur (fail-safe)
+        Intent intent = new Intent(CountrySelectionActivity.this, HomeScreenActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

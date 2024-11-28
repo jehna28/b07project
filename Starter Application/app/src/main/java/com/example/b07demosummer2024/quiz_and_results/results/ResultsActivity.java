@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
+import com.example.b07demosummer2024.quiz_and_results.quiz.QuizActivity;
 import com.example.b07demosummer2024.quiz_and_results.results.object_classes.DataPackage;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -63,8 +65,14 @@ public class ResultsActivity extends AppCompatActivity {
                 getIntent().getStringArrayExtra("RESPONSES"),
                 getIntent().getStringArrayExtra("CATEGORIES"));
         // initialize resultsManager (to handle logic regarding the computation of their footprint)
-        resultsManager = new ResultsManager(data, this);
-        footprints = resultsManager.getFootprints();
+        try {
+            resultsManager = new ResultsManager(data, this);
+            footprints = resultsManager.getFootprints();
+        }
+        catch (Exception e) {
+            Toast.makeText(this, "Currently unable to show results, moving to home screen...", Toast.LENGTH_LONG).show();
+            goBackHome();
+        }
         // update gui components to display the user's footprint results
         setFootprintTexts(footprints);
         setPieChart(footprints);
@@ -80,7 +88,12 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void goBackHome(){
+        // force user to the home screen if exceptions occur (fail-safe)
+        Intent intent = new Intent(ResultsActivity.this, HomeScreenActivity.class);
+        startActivity(intent);
+        finish();
+    }
     private void setFootprintTexts(Dictionary<String, Double> footprints) {
         // update the gui text views to match the user's data
         totalText = findViewById(R.id.totalText);

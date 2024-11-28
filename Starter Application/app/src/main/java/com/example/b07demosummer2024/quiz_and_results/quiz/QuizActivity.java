@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.b07demosummer2024.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
 import com.example.b07demosummer2024.quiz_and_results.results.ResultsActivity;
 
@@ -128,9 +129,18 @@ public class QuizActivity extends AppCompatActivity {
             InputStream inputStream = assetManager.open("emission_quiz_assets/emission_quiz_questions/quiz_questions.txt");
             return new QuizManager(inputStream);
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        catch (Exception e) {
+            Toast.makeText(this, "Currently unable to load quiz, moving to home screen...", Toast.LENGTH_LONG).show();
+            goBackHome();
+            return null;
         }
+    }
+
+    private void goBackHome(){
+        // force user to the home screen if exceptions occur (fail-safe)
+        Intent intent = new Intent(QuizActivity.this, HomeScreenActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

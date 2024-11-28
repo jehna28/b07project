@@ -33,7 +33,8 @@ public class StrategyReader {
             }
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Unable to read from strategy file...");
         }
         return formulas;
     }
