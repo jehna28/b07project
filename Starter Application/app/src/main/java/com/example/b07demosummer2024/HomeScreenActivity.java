@@ -284,7 +284,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             ref.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task.getResult().exists()) {
-                        String better;
                         Double annualEmissions, nationalAverage, annualEmissionsRd, userBetterPercentage;
 
                         // grab annual footprint and national avg
