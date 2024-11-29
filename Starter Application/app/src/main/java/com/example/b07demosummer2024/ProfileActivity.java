@@ -24,10 +24,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextInputEditText editTxtFirstName, editTxtLastName;
 
-    private FirebaseAuth mAuth;
-
-    private FirebaseDatabase mDataBase;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,48 +52,14 @@ public class ProfileActivity extends AppCompatActivity {
                 firstName = String.valueOf(editTxtFirstName.getText());
                 lastName = String.valueOf((editTxtLastName.getText()));
 
-                // Get a working instance of FireBase Authentication to grab current users userid
-                mAuth = FirebaseAuth.getInstance();
-                // Open instance of real-time db
-                mDataBase = FirebaseDatabase.getInstance();
-
-                // Check if both fields are empty
-                if (TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName)) {
-                    Toast.makeText(ProfileActivity.this, "Enter First Name and/or Last Name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Gets newly registered user as current user
-                FirebaseUser user = mAuth.getCurrentUser();
-
-                if (user!=null) {
-                    if (!(TextUtils.isEmpty(firstName))) {
-
-                        //Update firstName so all characters are lowercase except the initial character, have to make them final so we can add it to the db later
-                        final String formattedFirstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
-
-                        // Open up branch of current user in db
-                        DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
-
-                        // Add first name to current user node in
-                        users.child("name").child("firstName").setValue(formattedFirstName);
-                    }
-
-                    // Similarly for lastName
-                    if (!(TextUtils.isEmpty(lastName))) {
-
-                        final String formattedLastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
-
-                        DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
-
-                        users.child("name").child("lastName").setValue(formattedLastName);
-                    }
-
-                    Toast.makeText(ProfileActivity.this, "Changes Successfully Saved", Toast.LENGTH_SHORT).show();
-                }
+                saveChanges(firstName, lastName);
             }
         });
 
+        goBack();
+    }
+
+    private void goBack() {
         // Use OnBackPressedDispatcher for handling back button presses
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -108,5 +70,48 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private void saveChanges(String firstName, String lastName) {
+
+        // Check if both fields are empty
+        if (TextUtils.isEmpty(firstName) && TextUtils.isEmpty(lastName)) {
+            Toast.makeText(ProfileActivity.this, "Enter First Name and/or Last Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Get a working instance of FireBase Authentication to grab current users userid
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        // Open instance of real-time db
+        FirebaseDatabase mDataBase = FirebaseDatabase.getInstance();
+
+        // Gets newly registered user as current user
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user!=null) {
+            if (!(TextUtils.isEmpty(firstName))) {
+
+                //Update firstName so all characters are lowercase except the initial character, have to make them final so we can add it to the db later
+                final String formattedFirstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
+
+                // Open up branch of current user in db
+                DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
+
+                // Add first name to current user node in
+                users.child("name").child("firstName").setValue(formattedFirstName);
+            }
+
+            // Similarly for lastName
+            if (!(TextUtils.isEmpty(lastName))) {
+
+                final String formattedLastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
+
+                DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
+
+                users.child("name").child("lastName").setValue(formattedLastName);
+            }
+
+            Toast.makeText(ProfileActivity.this, "Changes Successfully Saved", Toast.LENGTH_SHORT).show();
+        }
     }
 }

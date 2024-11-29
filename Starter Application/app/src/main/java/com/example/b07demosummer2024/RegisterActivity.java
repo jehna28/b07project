@@ -31,15 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // Setup variables
-
-    // Text Fields
     private TextInputEditText editTxtFirstName, editTxtLastName, editTxtEmail, editTxtPassword, editTxtConfirmPassword;
 
-    // Buttons
-    private Button continueBtn;
-
-    //Firebase Auth
     private FirebaseAuth mAuth;
 
     private FirebaseDatabase mDataBase;
@@ -64,20 +57,9 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         // Continue Button to save information and proceed with account building
-        continueBtn = findViewById(R.id.continueBtn);
+        Button continueBtn = findViewById(R.id.continueBtn);
 
-        // Use OnBackPressedDispatcher for handling back button presses
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
-
-        // Method to attempt to register new User
+        //Attempt to register new User
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,30 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                 confirmPassword = String.valueOf((editTxtConfirmPassword.getText()));
 
                 // Check if text fields are non-empty
-                if (TextUtils.isEmpty(firstName)) {
-                    Toast.makeText(RegisterActivity.this, "Enter First Name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(lastName)) {
-                    Toast.makeText(RegisterActivity.this, "Enter Last Name", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(RegisterActivity.this, "Enter Email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(RegisterActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(confirmPassword)) {
-                    Toast.makeText(RegisterActivity.this, "Enter Confirm Password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                // Check if password is equal to confirmed passowrd
-                if (!(password.equals(confirmPassword))) {
-                    Toast.makeText(RegisterActivity.this, "Password and Confirmed Password do not match. Try again", Toast.LENGTH_SHORT).show();
-                    editTxtConfirmPassword.setText("");
+                if (!(validateInputs(firstName, lastName, email, password, confirmPassword))) {
                     return;
                 }
 
@@ -127,73 +86,127 @@ public class RegisterActivity extends AppCompatActivity {
                 final String formattedFirstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
                 final String formattedLastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
 
-
-                // Use firebase code to attempt to create new user
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If user gets registered with valid email and password, we will add first name and last name to db
-                                if (task.isSuccessful()) {
-
-                                    // Gets newly registered user as current user
-                                    FirebaseUser user = mAuth.getCurrentUser();
-
-                                    // Make sure user is not null and account was successfully registered
-                                    if (user != null) {
-
-                                        // Open instance of real-time db
-                                        mDataBase = FirebaseDatabase.getInstance();
-
-                                        // Open branch users (Creates branch if it doesn't exist/for the first user)
-                                        // Note getUid() returns a unique address that's special to every user, we're using it as the new node for this
-                                        // newly created user
-                                        DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
-
-                                        // Add last name and first name to current user node in list of users in db
-                                        users.child("name").child("firstName").setValue(formattedFirstName);
-                                        users.child("name").child("lastName").setValue(formattedLastName);
-
-
-                                        // Send a verification link to verify email for new user
-                                        user.sendEmailVerification();
-
-                                        Toast.makeText(RegisterActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
-
-                                        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                                        startActivity(intent);
-                                        finish();
-
-                                        //later we have to switch this to login page, and then login
-                                    }
-
-                                } else {
-
-                                    // Display password security breach message to user
-                                    try {
-                                        throw task.getException();
-                                    } catch (FirebaseAuthWeakPasswordException e) {
-                                        CustomToast.makeText(RegisterActivity.this, "Your password is too weak. Please use at least one upper-case & lower-case character, along with at least one numeric character. Make sure password is at least 6 characters long",
-                                                Toast.LENGTH_LONG).show();
-                                    } catch (FirebaseAuthInvalidCredentialsException e) {
-                                        Toast.makeText(RegisterActivity.this, "Your email is invalid or already in use. Please enter a different email",
-                                                Toast.LENGTH_LONG).show();
-                                    } catch (FirebaseAuthUserCollisionException e) {
-                                        Toast.makeText(RegisterActivity.this, "A user is already registered with this email. Please use an another email",
-                                                Toast.LENGTH_LONG).show();
-                                    } catch (FirebaseException e) {
-                                        CustomToast.makeText(RegisterActivity.this, "Your password is too weak. Please use at least one upper-case & lower-case character, along with at least one numeric character. Make sure password is at least 6 characters long",
-                                                Toast.LENGTH_LONG).show();
-                                    } catch (Exception e) {
-                                        Log.e("Unknown Register Error", "Error occurred: ", e);
-                                        Toast.makeText(RegisterActivity.this, e.toString(),
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }
-                        });
-
+                registerUser(formattedFirstName, formattedLastName, email, password);
             }
         });
+
+        goBack();
+    }
+
+    private void goBack() {
+        // Use OnBackPressedDispatcher for handling back button presses to back to welcome screen
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private boolean validateInputs(String firstName, String lastName, String email, String password, String confirmPassword) {
+        // Check if text fields are non-empty
+        if (TextUtils.isEmpty(firstName)) {
+            Toast.makeText(RegisterActivity.this, "Enter First Name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(lastName)) {
+            Toast.makeText(RegisterActivity.this, "Enter Last Name", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(RegisterActivity.this, "Enter Email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(RegisterActivity.this, "Enter Password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(confirmPassword)) {
+            Toast.makeText(RegisterActivity.this, "Enter Confirm Password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        // Check if password is equal to confirmed passowrd
+        if (!(password.equals(confirmPassword))) {
+            Toast.makeText(RegisterActivity.this, "Password and Confirmed Password do not match. Try again", Toast.LENGTH_SHORT).show();
+            editTxtConfirmPassword.setText("");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void registerUser(String firstName, String lastName, String email, String password) {
+
+        // Use firebase code to attempt to create new user
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        // If user gets registered with valid email and password, we will add first name and last name to db
+                        if (task.isSuccessful()) {
+
+                            // Gets newly registered user as current user
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            // Make sure user is not null and account was successfully registered
+                            if (user != null) {
+
+                                // Open instance of real-time db
+                                mDataBase = FirebaseDatabase.getInstance();
+
+                                // Open branch users (Creates branch if it doesn't exist/for the first user)
+                                // Note getUid() returns a unique address that's special to every user, we're using it as the new node for this
+                                DatabaseReference users = mDataBase.getReference("Users").child(user.getUid());
+
+                                // Add last name and first name to current user node in list of users in db
+                                users.child("name").child("firstName").setValue(firstName);
+                                users.child("name").child("lastName").setValue(lastName);
+
+                                // Need this so that when the user logs in, they're prompted to begin the initial data collection
+                                //users.child("showPrimaryDataDialogBox").setValue("0");
+
+                                // Send a verification link to verify email for new user
+                                user.sendEmailVerification();
+
+                                Toast.makeText(RegisterActivity.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
+
+                                // Redirect them to welcome page and it'll automatically sign them in
+                                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        } else {
+                            handleRegistrationError(task.getException());
+                        }
+                    }
+                });
+
+    }
+
+    private void handleRegistrationError(Exception e) {
+        // Display registration errors to user
+        try {
+            throw e;
+        } catch (FirebaseAuthWeakPasswordException ex) {
+            Toast.makeText(RegisterActivity.this, "Password must be 6+ characters, including uppercase, lowercase, and a number.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "Include one uppercase, lowercase, and numeric character.", Toast.LENGTH_SHORT).show();
+        } catch (FirebaseAuthInvalidCredentialsException ex) {
+            Toast.makeText(RegisterActivity.this, "Your email is invalid or already in use. Please enter a different email",
+                    Toast.LENGTH_LONG).show();
+        } catch (FirebaseAuthUserCollisionException ex) {
+            Toast.makeText(RegisterActivity.this, "A user is already registered with this email. Please use an another email",
+                    Toast.LENGTH_LONG).show();
+        } catch (FirebaseException ex) {
+            Toast.makeText(RegisterActivity.this, "Password must be 6+ characters.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegisterActivity.this, "Include one uppercase, lowercase, and numeric character.", Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Log.e("Unknown Register Error", "Error occurred: ", e);
+            Toast.makeText(RegisterActivity.this, e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -66,17 +66,17 @@
             android:layout_marginTop="60dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="start"
-            android:text="You're ahead of 20% of people worldwide!"
+            android:text="@string/better_default"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@id/welcomeTxtHomeScreen"
             app:layout_constraintTop_toBottomOf="@id/userFirstNameTxtHomeScreen" />
 
         <TextView
-            android:id="@+id/totalEmissionsTxtMessageHomeScreen"
+            android:id="@+id/annualEmissionsTxtMessageHomeScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="20 tonnes of CO2"
+            android:text="@string/annual_default"
             android:textStyle="bold"
             android:gravity="start"
             android:textSize="40sp"
@@ -91,10 +91,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="start"
-            android:text="@string/total_carbon_emissions"
+            android:text="@string/annual_carbon_emissions"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@id/welcomeTxtHomeScreen"
-            app:layout_constraintTop_toBottomOf="@id/totalEmissionsTxtMessageHomeScreen" />
+            app:layout_constraintTop_toBottomOf="@id/annualEmissionsTxtMessageHomeScreen" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"

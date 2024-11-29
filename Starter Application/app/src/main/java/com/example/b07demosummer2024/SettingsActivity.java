@@ -1,7 +1,6 @@
 package com.example.b07demosummer2024;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,23 +25,15 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Button resendVerificationBtn, changePasswordBtn, forgotPasswordBtn, resetPrimaryDataBtn, resetAllDataBtn;
+    private Button resendVerificationBtn;
     private TextInputEditText oldPasswordTxtField, newPasswordTxtField;
-
     private FirebaseAuth mAuth;
-
-    private FirebaseDatabase mDataBase;
-
+    private FirebaseUser user;
     private TextView emailVerifyTxtView;
-
     private ImageView emailVerifyImgView;
 
     @Override
@@ -58,10 +49,10 @@ public class SettingsActivity extends AppCompatActivity {
 
        // Initialize variables
         resendVerificationBtn = findViewById(R.id.resendVerificationEmailBtnSettings);
-        changePasswordBtn = findViewById(R.id.changePasswordBtnSettings);
-        forgotPasswordBtn = findViewById(R.id.resetPasswordBtnSettings);
-        resetPrimaryDataBtn = findViewById(R.id.resetInitialDataBtnSettings);
-        resetAllDataBtn = findViewById(R.id.resetAllDataBtnSettings);
+        Button changePasswordBtn = findViewById(R.id.changePasswordBtnSettings);
+        Button forgotPasswordBtn = findViewById(R.id.resetPasswordBtnSettings);
+        Button resetPrimaryDataBtn = findViewById(R.id.resetInitialDataBtnSettings);
+        Button resetAllDataBtn = findViewById(R.id.resetAllDataBtnSettings);
 
         oldPasswordTxtField = findViewById(R.id.passwordTxtFieldSettings);
         newPasswordTxtField = findViewById(R.id.passwordNewTxtFieldSettings);
@@ -70,62 +61,23 @@ public class SettingsActivity extends AppCompatActivity {
         emailVerifyImgView = findViewById(R.id.verifyImgSettings);
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
-        // Check if email is verified to change text and image in text view
-        if (user != null) {
-            if (user.isEmailVerified()) {
-                emailVerifyTxtView.setText(getString(R.string.your_email_is_verified));
-                emailVerifyImgView.setImageResource(R.drawable.verify_icon);
-                resendVerificationBtn.setEnabled(false);
-
-            } else{
-                emailVerifyTxtView.setText(getString(R.string.your_email_is_not_verifiied));
-                emailVerifyImgView.setImageResource(R.drawable.no_icon);
-                resendVerificationBtn.setEnabled(true);
-            }
-        }
+        checkEmailVerification();
 
         // On Click listener for resend verification email
         resendVerificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (user!=null) {
-                    user.sendEmailVerification();
-
-                    Toast.makeText(SettingsActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
-                }
+                resendVerificationEmail();
             }
         });
-
-        // Use OnBackPressedDispatcher for handling back button presses
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
 
         // On click listener for forgot password
         forgotPasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Firebase code to send password reset email (again tweaked slightly)
-                if (user!=null) {
-                    mAuth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(SettingsActivity.this, "Password reset email has been sent", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(SettingsActivity.this, "Password reset email was unsuccessful, please try again later", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
+               sendPasswordResetEmail();
             }
         });
 
@@ -136,53 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String current_password = String.valueOf(oldPasswordTxtField.getText());
                 String new_password = String.valueOf((newPasswordTxtField.getText()));
 
-                if (TextUtils.isEmpty(current_password)) {
-                    Toast.makeText(SettingsActivity.this, "Please enter current password", Toast.LENGTH_SHORT).show();
-                    return;
-                } if (TextUtils.isEmpty(new_password)) {
-                    Toast.makeText(SettingsActivity.this, "Please enter new password", Toast.LENGTH_SHORT).show();
-                    return;
-                } if (current_password.matches(new_password)) {
-                    Toast.makeText(SettingsActivity.this, "Passwords match, please enter a different password", Toast.LENGTH_SHORT).show();
-                    return;
-                }else {
-                    if (user != null) {
-                        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), current_password);
-
-                        user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    user.updatePassword(new_password).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(SettingsActivity.this, "Password succesfully changed", Toast.LENGTH_SHORT).show();
-                                                return;
-                                            } else {
-                                                // Display password security breach message to user
-                                                try {
-                                                    throw task.getException();
-                                                } catch (FirebaseException e) {
-                                                    CustomToast.makeText(SettingsActivity.this, "Your password is too weak. Please use at least one upper-case & lower-case character, along with at least one numeric character. Make sure password is at least 6 characters long",
-                                                            Toast.LENGTH_LONG).show();
-                                                } catch (Exception e) {
-                                                    Log.e("Unknown Register Error", "Error occurred: ", e);
-                                                    Toast.makeText(SettingsActivity.this, e.toString(),
-                                                            Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        }
-                                    });
-
-                                } else {
-                                    Toast.makeText(SettingsActivity.this, "Incorrect password, please try again", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                            }
-                        });
-                    }
-                }
+                changePassword(current_password, new_password);
             }
         });
 
@@ -192,8 +98,130 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsActivity.this, CountrySelectionActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
+        goBack();
     }
+
+    private void goBack() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private void checkEmailVerification() {
+
+        // Check if email is verified to change text and image in text view
+        if (user != null) {
+            if (user.isEmailVerified()) {
+                emailVerifyTxtView.setText(getString(R.string.your_email_is_verified));
+                emailVerifyImgView.setImageResource(R.drawable.verify_icon);
+                resendVerificationBtn.setEnabled(false);
+            } else {
+
+                // If email is verifies, we disable resend Verification Email button
+                emailVerifyTxtView.setText(getString(R.string.your_email_is_not_verifiied));
+                emailVerifyImgView.setImageResource(R.drawable.no_icon);
+                resendVerificationBtn.setEnabled(true);
+            }
+        }
+    }
+
+    private void resendVerificationEmail() {
+
+        if (user!=null) {
+            user.sendEmailVerification();
+
+            Toast.makeText(SettingsActivity.this, "Verification Email Sent", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendPasswordResetEmail() {
+
+        // Firebase code to send password reset email (tweaked slightly)
+        if (user!=null) {
+            mAuth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(SettingsActivity.this, "Password reset email has been sent", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SettingsActivity.this, "Password reset email was unsuccessful, please try again later", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void changePassword(String current_password, String new_password) {
+
+        if (!validatePasswords(current_password, new_password)) {
+            return;
+        }
+
+        if (user != null) {
+
+            // Firebase code to change password (tweaked)
+            AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), current_password);
+
+            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        user.updatePassword(new_password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SettingsActivity.this, "Password succesfully changed", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    handlePasswordUpdateErrors(task.getException());
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(SettingsActivity.this, "Incorrect password, please try again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private boolean validatePasswords(String current_password, String new_password) {
+        if (TextUtils.isEmpty(current_password)) {
+            Toast.makeText(SettingsActivity.this, "Please enter current password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (TextUtils.isEmpty(new_password)) {
+            Toast.makeText(SettingsActivity.this, "Please enter new password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (current_password.matches(new_password)) {
+            Toast.makeText(SettingsActivity.this, "Passwords match, please enter a different password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void handlePasswordUpdateErrors(Exception e) {
+        try {
+            throw e;
+        } catch (FirebaseException ex) {
+            Toast.makeText(SettingsActivity.this, "Password must be 6+ characters.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SettingsActivity.this, "Include one uppercase, lowercase, and numeric character.", Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Log.e("Unknown Register Error", "Error occurred: ", e);
+            Toast.makeText(SettingsActivity.this, e.toString(),
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

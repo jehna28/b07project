@@ -12,10 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivityView extends AppCompatActivity {
-
-    // UI elements used
     private TextInputEditText emailTxtField, passwordTxtField;
-    private Button loginBtn, forgotPasswordBtn;
 
     private LoginActivityPresenter presenter;
 
@@ -28,9 +25,10 @@ public class LoginActivityView extends AppCompatActivity {
         emailTxtField = findViewById(R.id.emailTxtFieldLogin);
         passwordTxtField = findViewById(R.id.passwordTxtFieldLogin);
 
-        loginBtn = findViewById(R.id.loginBtn);
-        forgotPasswordBtn = findViewById(R.id.forgotPasswordBtn);
+        Button loginBtn = findViewById(R.id.loginBtn);
+        Button forgotPasswordBtn = findViewById(R.id.forgotPasswordBtn);
 
+        // Initialize presenter with view and model
         presenter = new LoginActivityPresenter(this, new LoginActivityModel());
 
         // On click listeners when buttons are pressed
@@ -60,16 +58,7 @@ public class LoginActivityView extends AppCompatActivity {
             }
         });
 
-        // Use OnBackPressedDispatcher for handling back button presses
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+        goBack();
     }
 
     public void toastMsg(String message) {
@@ -85,6 +74,19 @@ public class LoginActivityView extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    private void goBack() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
 }

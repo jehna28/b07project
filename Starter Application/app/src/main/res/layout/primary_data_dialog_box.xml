@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/titlePrimaryDataDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PRIMARY DATA"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="25dp"/>
+        
+        <TextView
+            android:id="@+id/messagePrimaryDataDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No primary data found, would you like to \ncomplete primary data activiity?"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintEnd_toEndOf="@id/titlePrimaryDataDialog"
+            app:layout_constraintStart_toStartOf="@id/titlePrimaryDataDialog"
+            app:layout_constraintTop_toBottomOf="@id/titlePrimaryDataDialog"/>
+
+        <TextView
+            android:id="@+id/subMessagePrimaryDataDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Some anyltics will not be available without\n primary data collection, but app features\n will still be useable."
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintEnd_toEndOf="@id/messagePrimaryDataDialog"
+            app:layout_constraintStart_toStartOf="@id/messagePrimaryDataDialog"
+            app:layout_constraintTop_toBottomOf="@id/messagePrimaryDataDialog"/>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintTop_toBottomOf="@id/subMessagePrimaryDataDialog"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/noBtnPrimaryDataDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/yesBtnPrimaryDataDialog"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/yesBtnPrimaryDataDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/noBtnPrimaryDataDialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

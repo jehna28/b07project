@@ -16,20 +16,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-
-    // Method to skip welcome page if user is already singed in
     @Override
     protected void onStart() {
+
+        //Check if user is signed in already, if so redirect them to the home page
         super.onStart();
 
-        // Initialize firebase to see if user is already signed in, if they are, send them to the home screen
-        mAuth = FirebaseAuth.getInstance();
-
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        // if user is singed on go to home screen
-        if (user != null) {
+        if (userSignedIn()) {
+            // Create Intent to switch to home screen
             Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
             startActivity(intent);
             finish();
@@ -53,7 +47,6 @@ public class WelcomeActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Create an Intent to switch to Register Screen
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
@@ -74,5 +67,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean userSignedIn() {
+        // Initialize firebase to see if user is already signed in, if they are, send them to the home screen
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        return user != null;
     }
 }

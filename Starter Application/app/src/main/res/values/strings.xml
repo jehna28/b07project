@@ -20,7 +20,7 @@
     <string name="please_input_first_name">Please input first name</string>
     <string name="please_input_last_name">Please input last name</string>
     <string name="last_name">Last Name</string>
-    <string name="please_input_email_adress">Please input email-adress</string>
+    <string name="please_input_email_adress">Please input email-address</string>
     <string name="email">Email</string>
     <string name="please_input_strong_password">Please input strong password</string>
     <string name="password">Password</string>
@@ -58,7 +58,11 @@
     <string name="your_email_is_not_verifiied">Your email is not verifiied</string>
     <string name="your_email_is_verified">Your email is verified</string>
     <string name="welcome">WELCOME,</string>
-    <string name="total_carbon_emissions">Total carbon emissions</string>
+    <string name="annual_carbon_emissions">Annual carbon emissions</string>
+    <string name="default_user">User</string>
+    <string name="better_default">You\'re ahead of 0% of people nationally!</string>
+    <string name="annual_default">0 tonnes of CO\u2082</string>
+
 
     <string-array name="categories_array">
         <item>Books</item>
