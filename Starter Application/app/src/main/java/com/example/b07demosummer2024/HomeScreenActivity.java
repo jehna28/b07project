@@ -94,6 +94,9 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
             if (item.getItemId() == R.id.navEcoTracker) {
                 // add code to transition to tracker feature
+                Intent intent = new Intent(getApplicationContext(), HabitsMainPage.class);
+                startActivity(intent);
+                finish();
 
                 return true;
             }
@@ -330,7 +333,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.primary_data_dialog_box);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.primary_data_dialog_background));
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         Button btnDialogNo = dialog.findViewById(R.id.noBtnPrimaryDataDialog);
         Button btnDialogYes = dialog.findViewById(R.id.yesBtnPrimaryDataDialog);

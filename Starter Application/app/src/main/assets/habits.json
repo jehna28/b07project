@@ -1,0 +1,29 @@
+{
+  "Transportation": [
+    {"name": "Use public transportation instead of driving", "impact": "High"},
+    {"name": "Walk or cycle for short trips", "impact": "High"},
+    {"name": "Switch to electric or hybrid vehicles", "impact": "High"},
+    {"name": "Carpool with others to reduce vehicle emissions", "impact": "Medium"}
+  ],
+  "Energy": [
+    {"name": "Switch to energy-efficient appliances", "impact": "High"},
+    {"name": "Install solar panels or use renewable energy sources", "impact": "High"},
+    {"name": "Use a programmable thermostat to control energy usage", "impact": "Medium"},
+    {"name": "Turn off lights when not in use", "impact": "Low"}
+  ],
+  "Food": [
+    {"name": "Eat more plant-based meals", "impact": "High"},
+    {"name": "Reduce food waste by meal prepping and shopping smartly", "impact": "Medium"},
+    {"name": "Compost kitchen scraps", "impact": "Medium"},
+    {"name": "Buy locally grown and organic food", "impact": "Medium"},
+    {"name": "Avoid single-use plastics in food packaging", "impact": "Medium"}
+  ],
+  "Consumption": [
+    {"name": "Recycle and reuse items wherever possible", "impact": "High"},
+    {"name": "Buy sustainable/eco-friendly clothing", "impact": "Medium"},
+    {"name": "Donate or sell used items instead of discarding them", "impact": "Medium"},
+    {"name": "Use refillable water bottles and containers", "impact": "Medium"},
+    {"name": "Repair items instead of replacing them", "impact": "Low"}
+  ]
+}
+

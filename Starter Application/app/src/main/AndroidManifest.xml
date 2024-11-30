@@ -69,6 +69,9 @@
         <activity
             android:name=".quiz_and_results.results.ResultsActivity"
             android:exported="false" />
+        <activity
+            android:name=".HabitsMainPage"
+            android:exported="false"/>
     </application>
 
 </manifest>
