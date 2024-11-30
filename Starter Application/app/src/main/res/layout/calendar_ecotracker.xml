@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/calendar_ecotracker_background"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/editEventText"
+        android:layout_width="296dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/enter_activity" />
+
+    <Button
+        android:id="@+id/buttonSaveEvent"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="12dp"
+        android:background="#0B5DB4"
+        android:baselineAligned="false"
+        android:onClick="buttonSaveEvent"
+        android:text="@string/save_activity" />
+
+    <EditText
+        android:id="@+id/editEventUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:hint="@string/edit_activity_title"
+        android:inputType="text"
+        android:padding="10dp"
+        android:onClick="buttonUpdateEvent"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonUpdateEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_activity"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonDeleteEvent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#F44336"
+        android:text="@string/delete_activity"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/textEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:padding="8dp"
+        android:text="@string/activities_will_be_displayed_here"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

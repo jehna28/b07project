@@ -25,14 +25,17 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="true"/>
         <activity
             android:name=".LoginActivityView"
             android:exported="false" />
@@ -71,6 +74,9 @@
             android:exported="false" />
         <activity
             android:name=".HabitsMainPage"
+            android:exported="false"/>
+        <activity
+            android:name=".CalendarEcoTracker"
             android:exported="false"/>
     </application>
 

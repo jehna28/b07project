@@ -62,6 +62,13 @@
     <string name="default_user">User</string>
     <string name="better_default">You\'re ahead of 0% of people nationally!</string>
     <string name="annual_default">0 tonnes of CO\u2082</string>
+    <string name="enter_activity">Enter Activity</string>
+    <string name="save_activity">Save Activity</string>
+    <string name="edit_activity_title">Edit Activity Title</string>
+    <string name="update_activity">Update Activity</string>
+    <string name="activities_will_be_displayed_here">Activities will be Displayed Here</string>
+    <string name="delete_activity">Delete Activity</string>
+    <string name="adopt_habits">Adopt Habits</string>
 
 
     <string-array name="categories_array">

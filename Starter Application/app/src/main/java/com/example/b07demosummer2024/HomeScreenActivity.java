@@ -94,10 +94,8 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
             if (item.getItemId() == R.id.navEcoTracker) {
                 // add code to transition to tracker feature
-                Intent intent = new Intent(getApplicationContext(), HabitsMainPage.class);
+                Intent intent = new Intent(HomeScreenActivity.this, CalendarEcoTracker.class);
                 startActivity(intent);
-                finish();
-
                 return true;
             }
             if (item.getItemId() == R.id.navEcoGauge) {
