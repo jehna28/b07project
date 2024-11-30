@@ -2,9 +2,9 @@ package com.example.b07demosummer2024.quiz_and_results.results;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.b07demosummer2024.R;
 import com.example.b07demosummer2024.quiz_and_results.results.calculators.ConsumptionCalculator;
 import com.example.b07demosummer2024.quiz_and_results.results.calculators.FoodCalculator;
 import com.example.b07demosummer2024.quiz_and_results.results.calculators.HousingCalculator;
@@ -17,9 +17,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Locale;
 
 public class ResultsManager {
     private ArrayList<QuestionData> data;
@@ -27,9 +30,11 @@ public class ResultsManager {
     private FoodCalculator foodCalculator;
     private ConsumptionCalculator consumptionCalculator;
     private HousingCalculator housingCalculator;
+    private Context context;
     public ResultsManager(DataPackage data, Context context) {
         // initialize fields
         this.data = data.getQuestionData();
+        this.context = context;
         transportationCalculator = new TransportationCalculator(this.data, context);
         foodCalculator = new FoodCalculator(this.data, context);
         consumptionCalculator = new ConsumptionCalculator(this.data, context);
@@ -53,44 +58,60 @@ public class ResultsManager {
         return footprints;
     }
 
-    public String getCountry() {
-        // obtain the user's saved country from the database
-        // default country is Canada
-        String[] country = new String[]{"Canada"};
+    public void compareWithAverage(TextView totalText, TextView comparisonText, Dictionary<String, Double> footprints) throws Exception{
+        // note: this method can throw an exception which is handled in ResultsActivity
+        // display the total footprint
+        double totalFootprint = footprints.get("TOTAL");
+        totalText.setText(String.valueOf(totalFootprint));
+        // try to get the user's saved country and average from database
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             FirebaseDatabase db = FirebaseDatabase.getInstance();
             String userID = user.getUid();
-            DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData").child("country");
+            DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData");
             ref.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    country[0] = task.getResult().getValue(String.class);
+                    // obtain the user's country and countryAverage
+                    DataSnapshot snapshot = task.getResult();
+                    String country = snapshot.child("country").getValue(String.class);
+                    Double countryAverage = snapshot.child("countryAverage").getValue(Double.class);
+                    // if unable to obtain either value, compare with the default instead (Canada)
+                    if (country == null || countryAverage == null){
+                        compareWithDefault(comparisonText, totalFootprint);
+                        return;
+                    }
+                    // compare with the user's country and countryAverage
+                    double difference = Math.abs(((totalFootprint - countryAverage) / countryAverage) * 100);
+                    String differencePercent = String.format(Locale.CANADA, "%.2f", difference);
+                    String belowAbove = "below";
+                    if (totalFootprint >= countryAverage) belowAbove = "above";
+                    // update text view to display comparison
+                    String comparison = "Your carbon footprint is " +
+                            differencePercent + "% " +
+                            belowAbove + " the national average for " + country;
+                    comparisonText.setText(comparison);
                 } else {
-                    Log.e("Firebase", "Error getting country", task.getException());
+                    Log.e("Firebase", "Error getting country information", task.getException());
                 }
             });
         }
-        return country[0];
+        else {
+            // if, for whatever reason, we cannot obtain the user, we compare with the default (Canada)
+            compareWithDefault(comparisonText, totalFootprint);
+        }
     }
-
-    public double getCountryAverage() {
-        // obtain the user's saved country's average from the database
-        // default country is Canada's average
-        double[] average = new double[]{14.249212};
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            FirebaseDatabase db = FirebaseDatabase.getInstance();
-            String userID = user.getUid();
-            DatabaseReference ref = db.getReference("Users").child(userID).child("primaryData").child("countryAverage");
-            ref.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    average[0] = task.getResult().getValue(Double.class);
-                } else {
-                    Log.e("Firebase", "Error getting country average", task.getException());
-                }
-            });
-        }
-        return average[0];
+    private void compareWithDefault(TextView comparisonText, double totalFootprint){
+        Toast.makeText(context, "Unable to compare with saved country, comparing to default (Canada) instead...", Toast.LENGTH_LONG).show();
+        String country = "Canada";
+        double countryAverage = 14.249212;
+        double difference = Math.abs(((totalFootprint - countryAverage) / countryAverage) * 100);
+        String differencePercent = String.format(Locale.CANADA, "%.2f", difference);
+        String belowAbove = "below";
+        if (totalFootprint >= countryAverage) belowAbove = "above";
+        String comparison = "Your carbon footprint is " +
+                differencePercent + "% " +
+                belowAbove + " the national average for " + country;
+        comparisonText.setText(comparison);
     }
     public void saveToDB(Dictionary<String, Double> footprints){
         // save the user's partial and total footprints in the database
@@ -113,11 +134,9 @@ public class ResultsManager {
             ref.child("consumption").setValue(consumption);
         }
     }
-
     private double convertKgtoTons(double kg) {
         return roundTo6(kg*0.001);
     }
-
     private double roundTo6(double x) {
         return Math.round(x * 1e6) / 1e6;
     }

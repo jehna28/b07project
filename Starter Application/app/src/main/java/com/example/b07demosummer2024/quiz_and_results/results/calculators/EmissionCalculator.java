@@ -1,6 +1,7 @@
 package com.example.b07demosummer2024.quiz_and_results.results.calculators;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.b07demosummer2024.quiz_and_results.results.category_strategies.CategoryStrategy;
 import com.example.b07demosummer2024.quiz_and_results.results.category_strategies.StrategyReader;
@@ -29,6 +30,7 @@ public abstract class EmissionCalculator {
     protected ArrayList<QuestionData> data;
     protected ArrayList<CategoryStrategy> strategies;
     protected Map<String, QuestionStrategy> strategyMap;
+    protected Context context;
     public EmissionCalculator(){
         this.data = new ArrayList<>();
         this.strategies = new ArrayList<>();
@@ -37,6 +39,7 @@ public abstract class EmissionCalculator {
     public EmissionCalculator(ArrayList<QuestionData> data, Context context, String category, String strategyFile){
         // initialize a StrategyReader and strategyMap, filter then assign data to the field
         this.data = filterData(data, category);
+        this.context = context;
         this.strategies = new StrategyReader(context, strategyFile).getStrategies();
         this.strategyMap = initializeStrategyMap();
     }
@@ -60,7 +63,13 @@ public abstract class EmissionCalculator {
             QuestionStrategy strategyToUse = strategyMap.get(strategy);
             if (strategyToUse != null) {
                 // apply the strategy and add the result to the total
-                total += strategyToUse.getEmissions(data, response);
+                try {
+                    total += strategyToUse.getEmissions(data, response);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    Log.d("ERROR", "strategy failed: " + strategy);
+                }
             }
         }
         return total;
@@ -79,7 +88,7 @@ public abstract class EmissionCalculator {
         strategyMap.put("ChickenStrategy", new ChickenStrategy());
         strategyMap.put("SeafoodStrategy", new SeafoodStrategy());
         strategyMap.put("LeftoversStrategy", new LeftoversStrategy());
-        strategyMap.put("HomeEnergyStrategy", new HomeEnergyStrategy());
+        strategyMap.put("HomeEnergyStrategy", new HomeEnergyStrategy(context));
         strategyMap.put("DrivingStrategy", new DrivingStrategy());
         strategyMap.put("PublicTransportStrategy", new PublicTransportStrategy());
         strategyMap.put("ShortHaulStrategy", new ShortHaulStrategy());

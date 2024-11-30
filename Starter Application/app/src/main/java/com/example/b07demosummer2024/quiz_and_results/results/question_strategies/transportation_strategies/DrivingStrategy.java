@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024.quiz_and_results.results.question_strategies.transportation_strategies;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.b07demosummer2024.quiz_and_results.results.object_classes.QuestionData;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
-import com.example.b07demosummer2024.quiz_and_results.quiz.QuizActivity;
 import com.example.b07demosummer2024.quiz_and_results.results.object_classes.DataPackage;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -107,32 +107,18 @@ public class ResultsActivity extends AppCompatActivity {
         // update the gui text views to match the user's data
         totalText = findViewById(R.id.totalText);
         comparisonText = findViewById(R.id.comparisonText);
-
-        double totalFootprint = footprints.get("TOTAL");
-        totalText.setText(String.valueOf(totalFootprint));
-        String country = "Canada";
-        double countryAverage = 14.249212;
+        // try to compare with the national average
         try {
-            country = resultsManager.getCountry();
-            countryAverage = resultsManager.getCountryAverage();
+            resultsManager.compareWithAverage(totalText, comparisonText, footprints);
         }
-        catch (Exception e) {
+        // if an exception is thrown and we are also unable to compare with the default (Canada),
+        // we force the user to the home screen (fail-safe)
+        catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(this, "Failed to compare with your country's average, comparing to Canada by default...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Currently unable to display results, moving to home screen...", Toast.LENGTH_LONG).show();
+            goBackHome();
         }
-
-        double difference = Math.abs(((totalFootprint - countryAverage) / countryAverage) * 100);
-        String differencePercent = String.format(Locale.CANADA, "%.2f", difference);
-        String belowAbove = "below";
-        if (totalFootprint >= countryAverage) belowAbove = "above";
-
-        String comparison = "Your carbon footprint is " +
-                differencePercent + "% " +
-                belowAbove + " the national average for " + country;
-
-        comparisonText.setText(comparison);
     }
-
     private void setPieChart(Dictionary<String, Double> footprints) {
 
         // get values for the partial footprints
@@ -148,7 +134,7 @@ public class ResultsActivity extends AppCompatActivity {
         List<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(food, "Food"));
         entries.add(new PieEntry(transportation, "Transportation"));
-        entries.add(new PieEntry((float) 4.73, "Housing")); // change to housing later
+        entries.add(new PieEntry(housing, "Housing"));
         entries.add(new PieEntry(consumption, "Consumption"));
         PieDataSet dataSet = new PieDataSet(entries, "Breakdown of Annual Footprint");
 
