@@ -154,6 +154,7 @@ public class CustomSearchAdapter extends RecyclerView.Adapter<CustomSearchAdapte
         // Add habit to the user in the firebase database
         DatabaseReference habits = mDataBase.getReference("Users").child(user.getUid()).child("habits");
         habits.child(habit).child("loggedDays").setValue("0");
+        Toast.makeText(context, "Added habit successfully!", Toast.LENGTH_SHORT).show();
     }
 
 }
