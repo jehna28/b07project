@@ -1,8 +1,5 @@
 package com.example.b07demosummer2024.quiz_and_results.quiz;
 
-import android.widget.Toast;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
