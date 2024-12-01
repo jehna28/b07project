@@ -1,0 +1,99 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultBtnBlue4"
+    tools:context=".EcoTracker.InputNewActivity.SelectCategoryActivity">
+
+    <ImageView
+        android:id="@+id/footprintsImage"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_marginBottom="-40dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/fp"
+        app:layout_constraintBottom_toTopOf="@id/cardid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/brightBlue"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0">
+
+
+        <LinearLayout
+            android:id="@+id/contentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/whitebg"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:paddingLeft="8dp"
+                android:paddingTop="10dp"
+                android:text="@string/number_of_clothing_items_purchased"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/brightBlue"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="number"
+                android:id="@+id/numItems"
+                android:background="@drawable/turquoise_border"
+                android:layout_marginTop="20dp"
+                android:padding="16dp"
+                android:hint="Enter value"
+                android:gravity="start|center_vertical"
+                android:textColor="@color/turquoise"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="Save"
+                android:id="@+id/saveButtonClothes"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:backgroundTint="@color/brightBlue"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/penguinImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/sidepenguin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="100dp"
+        android:scaleType="fitCenter" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

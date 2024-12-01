@@ -20,8 +20,8 @@
     <color name="anotherblue">#7FCCCC</color>
     <color name="darkgrey">#49454F</color>
 
-
-
-
+    <color name="lightgrey">#FFd8dbe2</color>
+    <color name="medgrey">#FFa9bcd0</color>
+    <color name="turquoise">#FF009999</color>
 
 </resources>

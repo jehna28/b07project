@@ -78,6 +78,48 @@
         <activity
             android:name=".CalendarEcoTracker"
             android:exported="false"/>
+        <activity
+            android:name=".EcoTracker.Calendar.CalendarEcoTracker"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.SelectCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Energy.EnergyBillsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Shopping.OtherPurchasesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Shopping.NewElectronicsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Shopping.NewClothesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Shopping.InputShoppingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Transportation.FlightActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Transportation.PublicTransportationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Transportation.CyclingWalkingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Food.InputFoodActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Transportation.PersonalVehicleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.InputNewActivity.Transportation.InputTransportationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EcoTracker.UpdateActivity.UpdatePersonalVehicle"
+            android:exported="false" />
     </application>
 
 </manifest>

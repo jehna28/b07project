@@ -76,5 +76,33 @@
         <item>Movies</item>
     </string-array>
 
+    <string name="transportation">Transportation</string>
+    <string name="shopping">Shopping</string>
+    <string name="energy">Energy</string>
+    <string name="food">Food</string>
+    <string name="personal_vehicle">Personal Vehicle</string>
+    <string name="cycling_or_walking">Cycling or Walking</string>
+    <string name="flight">Flight</string>
+    <string name="select_a_mode_of_transportation">Select a Mode of Transportation</string>
+    <string name="text">Text</string>
+    <string name="text2">Text</string>
+    <string name="please_provide_the_following_information">Please provide the following information:</string>
+    <string name="meal_type">Meal Type:</string>
+    <string name="vehicle_type">Vehicle Type:</string>
+    <string name="public_transportation">Public Transportation</string>
+    <string name="enter_number_of_flights_taken_today">Enter Number of Flights Taken Today:</string>
+    <string name="save">Save</string>
+    <string name="short_haul_or_long_haul">Short-Haul or Long-Haul:</string>
+    <string name="enter_value">Enter value</string>
+    <string name="new_clothes">New Clothes</string>
+    <string name="other_purchases">Other Purchases</string>
+    <string name="electronics">Electronics</string>
+    <string name="number_of_clothing_items_purchased">Number of clothing items purchased:</string>
+    <string name="number_of_devices_purchased">Number of Devices Purchased:</string>
+    <string name="enter_number">Enter number</string>
+    <string name="energy_type">Energy Type:</string>
+    <string name="bill_amount">Bill Amount:</string>
+    <string name="time_in_hours_spent_on_public_transport">Time in Hours Spent on Public Transport:</string>
+
 
 </resources>
