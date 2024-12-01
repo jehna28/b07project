@@ -10,8 +10,6 @@
     tools:context=".HomeScreenActivity">
 
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainHome"
         android:layout_width="match_parent"
@@ -97,6 +95,7 @@
             app:layout_constraintTop_toBottomOf="@id/annualEmissionsTxtMessageHomeScreen" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/welcomeCardView"
         android:layout_width="350dp"
         android:layout_height="350dp"
         app:cardElevation="50dp"
@@ -118,10 +117,14 @@
 
     </androidx.cardview.widget.CardView>
 
-
-
-
-
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="250dp"
+            android:layout_marginBottom="-90dp"
+            android:src="@drawable/sidepenguin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/welcomeCardView"/>
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -129,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/brightblue_bg"
-            app:itemIconSize="24dp"
+            app:itemIconSize="35dp"
             app:itemIconTint="@null"
             app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -149,6 +152,8 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/drawerNavigationView"

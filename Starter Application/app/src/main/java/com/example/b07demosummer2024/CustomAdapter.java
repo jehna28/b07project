@@ -70,6 +70,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             // Make Category Title pop out
             holder.habit.setTextSize(20);
             holder.habit.setTypeface(null, Typeface.BOLD);
+            holder.habit.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
             // Remove clickability for category headers
             holder.itemView.setOnClickListener(null);
@@ -81,6 +82,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             //Reset text style for habit names
             holder.habit.setTextSize(16);
             holder.habit.setTypeface(null, Typeface.NORMAL);
+            holder.habit.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
 
             // Adding onClickListeners event on items in the rececyler list
             holder.itemView.setOnClickListener (new View.OnClickListener() {

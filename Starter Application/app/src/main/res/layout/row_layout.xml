@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/card_view_habits"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/lightGreen"
+    app:cardBackgroundColor="@color/anotherblue"
     app:cardCornerRadius="16dp"
     >
 
@@ -21,8 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Habit Name"
+            android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/white"
+            android:textSize="19sp"/>
         
         <TextView
             android:id="@+id/habitImpactCardView"
@@ -30,8 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Habit Intentsity"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         
     </LinearLayout>

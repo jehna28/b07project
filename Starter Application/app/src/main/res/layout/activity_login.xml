@@ -96,14 +96,12 @@
 
     <ImageView
         android:id="@+id/phoneWomanImag"
-        android:layout_width="340dp"
-        android:layout_height="269dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="150dp"
+        android:layout_width="500dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="@string/image_of_woman_siting_on_a_bench_with_company_phone_application"
         android:src="@drawable/company_photo_edited"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgotPasswordBtn" />
 

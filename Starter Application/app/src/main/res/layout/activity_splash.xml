@@ -5,8 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    android:background="@drawable/splashscreenbackground"
-    android:contentDescription="Empowering You to Live Sustainability"
+    android:background="@drawable/welcome_background_gradient"
     tools:context=".activity_splash">
+
+
+
+
+    <ImageView
+        android:id="@+id/companyLogoImage"
+        android:layout_width="313dp"
+        android:layout_height="169dp"
+        android:contentDescription="@string/planetze_logo"
+        android:src="@drawable/company_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/company_words"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:layout_width="700dp"
+        android:layout_height="700dp"
+        android:src="@drawable/blue_circles"
+        android:layout_marginBottom="-750dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:layout_width="700dp"
+        android:layout_height="700dp"
+        android:src="@drawable/emojibanner"
+        android:layout_marginBottom="-250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/penguin"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="-100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

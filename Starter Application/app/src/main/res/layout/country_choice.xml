@@ -21,14 +21,14 @@
         android:layout_margin="32dp"
         android:layout_marginTop="-70dp"
         app:cardCornerRadius="19dp"
-        android:backgroundTint="@color/brightBlue">
+        android:backgroundTint="@color/anotherblue">
 
         <LinearLayout
             android:id="@+id/contentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:background="@drawable/lightblue_bg"
+            android:backgroundTint="@color/white"
             android:orientation="vertical"
             android:paddingHorizontal="7dp"
             android:paddingTop="5dp"
@@ -41,8 +41,9 @@
                 android:layout_margin="10dp"
                 android:text="Select your country"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:textColor="@color/brightBlue"
+                android:textSize="24dp"
                 android:textStyle="bold" />
 
             <Spinner
@@ -50,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
+                android:backgroundTint="@color/brightBlue"
                 android:layout_gravity="center"
                 android:paddingHorizontal="50dp"
                 android:paddingVertical="10dp" />
@@ -59,8 +61,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:backgroundTint="@color/brightBlue"
+                android:textSize="20dp"
                 android:text="Continue" />
 
         </LinearLayout>

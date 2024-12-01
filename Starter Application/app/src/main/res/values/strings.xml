@@ -55,7 +55,7 @@
     <string name="reset_data">Reset Data</string>
     <string name="go_home">Go Home</string>
     <string name="enter_new_password">Enter new password</string>
-    <string name="your_email_is_not_verifiied">Your email is not verifiied</string>
+    <string name="your_email_is_not_verifiied">Your email is not verified</string>
     <string name="your_email_is_verified">Your email is verified</string>
     <string name="welcome">WELCOME,</string>
     <string name="annual_carbon_emissions">Annual carbon emissions</string>
@@ -66,7 +66,7 @@
     <string name="save_activity">Save Activity</string>
     <string name="edit_activity_title">Edit Activity Title</string>
     <string name="update_activity">Update Activity</string>
-    <string name="activities_will_be_displayed_here">Activities will be Displayed Here</string>
+    <string name="activities_will_be_displayed_here">Activities will be displayed here</string>
     <string name="delete_activity">Delete Activity</string>
     <string name="adopt_habits">Adopt Habits</string>
 

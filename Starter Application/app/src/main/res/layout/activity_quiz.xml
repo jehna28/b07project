@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="20dp"
-    android:paddingHorizontal="18dp"
-    android:background="@drawable/back2"
+    android:background="@color/defaultBtnBlue4"
     tools:context=".quiz_and_results.quiz.QuizActivity">
 
     <ProgressBar
@@ -37,27 +36,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:src="@drawable/bg_scene"
+        android:layout_marginLeft="14dp"
+        android:layout_marginBottom="-50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardid"/>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="32dp"
-        android:backgroundTint="@color/brightBlue"
+        android:layout_height="0dp"
         app:cardCornerRadius="20dp"
-        app:cardElevation="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:cardElevation="4dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="-20dp"
+        app:cardBackgroundColor="@color/anotherblue"
         app:layout_constraintTop_toBottomOf="@id/categoryText"
-        app:layout_constraintVertical_bias="0.172">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <LinearLayout
             android:id="@+id/contentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
             android:background="@drawable/lightblue_bg"
             android:orientation="vertical"
             android:paddingHorizontal="7dp"
@@ -72,7 +81,7 @@
                 android:text="This will be the question"
                 android:textAlignment="center"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:textColor="@color/white"
+                android:textColor="@color/brightBlue"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -81,13 +90,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:padding="10dp"
                 android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/radioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/radio_button_bg"
                     android:text="Ans A"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -97,7 +107,7 @@
                     android:id="@+id/radioButton2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/radio_button_bg"
                     android:text="Ans B"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -107,7 +117,7 @@
                     android:id="@+id/radioButton3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/radio_button_bg"
                     android:text="Ans C"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -117,7 +127,7 @@
                     android:id="@+id/radioButton4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/radio_button_bg"
                     android:text="Ans D"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -127,7 +137,7 @@
                     android:id="@+id/radioButton5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/radio_button_bg"
                     android:text="Ans E"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -137,7 +147,7 @@
                     android:id="@+id/radioButton6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_marginVertical="8dp"
                     android:background="@drawable/radio_button_bg"
                     android:text="Ans F"
                     android:fontFamily="sans-serif-condensed-medium"
@@ -153,6 +163,8 @@
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/brightBlue"
                 android:text="Submit" />
+
+
 
         </LinearLayout>
 

@@ -38,7 +38,7 @@ public class CountrySelectionActivity extends AppCompatActivity {
         continueButton = findViewById(R.id.continue_button);
 
         ArrayList<String> countries = loadCountriesFromCSV();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, countries);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_white, countries);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         countrySpinner.setAdapter(adapter);
 
@@ -54,7 +54,6 @@ public class CountrySelectionActivity extends AppCompatActivity {
                     double average = getCountryAverage(countries, country);
                     saveCountryToDB(country, average);
                     Intent intent = new Intent(CountrySelectionActivity.this, QuizActivity.class);
-                    //finish(); // Optional: close CountrySelectionActivity so the user cannot go back to it
                     startActivity(intent);
                 }
             }
