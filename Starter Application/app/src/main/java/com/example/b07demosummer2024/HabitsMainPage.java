@@ -68,14 +68,19 @@ public class HabitsMainPage extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerSearchView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        // Initialize search bar recycler view with empty arrays
-        ArrayList<String> empty = new ArrayList<>();
-
         // Show habits by categories of transportation, energy, food, consumption
         habitsByCategoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 parseJsonDataByCategory();
+            }
+        });
+
+        // Show habits by user unique driven habits via firebase data collection
+        habitsBySuggestedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parseJSONDataBySuggested();
             }
         });
 
@@ -87,7 +92,8 @@ public class HabitsMainPage extends AppCompatActivity {
             }
         });
 
-        // Search Bar
+        // Make it so that user can touch anywhere on the search bar to open it, instead of just
+        // the magnifying glass icon
         habitSearchBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,10 +101,16 @@ public class HabitsMainPage extends AppCompatActivity {
             }
         });
 
+        // When user types something and/or enters typed text, we want to match in real time
+        // the habits the correspond to the search text and then update the recycler with the matched
+        // habits
         habitSearchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 parseJSONDataBySearch(query);
+
+                // Bring the associated recycler view for the search bar visible and on top
+                // of the other views
                 recyclerSearchView.setVisibility(View.VISIBLE);
                 return true;
             }
@@ -111,6 +123,8 @@ public class HabitsMainPage extends AppCompatActivity {
             }
         });
 
+        // When search bar is closed, we also want to make sure that the associated recycler view is
+        // gone as well
         habitSearchBar.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -121,6 +135,8 @@ public class HabitsMainPage extends AppCompatActivity {
         });
 
         goBack();
+
+        // By Default we're going to show habits by categories
         parseJsonDataByCategory();
     }
 
@@ -139,14 +155,15 @@ public class HabitsMainPage extends AppCompatActivity {
 
     private void goManageHabits() {
         if (user != null) {
-            // See if user has any habits, if they do then redirect them to the next page to manage habits
+            // See if user has any habits, if they do then redirect them to the next page to manage habits if there are
             DatabaseReference ref = mDataBase.getReference("Users").child(user.getUid()).child("habits");
 
             ref.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task.getResult().exists()) {
-                        // Redirect them to manage page, still gotta code this
-                        return;
+                        Intent intent = new Intent(getApplicationContext(), ManageHabitsActivity.class);
+                        startActivity(intent);
+                        finish();
 
                     } else {
                         Toast.makeText(HabitsMainPage.this, "You have no habits to manage, please add one first!", Toast.LENGTH_SHORT).show();
@@ -178,9 +195,13 @@ public class HabitsMainPage extends AppCompatActivity {
 
                 // Grab the corresponding array of each category
                 JSONArray curr_array = obj.getJSONArray(category);
+
+                // Add the category to the array as we're going to distinguish between habits in the
+                // recycler view
                 habitNames.add(category);
                 habitImpact.add("category");
 
+                // Iterate through array of each category and add them to our arrays
                 for (int j = 0; j < curr_array.length(); j++) {
                     JSONObject habit = curr_array.getJSONObject(j);
                     habitNames.add(habit.getString("name"));
@@ -193,7 +214,7 @@ public class HabitsMainPage extends AppCompatActivity {
             Log.e("JSON parsing Error", "Error parsing JSON data", e);
         }
 
-        // Update recycler
+        // Update recycler with our arrays using our custom adapter
         CustomAdapter customAdapter = new CustomAdapter(habitNames, habitImpact, HabitsMainPage.this);
         recyclerView.setAdapter(customAdapter);
     }
@@ -204,6 +225,10 @@ public class HabitsMainPage extends AppCompatActivity {
             // Initialize arrays
             ArrayList<String> habitNames = new ArrayList<>();
             ArrayList<String> habitImpact = new ArrayList<>();
+
+            // This array is only going to be used in the case of when user has inputtd text, so that
+            // the recycler doesn't add two habits that are the same when parsing and updating arrays
+            // in real time
             HashSet<String> addedHabits = new HashSet<>();
 
             // Get JSON object from json file
@@ -212,7 +237,8 @@ public class HabitsMainPage extends AppCompatActivity {
             // Grab keys
             JSONArray keys = obj.names();
 
-            // Check if user typed anything
+            // Check if user typed anything, if they typed nothing we want to show them all the
+            // habits (order doesn't matter here, so go just from how the json data is formatted
             if (searchText == null || searchText.isEmpty()) {
                 for (int i = 0; i < keys.length(); i++) {
                     String category = keys.getString(i);
@@ -227,6 +253,14 @@ public class HabitsMainPage extends AppCompatActivity {
                 }
             } else {
 
+                // In the case user has either started typing or entered word/words, we want to sort
+                // our arrays based on the category that matches the searchText (and populate the
+                // corresponding habits), and then populate other habits that match the search text
+                // but not the category (if any).
+
+                // Every time we find a habit to add, we add it to our hash set so that, later in
+                // the loops if we encounter them again we don't double add it (thus we always check
+                // if a habit is in the hash set or not already, too see if it's already in the array
                 String loweredSearchText = searchText.toLowerCase();
 
                 // See if search text matches up with the category names, if so put them first in recycler view
@@ -251,7 +285,8 @@ public class HabitsMainPage extends AppCompatActivity {
                     }
                 }
 
-                // Then put any matches of inputted text
+                // Then put any matches of inputted text that match the search text but not the
+                // category
                 for (int i = 0; i < keys.length(); i++) {
                     JSONArray curr_array = obj.getJSONArray(keys.getString(i));
                     for (int j = 0; j < curr_array.length(); j++) {
@@ -269,6 +304,7 @@ public class HabitsMainPage extends AppCompatActivity {
 
             }
 
+            // Update recycler with our arrays using our custom search adapter
             CustomSearchAdapter searchAdapter = new CustomSearchAdapter(habitNames, habitImpact, HabitsMainPage.this);
             recyclerSearchView.setAdapter(searchAdapter);
 
@@ -286,13 +322,20 @@ public class HabitsMainPage extends AppCompatActivity {
         String json = null;
 
         try {
+
+            // Open the json file from assets
             InputStream is = getAssets().open("habits.json");
+
+            // Figures out the size of the json file in bytes
             int size = is.available();
 
+            // We create an array that's the same size as the file and read the contents into it as
+            // bytes (always have to close InputStream after usage)
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
 
+            // We encode the bytes back to string (JSON Object Format)
             json = new String(buffer, StandardCharsets.UTF_8);
 
         } catch (IOException e) {

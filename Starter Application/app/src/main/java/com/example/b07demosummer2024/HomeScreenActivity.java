@@ -191,7 +191,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             ref.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     if (task.getResult().exists()) {
-                        // Add code here to actually fill up pie chart
+                        setUserPieChart();
                     } else {
                         // Case that user has not inputted any daily data and/or data in general
                         setEmptyDataPieChart();

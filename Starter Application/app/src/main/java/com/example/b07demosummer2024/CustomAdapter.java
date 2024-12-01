@@ -4,6 +4,7 @@ import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.transition.Hold;
@@ -26,10 +28,9 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
-    ArrayList<String> habitNames;
-    ArrayList<String> habitImpact;
-    Context context;
-
+    private ArrayList<String> habitNames;
+    private ArrayList<String> habitImpact;
+    private Context context;
     private FirebaseDatabase mDataBase;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
@@ -48,7 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the item layout
+        // Inflate the item layout with custom row layout (layout of each row in the recycler view)
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
 
         return new MyViewHolder(view);
@@ -74,6 +75,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
             // Remove clickability for category headers
             holder.itemView.setOnClickListener(null);
+
+            // Make Transparent
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         } else {
             holder.habit.setText(habitName);
             String concat = "Impact: " + impactType;
@@ -84,8 +88,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             holder.habit.setTypeface(null, Typeface.NORMAL);
             holder.habit.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
+            // Force the background color to be the one in the row layout when it's not a category
+            // header
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.anotherblue));
 
-            // Adding onClickListeners event on items in the rececyler list
+            // Adding onClickListeners event on items in the recycler list
             holder.itemView.setOnClickListener (new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -115,10 +122,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return habitNames.size();
     }
 
-    // MyHolder class
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
+        // Text Views of a row in the recycler view
         TextView habit, impact;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -168,8 +174,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 dialog.dismiss();
             }
         });
-
-
 
     }
 

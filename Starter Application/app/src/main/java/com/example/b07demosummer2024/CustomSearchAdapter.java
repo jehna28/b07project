@@ -22,11 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class CustomSearchAdapter extends RecyclerView.Adapter<CustomSearchAdapter.MyViewHolder2>{
+public class CustomSearchAdapter extends RecyclerView.Adapter<CustomSearchAdapter.SearchViewHolder>{
 
-    ArrayList<String> habitNames;
-    ArrayList<String> habitImpact;
-    Context context;
+    private ArrayList<String> habitNames;
+    private ArrayList<String> habitImpact;
+    private Context context;
     private FirebaseDatabase mDataBase;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
@@ -45,22 +45,22 @@ public class CustomSearchAdapter extends RecyclerView.Adapter<CustomSearchAdapte
     // View Holders
     @NonNull
     @Override
-    public MyViewHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the item layout
+    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate the item layout with custom row layout (layout of each row in the recycler view)
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout_search_bar, parent, false);
 
-        return new MyViewHolder2(view);
+        return new SearchViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder2 holder, int position) {
+    public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
 
         // Set the data in the text views of the recycler view items
 
         String habitName = habitNames.get(position);
         String impactType = habitImpact.get(position);
         String concat = "Impact: " + impactType;
-       //Log.d("CustomSearchAdapter", "Position: " + position + ", Habit Name: " + habitName + ", Impact: " + impactType);
+
         holder.habit.setText(habitName);
         holder.impact.setText(concat);
 
@@ -92,13 +92,13 @@ public class CustomSearchAdapter extends RecyclerView.Adapter<CustomSearchAdapte
     public int getItemCount() {
         return habitNames.size();
     }
+    public class SearchViewHolder extends RecyclerView.ViewHolder {
 
-    // MyHolder class
-    public class MyViewHolder2 extends RecyclerView.ViewHolder {
+        // Text Views of a row in the recycler view
 
         TextView habit, impact;
 
-        public MyViewHolder2(@NonNull View itemView) {
+        public SearchViewHolder(@NonNull View itemView) {
 
             super(itemView);
 
