@@ -31,7 +31,8 @@
                 android:gravity="center_horizontal"
                 android:paddingRight="223dp"
                 android:text="@string/vehicle_type"
-                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="18sp"
                 android:textAlignment="center"
                 android:textColor="@color/turquoise"/>
 
@@ -50,8 +51,9 @@
                 android:gravity="center_horizontal"
                 android:paddingRight="200dp"
                 android:paddingTop="20dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Distance Driven:"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textAlignment="center"
                 android:textColor="@color/turquoise"/>
 
@@ -129,7 +131,8 @@
                 android:text="Save"
                 android:id="@+id/saveButtonUPV"
                 android:textSize="18sp"
-                android:backgroundTint="@color/turquoise"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:backgroundTint="@color/brightBlue"
                 android:layout_marginTop="20dp"/>
 
         </LinearLayout>

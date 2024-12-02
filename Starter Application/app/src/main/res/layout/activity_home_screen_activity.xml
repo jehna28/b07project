@@ -118,11 +118,12 @@
     </androidx.cardview.widget.CardView>
 
         <ImageView
+            android:id="@+id/happypen"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginLeft="250dp"
-            android:layout_marginBottom="-90dp"
-            android:src="@drawable/sidepenguin"
+            android:layout_marginLeft="270dp"
+            android:layout_marginBottom="-110dp"
+            android:src="@drawable/side_happy_penguin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/welcomeCardView"/>
 

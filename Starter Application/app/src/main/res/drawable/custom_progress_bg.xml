@@ -5,10 +5,10 @@
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <corners android:radius="10dp"/>
-            <solid android:color="@color/defaultBtnBlue2"/>
+            <solid android:color="@color/white"/>
             <stroke
-                android:width="2dp"
-                android:color="@color/brightBlue" />
+                android:width="5dp"
+                android:color="@color/defaultBtnBlue4" />
 
         </shape>
 
@@ -16,10 +16,10 @@
 
 
     <item android:id="@android:id/progress"
-        android:top="5dp"
-        android:bottom="5dp"
-        android:right="5dp"
-        android:left="5dp">
+        android:top="7dp"
+        android:bottom="7dp"
+        android:right="7dp"
+        android:left="7dp">
         <clip>
             <scale android:scaleWidth="100%" >
                 <shape>

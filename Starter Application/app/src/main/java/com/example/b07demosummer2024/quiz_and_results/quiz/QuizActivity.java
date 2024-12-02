@@ -111,15 +111,16 @@ public class QuizActivity extends AppCompatActivity {
 
     private void styleRadioButton(RadioButton button){
         // set the style of the radio button
-        button.setTextColor(getResources().getColor(R.color.white));
+        button.setTextColor(getResources().getColor(R.color.brightBlue));
+
         button.setBackgroundResource(R.drawable.radio_button_bg);
         Typeface typeface = Typeface.create("sans-serif-condensed", Typeface.BOLD);
         button.setTypeface(typeface);
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                120
         );
-        buttonParams.setMargins(5,5,5,5);
+        buttonParams.setMargins(16, 20, 16, 20);
         button.setLayoutParams(buttonParams);
         }
 
