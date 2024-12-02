@@ -66,4 +66,12 @@
     </string-array>
 
 
+    <string name="Plantze">Eco Gauge</string>
+    <string-array name="time_options">
+        <item>Today</item>
+        <item>This Month</item>
+        <item>This Year</item>
+    </string-array>
+
+
 </resources>
