@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.SelectCategoryActivity;
 import com.example.b07demosummer2024.EcoTracker.UpdateActivity.UpdatePersonalVehicle;
+import com.example.b07demosummer2024.HabitsMainPage;
+import com.example.b07demosummer2024.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,9 +51,7 @@ public class CalendarEcoTracker extends AppCompatActivity{
     public CalendarView calendarView;
     private EditText editEventTitle, editEventUpdate;
 
-    private Button buttonSaveAct;
-    private Button buttonUpdateEvent;
-    private Button buttonDeleteEvent;
+    private Button buttonSaveAct, buttonUpdateEvent, buttonDeleteEvent, buttonHabits;
 
     private TextView textEvents;
 
@@ -81,6 +82,14 @@ public class CalendarEcoTracker extends AppCompatActivity{
         cntActs = 0;
 
         buttonSaveAct = findViewById(R.id.buttonSaveEvent);
+        buttonHabits = findViewById(R.id.buttonHabitPage);
+        buttonHabits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HabitsMainPage.class);
+                startActivity(intent);
+            }
+        });
 
         textEvents = findViewById(R.id.textEvents);
 
@@ -134,12 +143,27 @@ public class CalendarEcoTracker extends AppCompatActivity{
         buttonUpdateEvent.setOnClickListener(this::buttonUpdateEvent);
         buttonDeleteEvent.setOnClickListener(this::buttonDeleteEvent);
 
+        goBack();
+
+    }
+
+    private void goBack() {
+        // Use OnBackPressedDispatcher for handling back button presses
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     // The following method is called when the user clicks on a specific date of the calendar.
     // In addition, the following method will display the current/new activities of the specific day
     // The following method is called when the user clicks on a specific date of the calendar.
-// It retrieves and displays the list of activities for the selected date.
+    // It retrieves and displays the list of activities for the selected date.
     private void calendarClicked() {
         databaseReference.child(stringDateSelected).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

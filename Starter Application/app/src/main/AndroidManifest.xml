@@ -81,10 +81,6 @@
         <activity
             android:name=".CalendarEcoTracker"
             android:exported="false" />
-
-        <activity
-            android:name=".CalendarEcoTracker"
-            android:exported="false"/>
         <activity
             android:name=".EcoTracker.Calendar.CalendarEcoTracker"
             android:exported="false" />

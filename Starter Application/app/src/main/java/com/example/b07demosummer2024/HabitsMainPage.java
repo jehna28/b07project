@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,10 +18,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,11 +39,14 @@ import java.util.HashSet;
 
 public class HabitsMainPage extends AppCompatActivity {
 
+    private boolean isActivitiesPresent;
     private Button habitsByCategoryBtn, habitsBySuggestedBtn, manageHabitsBtn;
     private SearchView habitSearchBar;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDataBase;
+
+    private DatabaseReference databaseReference;
     private RecyclerView recyclerView, recyclerSearchView;
 
     @Override
@@ -61,6 +69,7 @@ public class HabitsMainPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mDataBase = FirebaseDatabase.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
 
         recyclerView = findViewById(R.id.habitRecyclerViewHabitsMainPage);
         recyclerSearchView = findViewById(R.id.searchResultsRecyclerViewHabitsMainPage);
@@ -145,7 +154,7 @@ public class HabitsMainPage extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CalendarEcoTracker.class);
                 startActivity(intent);
                 finish();
             }
@@ -314,8 +323,192 @@ public class HabitsMainPage extends AppCompatActivity {
 
     }
 
-    private  void parseJSONDataBySuggested() {
-        // Code here to parse based on user suggested
+    // Code here to parse based on user suggested; provides User suggestions
+    private void parseJSONDataBySuggested() {
+        // Initialize arrays
+        ArrayList<String> habitNames = new ArrayList<>();
+        ArrayList<String> habitImpact = new ArrayList<>();
+        boolean WordAppears[] = {false, false, false, false};
+        isActivitiesPresent = true;
+
+        try {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (!snapshot.hasChild("EcoTrackerCalendar")) {
+                        isActivitiesPresent = false;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(HabitsMainPage.this, "Failed to display suggested habits", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            if (!isActivitiesPresent) {
+                Toast.makeText(HabitsMainPage.this, "Please Input Activities in the Calendar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HabitsMainPage.this, "Displaying All Possible Habits", Toast.LENGTH_SHORT).show();
+                parseJsonDataByCategory();
+                return;
+            }
+            // Get JSON object from json file
+            JSONObject obj = new JSONObject(loadJSONfromAssets());
+
+            databaseReference = databaseReference.child("EcoTrackerCalendar");
+
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    // Loop through all dates
+                    for (DataSnapshot dateSnapshot : snapshot.getChildren()) {
+                        String date = dateSnapshot.getKey(); // obtain date
+
+                        // loop through categories (Transportation, Shopping, Food, Energy)
+                        for (DataSnapshot categorySnapshot : dateSnapshot.getChildren()) {
+                            String category = categorySnapshot.getKey(); // Get category name
+                            Log.d("Category", "Category: " + category);
+
+                            // Loop through activities
+                            for (DataSnapshot activitySnapshot : categorySnapshot.getChildren()) {
+                                String activityKey = activitySnapshot.getKey(); // e.g., "Activity 1"
+                                String activity = activitySnapshot.child("Activity").getValue(String.class); // Get activity description
+                                String co2Emission = activitySnapshot.child("CO2e Emission").getValue(String.class); // Get CO2e Emission value
+
+                                Log.d("Activity", "Key: " + activityKey + ", Activity: " + activity + ", CO2e Emission: " + co2Emission);
+
+                                // Enlists Suggestions based on the user's activities
+                                if (!WordAppears[0] && category.equals("Transportation")) {
+                                    WordAppears[0] = true;
+                                    try {
+                                        JSONArray curr_array = obj.getJSONArray(category);
+
+                                        habitNames.add(category);
+                                        habitImpact.add("category");
+
+                                        JSONObject habit = curr_array.getJSONObject(0);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(1);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(3);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                    } catch (JSONException e) {
+                                        Log.e("JSON parsing Error", "Error parsing JSON data", e);
+                                    }
+
+                                }else if (!WordAppears[2] && category.equals("Food")) {
+                                    WordAppears[2] = true;
+
+                                    try {
+                                        JSONArray curr_array = obj.getJSONArray(category);
+
+                                        habitNames.add(category);
+                                        habitImpact.add("category");
+
+                                        JSONObject habit = curr_array.getJSONObject(0);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(1);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(2);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(3);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(4);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                    } catch (JSONException e) {
+                                        Log.e("JSON parsing Error", "Error parsing JSON data", e);
+                                    }
+
+                                }else if (!WordAppears[1] && category.equals("Energy") && activity.toLowerCase().contains("electricity")) {
+                                    WordAppears[1] = true;
+
+                                    try {
+                                        JSONArray curr_array = obj.getJSONArray(category);
+
+                                        habitNames.add(category);
+                                        habitImpact.add("category");
+
+                                        JSONObject habit = curr_array.getJSONObject(0);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(1);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(2);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(3);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                    } catch (JSONException e) {
+                                        Log.e("JSON parsing Error", "Error parsing JSON data", e);
+                                    }
+                                } else if (!WordAppears[3] && category.equals("Shopping")) {
+                                    WordAppears[3] = true;
+                                    try {
+                                        JSONArray curr_array = obj.getJSONArray(category);
+
+                                        habitNames.add(category);
+                                        habitImpact.add("category");
+
+                                        JSONObject habit = curr_array.getJSONObject(0);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(1);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(2);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                        habit = curr_array.getJSONObject(4);
+                                        habitNames.add(habit.getString("name"));
+                                        habitImpact.add(habit.getString("impact"));
+
+                                    } catch (JSONException e) {
+                                        Log.e("JSON parsing Error", "Error parsing JSON data", e);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    CustomAdapter customAdapter = new CustomAdapter(habitNames, habitImpact, HabitsMainPage.this);
+                    recyclerView.setAdapter(customAdapter);
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(HabitsMainPage.this, "Failed to fetch suggested habits", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (JSONException e){
+            Log.e("JSON parsing Error", "Error parsing JSON data", e);
+        }
     }
 
     private String loadJSONfromAssets() {

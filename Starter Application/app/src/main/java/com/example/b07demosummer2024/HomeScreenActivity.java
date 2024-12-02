@@ -101,8 +101,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
             if (item.getItemId() == R.id.navEcoGauge) {
                 // add code to transition to gauge feature
-
-                return true;
             }
             return false;
         });
