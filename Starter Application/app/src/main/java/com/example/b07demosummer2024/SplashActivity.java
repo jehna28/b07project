@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.b07demosummer2024.Welcome.WelcomeActivity;
+
 
 /**
  * The following class produces a SplashScreen of the company "Planetze" with its

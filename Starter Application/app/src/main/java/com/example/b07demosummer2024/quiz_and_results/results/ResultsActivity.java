@@ -15,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.b07demosummer2024.HomeScreenActivity;
+import com.example.b07demosummer2024.HomePage.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
 import com.example.b07demosummer2024.quiz_and_results.results.object_classes.DataPackage;
 import com.github.mikephil.charting.charts.PieChart;

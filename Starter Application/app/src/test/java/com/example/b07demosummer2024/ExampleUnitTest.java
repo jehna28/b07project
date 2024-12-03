@@ -1,20 +1,18 @@
 package com.example.b07demosummer2024;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
-import android.util.Log;
+import com.example.b07demosummer2024.Login.LoginActivityModel;
+import com.example.b07demosummer2024.Login.LoginActivityPresenter;
+import com.example.b07demosummer2024.Login.LoginActivityView;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExampleUnitTest {

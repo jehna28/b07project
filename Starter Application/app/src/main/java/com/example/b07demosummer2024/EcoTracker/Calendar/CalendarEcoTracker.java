@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.SelectCategoryActivity;
-import com.example.b07demosummer2024.HabitsMainPage;
-import com.example.b07demosummer2024.HomeScreenActivity;
-import com.example.b07demosummer2024.LogHabits;
+import com.example.b07demosummer2024.Habits.HabitsMain.HabitsMainPage;
+import com.example.b07demosummer2024.HomePage.HomeScreenActivity;
+import com.example.b07demosummer2024.Habits.LogHabits.LogHabits;
 import com.example.b07demosummer2024.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;

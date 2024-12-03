@@ -1,6 +1,4 @@
-package com.example.b07demosummer2024;
-
-import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
+package com.example.b07demosummer2024.Settings;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -22,6 +20,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.b07demosummer2024.CountrySelectionActivity;
+import com.example.b07demosummer2024.HomePage.HomeScreenActivity;
+import com.example.b07demosummer2024.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;

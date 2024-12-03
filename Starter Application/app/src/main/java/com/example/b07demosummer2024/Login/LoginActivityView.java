@@ -1,4 +1,4 @@
-package com.example.b07demosummer2024;
+package com.example.b07demosummer2024.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import androidx.activity.OnBackPressedCallback;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.b07demosummer2024.HomePage.HomeScreenActivity;
+import com.example.b07demosummer2024.R;
+import com.example.b07demosummer2024.Welcome.WelcomeActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivityView extends AppCompatActivity {

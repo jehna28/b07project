@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.b07demosummer2024.HomeScreenActivity;
+import com.example.b07demosummer2024.HomePage.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
 import com.example.b07demosummer2024.quiz_and_results.results.ResultsActivity;
 

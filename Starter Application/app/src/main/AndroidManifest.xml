@@ -37,25 +37,25 @@
             android:name=".EcoTracker.UpdateActivity.UpdatePublicTransportation"
             android:exported="false" />
         <activity
-            android:name=".LogHabits"
+            android:name=".Habits.LogHabits.LogHabits"
             android:exported="false" />
         <activity
             android:name=".EcoGaugeActivity"
             android:exported="false" />
         <activity
-            android:name=".ManageHabitsActivity"
+            android:name=".Habits.ManageHabits.ManageHabitsActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Settings.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".Settings.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeScreenActivity"
+            android:name=".HomePage.HomeScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Registration.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -67,10 +67,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".Welcome.WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivityView"
+            android:name=".Login.LoginActivityView"
             android:exported="false" />
         <activity
             android:name=".ItemAdapater"
@@ -106,7 +106,7 @@
             android:name=".quiz_and_results.results.ResultsActivity"
             android:exported="false" />
         <activity
-            android:name=".HabitsMainPage"
+            android:name=".Habits.HabitsMain.HabitsMainPage"
             android:exported="false" />
         <activity
             android:name=".CalendarEcoTracker"
