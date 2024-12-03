@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">B07 Demo Summer 2024</string>
+    <string name="app_name">Planetze</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_item">Delete Item</string>
@@ -58,7 +58,7 @@
     <string name="your_email_is_not_verifiied">Your email is not verified</string>
     <string name="your_email_is_verified">Your email is verified</string>
     <string name="welcome">WELCOME,</string>
-    <string name="annual_carbon_emissions">Annual carbon emissions</string>
+    <string name="annual_carbon_emissions">Estimated annual carbon emissions</string>
     <string name="default_user">User</string>
     <string name="better_default">You\'re ahead of 0% of people nationally!</string>
     <string name="annual_default">0 tonnes of CO\u2082</string>

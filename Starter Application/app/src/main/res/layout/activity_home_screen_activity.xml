@@ -122,7 +122,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_marginLeft="270dp"
-            android:layout_marginBottom="-110dp"
+            android:layout_marginBottom="-115dp"
             android:src="@drawable/side_happy_penguin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/welcomeCardView"/>
