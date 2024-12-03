@@ -304,6 +304,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                         String annualEmissionsTxt = annualEmissionsRd + " tonnes of CO₂";
                         String betterUserTxt = "You're ahead of " + userBetterPercentage +"% of people nationally!";
 
+                        if (annualEmissions > nationalAverage) {
+                            betterUserTxt = "You're below " + userBetterPercentage + "% of people nationally.";
+                        }
+
                         annualTxt.setText(annualEmissionsTxt);
                         betterTxt.setText(betterUserTxt);
 
