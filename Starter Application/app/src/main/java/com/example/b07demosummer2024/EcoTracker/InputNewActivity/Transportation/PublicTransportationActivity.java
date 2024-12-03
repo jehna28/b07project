@@ -106,7 +106,7 @@ public class PublicTransportationActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Public Transportation");
-                        activityData.put("Activity", "Traveled " +  numHours.getText().toString() + " hrs via " + selectedTransportationType.toLowerCase());
+                        activityData.put("Activity", "Traveled " +  (int)numHoursDouble + " hrs via " + selectedTransportationType.toLowerCase());
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

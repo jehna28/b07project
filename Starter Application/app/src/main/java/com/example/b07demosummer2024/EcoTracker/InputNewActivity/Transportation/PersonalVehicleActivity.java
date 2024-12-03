@@ -127,7 +127,7 @@ public class PersonalVehicleActivity extends AppCompatActivity {
                         // Create the activity data map
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Personal Vehicle");
-                        activityData.put("Activity", "Drove a " + selectedVehicleType.toLowerCase() + " vehicle type for " + distanceVal + " " + selectedDistanceUnit);
+                        activityData.put("Activity", "Traveled " + distanceVal + " " + selectedDistanceUnit + " via " + selectedVehicleType.toLowerCase() + " vehicle type");
                         activityData.put("CO2e Emission", CO2eEmissionString);
 
                         // Use push() to generate a unique key for the new activity

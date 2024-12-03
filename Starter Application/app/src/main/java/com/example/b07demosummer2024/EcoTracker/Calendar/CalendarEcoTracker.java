@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.SelectCategoryActivity;
+import com.example.b07demosummer2024.HabitsMainPage;
 import com.example.b07demosummer2024.HomeScreenActivity;
+import com.example.b07demosummer2024.LogHabits;
 import com.example.b07demosummer2024.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +47,7 @@ import java.util.List;
 public class CalendarEcoTracker extends AppCompatActivity {
 
     FloatingActionButton addActivity;
+    Button buttonHabits, buttonLogHabits;
 
     //Fields that represent the components of the Calendar of the EcoTracker
     public CalendarView calendarView;
@@ -93,6 +96,53 @@ public class CalendarEcoTracker extends AppCompatActivity {
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
+
+        buttonHabits = findViewById(R.id.buttonMainHabits);
+        buttonHabits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HabitsMainPage.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonLogHabits = findViewById(R.id.buttonLogHabits);
+        buttonLogHabits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                user = mAuth.getCurrentUser();
+                if (user == null) {
+                    Toast.makeText(CalendarEcoTracker.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                DatabaseReference ref = FirebaseDatabase.getInstance()
+                        .getReference("Users")
+                        .child(user.getUid())
+                        .child("habits");
+                ref.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            Intent intent = new Intent(getApplicationContext(), LogHabits.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "You need to add habits first!",
+                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CalendarEcoTracker.this, CalendarEcoTracker.class);
+                            startActivity(intent);
+                        }
+                    } else {
+                        // Handle errors fetching data
+                        Log.e("FirebaseError", "Error fetching data", task.getException());
+                        Toast.makeText(getApplicationContext(),
+                                "Error checking habits. Please try again later.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
 
         //Initializations of the fields
         calendarView = findViewById(R.id.calendarView);

@@ -78,12 +78,9 @@ public class CyclingWalkingActivity extends AppCompatActivity {
                 if (!str.isEmpty()) {
                     try {
                         double distanceVal = Double.parseDouble(str);
-                        Log.d("Distance Value", "Parsed value: " + distanceVal);
-
                         // calculating C02eEmission
                         double C02eEmission = 0;
                         String C02eEmissionString = String.valueOf(C02eEmission);
-
 
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         user = mAuth.getCurrentUser();
@@ -101,7 +98,7 @@ public class CyclingWalkingActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Cycling or Walking");
-                        activityData.put("Activity", "Walked or cycled for " + distanceVal + " " + selectedDistanceUnit);
+                        activityData.put("Activity", "Walked/Cycled for " + distanceVal + " " + selectedDistanceUnit);
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

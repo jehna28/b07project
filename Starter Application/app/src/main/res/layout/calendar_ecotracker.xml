@@ -55,12 +55,36 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="30dp"
+                android:paddingTop="26dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="30dp"
+                android:paddingBottom="90dp"
                 android:id="@+id/recyclerViewActivities"
                 android:scrollbars="vertical"
                 android:layout_marginTop="20dp" />
+
+            <Button
+                android:id="@+id/buttonMainHabits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="28dp"
+                android:backgroundTint="@color/brightBlue"
+                android:onClick="buttonMainHabits"
+                android:text="Habits"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/buttonLogHabits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="108dp"
+                android:layout_marginBottom="28dp"
+                android:backgroundTint="@color/brightBlue"
+                android:onClick="buttonMainHabits"
+                android:text="Log Habit for Today"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/buttonMainHabits" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/addActivityFab"

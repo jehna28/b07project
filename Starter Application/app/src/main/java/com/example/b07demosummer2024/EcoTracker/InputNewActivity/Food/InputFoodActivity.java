@@ -105,7 +105,7 @@ public class InputFoodActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Food");
-                        activityData.put("Activity", "Consumed " + numServingsVal + " servings of " + selectedFoodType);
+                        activityData.put("Activity", "Ate " + (int)numServingsVal + " servings of " + selectedFoodType + " food type");
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

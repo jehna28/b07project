@@ -104,7 +104,7 @@ public class OtherPurchasesActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Other Purchases");
-                        activityData.put("Activity", "Purchased" + numItemsVal + " " + selectedPurchaseType + "(s)");
+                        activityData.put("Activity", "Purchased " + (int)numItemsVal + " " + selectedPurchaseType.toLowerCase() + "(s)");
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

@@ -103,7 +103,7 @@ public class EnergyBillsActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Energy");
-                        activityData.put("Activity", "Paid a " + selectedEnergyType.toLowerCase() + " bill for " + billValueDouble + " dollars");
+                        activityData.put("Activity", "Paid " + selectedEnergyType.toLowerCase() + " bill for " + billValueDouble + " dollars");
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

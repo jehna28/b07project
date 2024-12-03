@@ -91,7 +91,7 @@
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:hint="Enter value"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:padding="16dp"
                     android:textColor="@color/turquoise" />

@@ -110,7 +110,7 @@ public class FlightActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Flight");
-                        activityData.put("Activity", "Traveled " +  numFlights.getText().toString() + selectedFlightType +" flights");
+                        activityData.put("Activity", "Took " +  (int)numFlightsVal + selectedFlightType +" flights");
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

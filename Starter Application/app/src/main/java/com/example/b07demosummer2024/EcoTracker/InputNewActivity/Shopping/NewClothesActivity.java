@@ -39,8 +39,6 @@ public class NewClothesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_clothes);
 
         String stringDateSelected = getIntent().getStringExtra("SELECTED_DATE");
-        int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
-        Log.v("stringDateSelected", stringDateSelected);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -82,7 +80,7 @@ public class NewClothesActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Clothes");
-                        activityData.put("Activity", "Purchased " + numItemsVal + " articles of clothing");
+                        activityData.put("Activity", "Purchased " + (int)numItemsVal + " article(s) of clothing");
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();

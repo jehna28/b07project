@@ -104,7 +104,7 @@ public class NewElectronicsActivity extends AppCompatActivity {
 
                         Map<String, Object> activityData = new HashMap<>();
                         activityData.put("Activity Type", "Electronics");
-                        activityData.put("Activity", "Purchased " + numItemsVal + " " + selectedElectronicsType + "(s)");
+                        activityData.put("Activity", "Purchased " + (int)numItemsVal + " " + selectedElectronicsType + "(s)");
                         activityData.put("CO2e Emission", C02eEmissionString);
 
                         String newActivityKey = databaseReference.push().getKey();
