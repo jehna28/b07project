@@ -47,4 +47,6 @@ dependencies {
     testImplementation(libs.mockito)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.github.clans:fab:1.6.4")
 }

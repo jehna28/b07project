@@ -13,15 +13,14 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.SelectCategoryActivity;
-import com.example.b07demosummer2024.EcoTracker.UpdateActivity.UpdatePersonalVehicle;
-import com.example.b07demosummer2024.HabitsMainPage;
 import com.example.b07demosummer2024.HomeScreenActivity;
 import com.example.b07demosummer2024.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,7 +42,7 @@ import java.util.List;
  * @author Alena Carvalho
  * @since 2024-11-21
  */
-public class CalendarEcoTracker extends AppCompatActivity{
+public class CalendarEcoTracker extends AppCompatActivity {
 
     FloatingActionButton addActivity;
 
@@ -51,7 +50,9 @@ public class CalendarEcoTracker extends AppCompatActivity{
     public CalendarView calendarView;
     private EditText editEventTitle, editEventUpdate;
 
-    private Button buttonSaveAct, buttonUpdateEvent, buttonDeleteEvent, buttonHabits;
+    private Button buttonSaveAct;
+    private Button buttonUpdateEvent;
+    private Button buttonDeleteEvent;
 
     private TextView textEvents;
 
@@ -66,34 +67,39 @@ public class CalendarEcoTracker extends AppCompatActivity{
 
     private DatabaseReference databaseReference;
 
+    // Setting up initializations for recycler view
+    RecyclerView recyclerView;
+    List<DataClass> dataList;
+    ValueEventListener eventListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.calendar_ecotracker);
-        cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
         //Initializations of the fields
         calendarView = findViewById(R.id.calendarView);
-        editEventTitle = findViewById(R.id.editEventText);
-        editEventUpdate = findViewById(R.id.editEventUpdate);
-        buttonUpdateEvent = findViewById(R.id.buttonUpdateEvent);
-        buttonDeleteEvent = findViewById(R.id.buttonDeleteEvent);
-        cntActs = 0;
 
-        buttonSaveAct = findViewById(R.id.buttonSaveEvent);
-        buttonHabits = findViewById(R.id.buttonHabitPage);
-        buttonHabits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), HabitsMainPage.class);
-                startActivity(intent);
-            }
-        });
-
-        textEvents = findViewById(R.id.textEvents);
-
+        // Setting up floating action button (fab)
         addActivity = findViewById(R.id.addActivityFab);
+
         addActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,8 +110,9 @@ public class CalendarEcoTracker extends AppCompatActivity{
         // When User clicks on a specific date on the calendar, the date is saved to the field 'stringDateSelected'
         // and the function calendarClicked() is called.
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            stringDateSelected = year + (Integer.toString(month+1)) + dayOfMonth;
+            stringDateSelected = year + (Integer.toString(month + 1)) + dayOfMonth;
             calendarClicked();
+
             // Setting up the fab button and passing stringDateSelected to SelectCategoryActivity
             addActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,7 +124,6 @@ public class CalendarEcoTracker extends AppCompatActivity{
                     }
                     Intent intent = new Intent(CalendarEcoTracker.this, SelectCategoryActivity.class);
                     intent.putExtra("SELECTED_DATE", stringDateSelected);
-                    int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
                     startActivity(intent);
                 }
             });
@@ -128,62 +134,67 @@ public class CalendarEcoTracker extends AppCompatActivity{
         user = mAuth.getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid()).child("EcoTrackerCalendar");
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-        // Makes the buttons for editing, updating and deleting events invisible (initially)
-        editEventUpdate.setVisibility(View.GONE);
-        buttonUpdateEvent.setVisibility(View.GONE);
-        buttonDeleteEvent.setVisibility(View.GONE);
-
-        // These methods will delete/update the corresponding events when clicked upon.
-        buttonUpdateEvent.setOnClickListener(this::buttonUpdateEvent);
-        buttonDeleteEvent.setOnClickListener(this::buttonDeleteEvent);
-
-        goBack();
-
     }
 
-    private void goBack() {
-        // Use OnBackPressedDispatcher for handling back button presses
-        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        };
-        getOnBackPressedDispatcher().addCallback(this, callback);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Refresh the data when the activity is resumed
+        if (stringDateSelected != null) {
+            // If a date is already selected, refresh the activities for that date
+            calendarClicked();
+        }
     }
 
     // The following method is called when the user clicks on a specific date of the calendar.
     // In addition, the following method will display the current/new activities of the specific day
     // The following method is called when the user clicks on a specific date of the calendar.
-    // It retrieves and displays the list of activities for the selected date.
+// It retrieves and displays the list of activities for the selected date.
     private void calendarClicked() {
+        recyclerView = findViewById(R.id.recyclerViewActivities);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(CalendarEcoTracker.this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        dataList = new ArrayList<>();
+        MyAdapter adapter = new MyAdapter(CalendarEcoTracker.this, dataList);
+        recyclerView.setAdapter(adapter);
+
         databaseReference.child(stringDateSelected).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> events = new ArrayList<>();
-                List<String> eventIds = new ArrayList<>();
-
-                // Iterates through the activities and fetches their details
-                for (DataSnapshot activitySnapshot : snapshot.getChildren()) {
-                    String activityId = activitySnapshot.getKey();
-                    StringBuilder activityDetails = new StringBuilder();
-                    for (DataSnapshot detail : activitySnapshot.getChildren()) {
-                        activityDetails.append(detail.getKey()).append(": ").append(detail.getValue().toString()).append("\n");
-                    }
-                    events.add(activityDetails.toString().trim());
-                    eventIds.add(activityId);
-                    cntActs++;
+                dataList.clear();
+                if (!snapshot.exists()) {
+                    Toast.makeText(CalendarEcoTracker.this, "No activities found for this date.", Toast.LENGTH_SHORT).show();
+                    dataList.clear();
+                    adapter.notifyDataSetChanged();
+                    return;
                 }
-                displayActs(events, eventIds);
-                editEventTitle.setText("");
+                // Loop through all categories (e.g., "Transportation")
+                for (DataSnapshot categorySnapshot : snapshot.getChildren()) {
+                    String title = categorySnapshot.getKey(); // E.g., "Transportation"
+
+                    // Loop through activities under the category
+                    for (DataSnapshot activitySnapshot : categorySnapshot.getChildren()) {
+                        String description = activitySnapshot.child("Activity").getValue(String.class); // E.g., "Drove a gasoline vehicle..."
+                        String co2eEmission = activitySnapshot.child("CO2e Emission").getValue(String.class); // E.g., "2.4"
+                        String activityType = activitySnapshot.child("Activity Type").getValue(String.class); // E.g., "Personal Vehiclew"
+                        String activityKey = activitySnapshot.getKey(); // Get the unique key for the activity
+
+                        if (description != null && co2eEmission != null) {
+                            // Trimming emission value
+                            double emissionValue = Double.parseDouble(co2eEmission);
+                            String formattedEmission = String.format("%.2f", emissionValue);
+
+                            // Add to the list
+                            DataClass dataClass = new DataClass(title, description, formattedEmission + " kg CO2e", stringDateSelected, activityType);
+                            Log.d("detailActivity IntentData", "SelectedDate: " + stringDateSelected + ", Category: " + title);
+                            dataClass.setKey(activityKey); // Set the key for deletion
+                            dataList.add(dataClass);
+                        }
+                    }
+                }
+
+                adapter.notifyDataSetChanged(); // Notify adapter to update RecyclerView
             }
 
             @Override
@@ -193,7 +204,6 @@ public class CalendarEcoTracker extends AppCompatActivity{
         });
     }
 
-
     // The following function is called when the User logs their new activity and will store the new activity
     // in the database, under the section "EcoTrackerCalendar", of the User.
     public void buttonSaveEvent(View view) {
@@ -201,115 +211,4 @@ public class CalendarEcoTracker extends AppCompatActivity{
         databaseReference.child(stringDateSelected).child("ActivityName" + cntActs).setValue(editEventTitle.getText().toString());
     }
 
-
-    // The following helper function is used to display the current activities of the day.
-    // The following helper function is used to display the list of activities for the selected date.
-    private void displayActs(List<String> events, List<String> eventIds) {
-        if (events.isEmpty()) {
-            textEvents.setText("No Activities for This Date");
-        } else {
-            StringBuilder eventsText = new StringBuilder();
-            for (String event : events) {
-                eventsText.append("- ").append(event).append("\n\n");
-            }
-            textEvents.setText(eventsText.toString().trim());
-
-            // Handles event click for updating
-            textEvents.setOnClickListener(v -> {
-                if (!events.isEmpty()) {
-                    showEventSelectionDialog(events, eventIds);
-                }
-            });
-        }
-    }
-
-
-    // The following function shows a dialog to select an activity to edit or delete
-    private void showEventSelectionDialog(List<String> events, List<String> eventIds) {
-        String[] eventArray = events.toArray(new String[0]);
-
-        // Users should not be able to edit/delete an activity if there are no activities for desired date.
-        if(textEvents.getText() == "No Activities for This Date") return;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Select an Activity to Edit")
-                .setItems(eventArray, (dialog, which) -> {
-                    // Get the selected event and its ID
-                    selectedEventText = events.get(which);
-                    selectedEventId = eventIds.get(which);
-
-                    // Populate the EditText for updating
-                    editEventUpdate.setText(selectedEventText);
-                    editEventUpdate.setVisibility(View.VISIBLE);
-                    buttonUpdateEvent.setVisibility(View.VISIBLE);
-                    buttonDeleteEvent.setVisibility(View.VISIBLE);
-                })
-                .setNegativeButton("Cancel", null);
-        builder.show();
-    }
-
-    // The following function updates the selected activity
-    public void buttonUpdateEvent(View view) {
-        String updatedEvent = editEventUpdate.getText().toString().trim();
-
-        if (!updatedEvent.isEmpty() && selectedEventId != null) {
-            databaseReference.child(stringDateSelected).child(selectedEventId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        // Retrieve existing data
-                        String vehicleType = snapshot.child("Vehicle Type").getValue(String.class);
-                        String distanceData = snapshot.child("Distance").getValue(String.class);
-                        String distanceUnit = null;
-                        String distanceValue = null;
-
-                        if (distanceData != null && distanceData.contains(" ")) {
-                            String[] parts = distanceData.split(" ");
-                            distanceValue = parts[0];
-                            distanceUnit = parts[1];
-                        }
-
-                        // Pass existing data to UpdatePersonalVehicle
-                        Intent intent = new Intent(CalendarEcoTracker.this, UpdatePersonalVehicle.class);
-                        intent.putExtra("SELECTED_DATE", stringDateSelected);
-                        intent.putExtra("SELECTED_EVENT_ID", selectedEventId);
-                        intent.putExtra("VEHICLE_TYPE", vehicleType);
-                        intent.putExtra("DISTANCE_UNIT", distanceUnit);
-                        intent.putExtra("DISTANCE_VALUE", distanceValue);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(CalendarEcoTracker.this, "No data found for this event", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(CalendarEcoTracker.this, "Error retrieving data", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            Toast.makeText(this, "Please select an activity to update", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    // The following function deletes the selected activity
-    public void buttonDeleteEvent(View view) {
-        if (selectedEventId != null) {
-            databaseReference.child(stringDateSelected).child(selectedEventId).removeValue()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(CalendarEcoTracker.this, "Activity deleted!", Toast.LENGTH_SHORT).show();
-                            editEventUpdate.setVisibility(View.GONE);
-                            buttonUpdateEvent.setVisibility(View.GONE);
-                            buttonDeleteEvent.setVisibility(View.GONE);
-                            calendarClicked(); // Refresh events display
-                        } else {
-                            Toast.makeText(CalendarEcoTracker.this, "Error deleting Activity", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } else {
-            Toast.makeText(this, "No activity selected", Toast.LENGTH_SHORT).show();
-        }
-    }
 }

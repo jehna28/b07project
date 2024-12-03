@@ -1,4 +1,4 @@
-package com.example.b07demosummer2024.EcoTracker.InputNewActivity.Transportation;
+package com.example.b07demosummer2024.EcoTracker.UpdateActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.EcoTracker.Calculations.TPTCalculation;
 import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
+import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Transportation.PublicTransportationActivity;
 import com.example.b07demosummer2024.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,33 +29,29 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+public class UpdatePublicTransportation extends AppCompatActivity {
 
-public class PublicTransportationActivity extends AppCompatActivity {
-
-    Button saveButton;
+    Button updateButton;
     Spinner transportationType;
     EditText numHours;
     String selectedTransportationType;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
+    String activityKey; // Unique key of the activity being updated
+    String stringDateSelected; // Selected date for this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_public_transportation);
-
-        String stringDateSelected = getIntent().getStringExtra("SELECTED_DATE");
-        int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
-
+        setContentView(R.layout.activity_update_public_transportation);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         // setting up dropdown menu to select type of public transportation
-        Spinner spinner1 = (Spinner) findViewById(R.id.tType);
+        Spinner spinner1 = (Spinner) findViewById(R.id.updateTType);
         String[] items1 = new String[]{"Bus", "Train", "Subway"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items1);
         spinner1.setAdapter(adapter1);
@@ -73,27 +70,30 @@ public class PublicTransportationActivity extends AppCompatActivity {
             }
         });
 
-        numHours = (EditText)findViewById(R.id.timeInHours);
-        saveButton = (Button)findViewById(R.id.saveButton2);
+        numHours = (EditText)findViewById(R.id.updateTimeInHours);
+        updateButton = (Button)findViewById(R.id.updateButtonPT);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            stringDateSelected = bundle.getString("SelectedDate");
+            activityKey = bundle.getString("Key");
+        }
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = numHours.getText().toString();
                 if (!str.isEmpty()) {
                     try {
                         double numHoursDouble = Double.parseDouble(str);
-                        Log.d("Hours Value", "Parsed value: " + numHoursDouble);
-
                         TPTCalculation calculate = new TPTCalculation();
                         double C02eEmission = calculate.getCO2eEmission(numHoursDouble);
                         String C02eEmissionString = String.valueOf(C02eEmission);
-                        Log.v("PT C02eEmission", C02eEmissionString);
 
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         user = mAuth.getCurrentUser();
                         if (user == null) {
-                            Toast.makeText(PublicTransportationActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdatePublicTransportation.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -104,27 +104,22 @@ public class PublicTransportationActivity extends AppCompatActivity {
                                 .child(stringDateSelected)
                                 .child("Transportation");
 
-                        Map<String, Object> activityData = new HashMap<>();
-                        activityData.put("Activity Type", "Public Transportation");
-                        activityData.put("Activity", "Traveled " +  numHours.getText().toString() + " hrs via " + selectedTransportationType.toLowerCase());
-                        activityData.put("CO2e Emission", C02eEmissionString);
+                        Map<String, Object> updatedData = new HashMap<>();
+                        updatedData.put("Activity Type", "Public Transportation");
+                        updatedData.put("Activity", "Traveled " +  numHours.getText().toString() + " hrs via " + selectedTransportationType.toLowerCase());
+                        updatedData.put("CO2e Emission", C02eEmissionString);
 
-                        String newActivityKey = databaseReference.push().getKey();
-                        if (newActivityKey != null) {
-                            databaseReference.child(newActivityKey)
-                                    .setValue(activityData)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(PublicTransportationActivity.this, "New activity saved!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(PublicTransportationActivity.this, CalendarEcoTracker.class);
-                                        intent.putExtra("SELECTED_DATE", stringDateSelected);
-                                        startActivity(intent);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(PublicTransportationActivity.this, "Failed to save activity", Toast.LENGTH_SHORT).show();
-                                    });
-                        } else {
-                            Toast.makeText(PublicTransportationActivity.this, "Failed to generate unique key for activity", Toast.LENGTH_SHORT).show();
-                        }
+                        databaseReference.child(activityKey)
+                                .updateChildren(updatedData)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(UpdatePublicTransportation.this, "Activity updated successfully!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdatePublicTransportation.this, CalendarEcoTracker.class);
+                                    intent.putExtra("SELECTED_DATE", stringDateSelected);
+                                    startActivity(intent);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(UpdatePublicTransportation.this, "Failed to update activity", Toast.LENGTH_SHORT).show();
+                                });
 
                     } catch (NumberFormatException e) {
                         numHours.setError("Invalid number format");

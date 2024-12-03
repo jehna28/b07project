@@ -3,7 +3,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,124 +52,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <EditText
-                android:id="@+id/editEventText"
-                android:layout_width="296dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:ems="10"
-                android:inputType="text"
-                android:text="@string/enter_activity"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/buttonSaveEvent"
-                android:layout_width="154dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@color/brightBlue"
-                android:baselineAligned="false"
-                android:onClick="buttonSaveEvent"
-                android:text="@string/save_activity"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editEventText" />
-
-            <TextView
-                android:id="@+id/textHowToEdit"
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="Tap on activities to edit"
-                android:textColor="@color/darkgrey"
-                android:textSize="15sp"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonSaveEvent" />
-
-            <EditText
-                android:id="@+id/editEventUpdate"
-                android:layout_width="296dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="12dp"
-                android:hint="@string/edit_activity_title"
-                android:inputType="text"
-                android:onClick="buttonUpdateEvent"
-                android:padding="10dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textHowToEdit" />
-
-            <Button
-                android:id="@+id/buttonUpdateEvent"
-                android:layout_width="154dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/brightBlue"
-                android:text="@string/update_activity"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editEventUpdate" />
-
-            <Button
-                android:id="@+id/buttonDeleteEvent"
-                android:layout_width="154dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/brightBlue"
-                android:text="@string/delete_activity"
-                android:textColor="@color/white"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonUpdateEvent" />
-
-            <Button
-                android:id="@+id/buttonHabitPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="24dp"
-                android:backgroundTint="@color/brightBlue"
-                android:onClick="buttonHabits"
-                android:text="Habits"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/textEvents"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:padding="8dp"
-                android:text="@string/activities_will_be_displayed_here"
-                android:textColor="@color/brightBlue"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/buttonDeleteEvent" />
+                android:layout_height="match_parent"
+                android:paddingTop="30dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="30dp"
+                android:id="@+id/recyclerViewActivities"
+                android:scrollbars="vertical"
+                android:layout_marginTop="20dp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/addActivityFab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="26dp"
-                android:backgroundTint="@color/brightBlue"
                 android:src="@drawable/add_sign"
+                android:backgroundTint="@color/brightBlue"
+                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:tint="@color/white" />
+                app:layout_constraintEnd_toEndOf="parent" />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

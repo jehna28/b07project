@@ -15,11 +15,12 @@ import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Energy.EnergyBi
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Food.InputFoodActivity;
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Shopping.InputShoppingActivity;
 import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Transportation.InputTransportationActivity;
+import com.example.b07demosummer2024.HabitsMainPage;
 import com.example.b07demosummer2024.R;
 
 public class SelectCategoryActivity extends AppCompatActivity {
 
-    Button tButton, fButton, sButton, eButton;
+    Button tButton, fButton, sButton, eButton, buttonHabits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,15 @@ public class SelectCategoryActivity extends AppCompatActivity {
                 intent.putExtra("SELECTED_DATE", stringDateSelected);  // Pass the date to the next activity
                 int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
                 intent.putExtra("ACTIVITY_COUNT", cntActs);
+                startActivity(intent);
+            }
+        });
+
+        buttonHabits = findViewById(R.id.buttonHabitPage);
+        buttonHabits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HabitsMainPage.class);
                 startActivity(intent);
             }
         });

@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,11 +22,8 @@ import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
 import com.example.b07demosummer2024.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +57,7 @@ public class PersonalVehicleActivity extends AppCompatActivity {
 
         // setting dropdown menu to select type of vehicle
         Spinner spinner1 = (Spinner) findViewById(R.id.vType);
-        String[] items1 = new String[]{"Gasoline", "Diesel", "Hybrid", "Electric"};
+        String[] items1 = new String[]{"Gasoline", "Diesel", "Hybrid", "Electric", "I don't know"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items1);
         spinner1.setAdapter(adapter1);
 
@@ -99,7 +95,8 @@ public class PersonalVehicleActivity extends AppCompatActivity {
         });
 
         distanceDrivenVal = (EditText)findViewById(R.id.disDriven);
-        saveButton = (Button)findViewById(R.id.saveButton1);
+
+        saveButton = (Button) findViewById(R.id.saveButton1);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +116,7 @@ public class PersonalVehicleActivity extends AppCompatActivity {
                             return;
                         }
 
+                        // Get reference to the user's transportation data for the selected date
                         databaseReference = FirebaseDatabase.getInstance().getReference()
                                 .child("Users")
                                 .child(user.getUid())
@@ -126,36 +124,29 @@ public class PersonalVehicleActivity extends AppCompatActivity {
                                 .child(stringDateSelected)
                                 .child("Transportation");
 
-                        // Retrieve the latest cntActs from Firebase
-                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                int activityCount = (int) snapshot.getChildrenCount(); // Get count of children
-                                int newCntActs = activityCount + 1;
+                        // Create the activity data map
+                        Map<String, Object> activityData = new HashMap<>();
+                        activityData.put("Activity Type", "Personal Vehicle");
+                        activityData.put("Activity", "Drove a " + selectedVehicleType.toLowerCase() + " vehicle type for " + distanceVal + " " + selectedDistanceUnit);
+                        activityData.put("CO2e Emission", CO2eEmissionString);
 
-                                Map<String, Object> activityData = new HashMap<>();
-                                activityData.put("Activity", "Drove a " + selectedVehicleType.toLowerCase() + " vehicle type for " + distanceVal + " " + selectedDistanceUnit);
-                                activityData.put("CO2e Emission", CO2eEmissionString);
-
-                                databaseReference.child("Activity " + newCntActs)
-                                        .setValue(activityData)
-                                        .addOnSuccessListener(aVoid -> {
-                                            Toast.makeText(PersonalVehicleActivity.this, "New activity saved!", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(PersonalVehicleActivity.this, CalendarEcoTracker.class);
-                                            intent.putExtra("SELECTED_DATE", stringDateSelected);
-                                            intent.putExtra("ACTIVITY_COUNT", newCntActs);
-                                            startActivity(intent);
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(PersonalVehicleActivity.this, "Failed to save activity", Toast.LENGTH_SHORT).show();
-                                        });
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(PersonalVehicleActivity.this, "Error fetching count", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        // Use push() to generate a unique key for the new activity
+                        String newActivityKey = databaseReference.push().getKey();
+                        if (newActivityKey != null) {
+                            databaseReference.child(newActivityKey)
+                                    .setValue(activityData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(PersonalVehicleActivity.this, "New activity saved!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(PersonalVehicleActivity.this, CalendarEcoTracker.class);
+                                        intent.putExtra("SELECTED_DATE", stringDateSelected);
+                                        startActivity(intent);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(PersonalVehicleActivity.this, "Failed to save activity", Toast.LENGTH_SHORT).show();
+                                    });
+                        } else {
+                            Toast.makeText(PersonalVehicleActivity.this, "Failed to generate unique key for activity", Toast.LENGTH_SHORT).show();
+                        }
                     } catch (NumberFormatException e) {
                         distanceDrivenVal.setError("Invalid number format");
                     }

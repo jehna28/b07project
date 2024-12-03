@@ -1,0 +1,162 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="16dp"
+    tools:context=".EcoTracker.Calendar.DetailActivity">
+
+    <!-- CardView for content container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:backgroundTint="@color/brightBlue"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        android:layout_centerInParent="true">
+
+        <!-- Nested content inside the CardView -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/whitebg"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp">
+
+            <!-- Title Text -->
+            <TextView
+                android:id="@+id/detailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:text="Title"
+                android:textSize="30sp"
+                android:textAlignment="center"
+                android:textColor="@color/brightBlue"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Image -->
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:id="@+id/detailImage"
+                android:layout_gravity="center"
+                android:src="@drawable/penguin_img_ig"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Description: Label and Value -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Activity: "
+                    android:textSize="18sp"
+                    android:textColor="@color/brightBlue"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/detailDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="Description text will be here"
+                    android:textSize="14sp"
+                    android:textColor="@color/brightBlue"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <!-- Lang: Label and Value -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Carbon Footprint: "
+                    android:textSize="18sp"
+                    android:paddingBottom="20dp"
+                    android:textColor="@color/brightBlue"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/detailLang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp"
+                    android:text="Language text will be here"
+                    android:textSize="14sp"
+                    android:textColor="@color/brightBlue"
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Floating Action Button Menu -->
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:menu_fab_size="normal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        app:menu_colorNormal="@color/grey"
+        app:menu_icon="@drawable/bulleted_list_icon"
+        app:menu_openDirection="up"
+        app:menu_showShadow="true"
+        android:elevation="20dp"> <!-- Increased elevation here -->
+
+        <!-- Edit Floating Action Button -->
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editButton"
+            android:src="@drawable/edit_icon"
+            app:fab_showShadow="true"
+            app:fab_colorNormal="@color/teal_200"
+            app:fab_size="mini"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Delete Floating Action Button -->
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteButton"
+            android:src="@drawable/delete_icon"
+            app:fab_showShadow="true"
+            app:fab_colorNormal="@color/red"
+            app:fab_size="mini"
+            android:layout_marginBottom="8dp"/>
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>

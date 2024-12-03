@@ -1,4 +1,4 @@
-package com.example.b07demosummer2024.EcoTracker.InputNewActivity.Shopping;
+package com.example.b07demosummer2024.EcoTracker.UpdateActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.EcoTracker.Calculations.SCCalculation;
 import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
+import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Shopping.NewClothesActivity;
 import com.example.b07demosummer2024.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,51 +26,51 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewClothesActivity extends AppCompatActivity {
+public class UpdateClothes extends AppCompatActivity {
 
-    Button saveButton;
+    Button updateButton;
     EditText numItems;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
+    String activityKey; // Unique key of the activity being updated
+    String stringDateSelected; // Selected date for this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_new_clothes);
-
-        String stringDateSelected = getIntent().getStringExtra("SELECTED_DATE");
-        int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
-        Log.v("stringDateSelected", stringDateSelected);
-
+        setContentView(R.layout.activity_update_clothes);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        numItems = (EditText) findViewById(R.id.numItems);
-        saveButton = (Button) findViewById(R.id.saveButtonClothes);
+        numItems = (EditText) findViewById(R.id.updateNumItems);
+        updateButton = (Button) findViewById(R.id.updateButtonClothes);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            stringDateSelected = bundle.getString("SelectedDate");
+            activityKey = bundle.getString("Key");
+        }
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = numItems.getText().toString();
                 if (!str.isEmpty()) {
                     try {
                         double numItemsVal = Double.parseDouble(str);
-                        Log.d("NumItems Value", "Parsed value: " + numItemsVal);
-
                         // calculating C02eEmission
                         SCCalculation calculate = new SCCalculation();
                         double C02eEmission = calculate.getCO2eEmission(numItemsVal);
                         String C02eEmissionString = String.valueOf(C02eEmission);
-                        Log.v("Clothes C02eEmission", C02eEmissionString);
 
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         user = mAuth.getCurrentUser();
                         if (user == null) {
-                            Toast.makeText(NewClothesActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateClothes.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -80,27 +81,22 @@ public class NewClothesActivity extends AppCompatActivity {
                                 .child(stringDateSelected)
                                 .child("Shopping");
 
-                        Map<String, Object> activityData = new HashMap<>();
-                        activityData.put("Activity Type", "Clothes");
-                        activityData.put("Activity", "Purchased " + numItemsVal + " articles of clothing");
-                        activityData.put("CO2e Emission", C02eEmissionString);
+                        Map<String, Object> updatedData = new HashMap<>();
+                        updatedData.put("Activity Type", "Clothes");
+                        updatedData.put("Activity", "Purchased " + numItemsVal + " articles of clothing");
+                        updatedData.put("CO2e Emission", C02eEmissionString);
 
-                        String newActivityKey = databaseReference.push().getKey();
-                        if (newActivityKey != null) {
-                            databaseReference.child(newActivityKey)
-                                    .setValue(activityData)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(NewClothesActivity.this, "New activity saved!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(NewClothesActivity.this, CalendarEcoTracker.class);
-                                        intent.putExtra("SELECTED_DATE", stringDateSelected);
-                                        startActivity(intent);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(NewClothesActivity.this, "Failed to save activity", Toast.LENGTH_SHORT).show();
-                                    });
-                        } else {
-                            Toast.makeText(NewClothesActivity.this, "Failed to generate unique key for activity", Toast.LENGTH_SHORT).show();
-                        }
+                        databaseReference.child(activityKey)
+                                .updateChildren(updatedData)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(UpdateClothes.this, "Activity updated successfully!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdateClothes.this, CalendarEcoTracker.class);
+                                    intent.putExtra("SELECTED_DATE", stringDateSelected);
+                                    startActivity(intent);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(UpdateClothes.this, "Failed to update activity", Toast.LENGTH_SHORT).show();
+                                });
 
                     } catch (NumberFormatException e) {
                         numItems.setError("Invalid number format");

@@ -33,6 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="1.0">
 
+
         <LinearLayout
             android:id="@+id/contentContainer"
             android:layout_width="match_parent"
@@ -47,32 +48,21 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Transportation Type:"
-                android:paddingTop="10dp"
-                android:paddingLeft="8dp"
-                android:textSize="16sp"
+                android:gravity="center_horizontal"
+                android:text="@string/update_activity"
+                android:textSize="30sp"
+                android:textAlignment="center"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/brightBlue"/>
-
-            <Spinner
-                android:id="@+id/tType"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/turquoise_border"
-                android:padding="16dp"
-                android:spinnerMode="dropdown" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:paddingTop="20dp"
                 android:paddingLeft="8dp"
-                android:text="@string/time_in_hours_spent_on_public_transport"
+                android:paddingTop="10dp"
+                android:text="Distance Cycled or Walked:"
                 android:textSize="16sp"
-                android:textAlignment="center"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textColor="@color/brightBlue"/>
 
@@ -82,34 +72,42 @@
                 android:orientation="horizontal" >
 
                 <EditText
-                    android:id="@+id/timeInHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:inputType="number"
+                    android:id="@+id/updateDisCycled"
+                    android:background="@drawable/turquoise_border"
+                    android:layout_marginTop="20dp"
+                    android:padding="16dp"
+                    android:hint="Enter distance"
+                    android:gravity="start|center_vertical"
+                    android:textColor="@color/turquoise"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+                <Spinner
+                    android:id="@+id/updateMiKm2"
                     android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1"
                     android:background="@drawable/turquoise_border"
-                    android:ellipsize="end"
-                    android:gravity="start|center_vertical"
-                    android:hint="Enter value"
-                    android:inputType="number"
-                    android:maxLines="1"
                     android:padding="16dp"
-                    android:textColor="@color/turquoise" />
+                    android:spinnerMode="dropdown"/>
 
             </LinearLayout>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="Save"
-                android:id="@+id/saveButton2"
-                android:textSize="18sp"
+                android:text="@string/update"
+                android:id="@+id/updateButtonCycling"
+                android:textSize="20sp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:backgroundTint="@color/brightBlue"
                 android:layout_marginTop="20dp"/>
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
 
     <ImageView

@@ -23,5 +23,8 @@
     <color name="lightgrey">#FFd8dbe2</color>
     <color name="medgrey">#FFa9bcd0</color>
     <color name="turquoise">#FF009999</color>
+    <color name="red">#d15e5e</color>
+    <color name="green">#5fd8c6</color>
+    <string name="update">Update</string>
 
 </resources>

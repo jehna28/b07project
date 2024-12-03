@@ -6,8 +6,9 @@ public class TPVCalculation {
     public double getCO2eEmission(String type, String dis, double val) {
         double CO2eEmission = 0;
         if (dis.equals("km")) {
-            if (type.equals("Gasoline")) {
-                CO2eEmission = 0.24 * val;
+            if (type.equals("Electric")) {
+                CO2eEmission = 0.05 * val;
+
             }
             else if (type.equals("Diesel")) {
                 CO2eEmission = 0.27 * val;
@@ -15,12 +16,12 @@ public class TPVCalculation {
             else if (type.equals("Hybrid")) {
                 CO2eEmission = 0.16 * val;
             }
-            else { // i.e. type == "Electric"
-                CO2eEmission = 0.05 * val;
+            else { // i.e. type == "Gasoline"
+                CO2eEmission = 0.24 * val;
             }
         } else if (dis.equals("mi")) {
-            if (type.equals("Gasoline")) {
-                CO2eEmission = 0.38616 * val;
+            if (type.equals("Electric")) {
+                CO2eEmission = 0.08045 * val;
             }
             else if (type.equals("Diesel")) {
                 CO2eEmission = 0.43443 * val;
@@ -28,8 +29,8 @@ public class TPVCalculation {
             else if (type.equals("Hybrid")) {
                 CO2eEmission = 0.25744 * val;
             }
-            else { // i.e. type == "Electric"
-                CO2eEmission = 0.08045 * val;
+            else { // i.e. type == "Gasoline"
+                CO2eEmission = 0.38616 * val;
             }
         }
         return CO2eEmission;

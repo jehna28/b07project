@@ -1,5 +1,6 @@
 package com.example.b07demosummer2024.EcoTracker.UpdateActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.EcoTracker.Calculations.TPVCalculation;
 import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
@@ -26,14 +34,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UpdatePersonalVehicle extends AppCompatActivity{
+public class UpdatePersonalVehicle extends AppCompatActivity {
 
-    Button saveButton;
+    Button updateButton;
     EditText distanceDrivenVal;
     String selectedVehicleType, selectedDistanceUnit;
-    private DatabaseReference mDatabase;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
+
+    String activityKey; // Unique key of the activity being updated
+    String stringDateSelected; // Selected date for this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,37 +52,21 @@ public class UpdatePersonalVehicle extends AppCompatActivity{
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_update_personal_vehicle);
 
-        String stringDateSelected = getIntent().getStringExtra("SELECTED_DATE");
-        String selectedEventId = getIntent().getStringExtra("SELECTED_EVENT_ID");
-        String vehicleType = getIntent().getStringExtra("VEHICLE_TYPE");
-        String distanceUnit = getIntent().getStringExtra("DISTANCE_UNIT");
-        String distanceValue = getIntent().getStringExtra("DISTANCE_VALUE");
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-        distanceDrivenVal = findViewById(R.id.disDriven);
-        saveButton = findViewById(R.id.saveButtonUPV);
-
-        Spinner spinner1 = findViewById(R.id.vType);
-        String[] items1 = new String[]{"Gasoline", "Diesel", "Hybrid", "Electric"};
+        Spinner spinner1 = findViewById(R.id.updateVType);
+        String[] items1 = new String[]{"Gasoline", "Diesel", "Hybrid", "Electric", "I don't know"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items1);
         spinner1.setAdapter(adapter1);
 
-        Spinner spinner2 = findViewById(R.id.mikm);
+        Spinner spinner2 = findViewById(R.id.updateMiKm);
         String[] items2 = new String[]{"km", "mi"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items2);
         spinner2.setAdapter(adapter2);
-
-        // Pre-fill fields with data if present
-        if (vehicleType != null) {
-            int vehicleIndex = adapter1.getPosition(vehicleType);
-            spinner1.setSelection(vehicleIndex);
-        }
-        if (distanceUnit != null) {
-            int unitIndex = adapter2.getPosition(distanceUnit);
-            spinner2.setSelection(unitIndex);
-        }
-        if (distanceValue != null) {
-            distanceDrivenVal.setText(distanceValue);
-        }
 
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -94,8 +88,16 @@ public class UpdatePersonalVehicle extends AppCompatActivity{
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Save updated data
-        saveButton.setOnClickListener(v -> {
+        distanceDrivenVal = findViewById(R.id.updateDisDriven);
+        updateButton = findViewById(R.id.updateButtonPV);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            stringDateSelected = bundle.getString("SelectedDate");
+            activityKey = bundle.getString("Key");
+        }
+
+        updateButton.setOnClickListener(v -> {
             String str = distanceDrivenVal.getText().toString();
             if (!str.isEmpty()) {
                 try {
@@ -115,17 +117,18 @@ public class UpdatePersonalVehicle extends AppCompatActivity{
                             .child("Users")
                             .child(user.getUid())
                             .child("EcoTrackerCalendar")
-                            .child(stringDateSelected);
+                            .child(stringDateSelected)
+                            .child("Transportation");
 
-                    Map<String, Object> activityData = new HashMap<>();
-                    activityData.put("Activity", "Drove a " + selectedVehicleType +  "vehicle type for " + distanceVal + " " + selectedDistanceUnit);
-                    activityData.put("CO2e Emission", CO2eEmissionString);
+                    Map<String, Object> updatedData = new HashMap<>();
+                    updatedData.put("Activity Type", "Personal Vehicle");
+                    updatedData.put("Activity", "Drove a " + selectedVehicleType.toLowerCase() + " vehicle type for " + distanceVal + " " + selectedDistanceUnit);
+                    updatedData.put("CO2e Emission", CO2eEmissionString);
 
-                    // Update existing event
-                    databaseReference.child(selectedEventId)
-                            .setValue(activityData)
+                    databaseReference.child(activityKey)
+                            .updateChildren(updatedData)
                             .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(UpdatePersonalVehicle.this, "Activity updated!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UpdatePersonalVehicle.this, "Activity updated successfully!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(UpdatePersonalVehicle.this, CalendarEcoTracker.class);
                                 intent.putExtra("SELECTED_DATE", stringDateSelected);
                                 startActivity(intent);
@@ -141,5 +144,4 @@ public class UpdatePersonalVehicle extends AppCompatActivity{
             }
         });
     }
-
 }

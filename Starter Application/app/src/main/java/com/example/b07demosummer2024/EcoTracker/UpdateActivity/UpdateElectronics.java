@@ -1,4 +1,4 @@
-package com.example.b07demosummer2024.EcoTracker.InputNewActivity.Shopping;
+package com.example.b07demosummer2024.EcoTracker.UpdateActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.EcoTracker.Calculations.SECalculation;
 import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
+import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Shopping.NewElectronicsActivity;
 import com.example.b07demosummer2024.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,31 +29,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewElectronicsActivity extends AppCompatActivity {
+public class UpdateElectronics extends AppCompatActivity {
 
-    Button saveButton;
+    Button updateButton;
     String selectedElectronicsType;
     EditText numItems;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
+    String activityKey; // Unique key of the activity being updated
+    String stringDateSelected; // Selected date for this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_new_electronics);
-
-        String stringDateSelected = getIntent().getStringExtra("SELECTED_DATE");
-        int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0); // Default value is 0
-        Log.v("stringDateSelected", stringDateSelected);
-
+        setContentView(R.layout.activity_update_electronics);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        Spinner spinner1 = (Spinner) findViewById(R.id.eType);
+        Spinner spinner1 = (Spinner) findViewById(R.id.updateEType);
         String[] items1 = new String[]{"Smartphone", "Tablet", "Laptop"};
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items1);
         spinner1.setAdapter(adapter1);
@@ -70,28 +68,31 @@ public class NewElectronicsActivity extends AppCompatActivity {
             }
         });
 
-        numItems = (EditText)findViewById(R.id.numDevice);
-        saveButton = (Button)findViewById(R.id.saveButtonElectronics);
+        numItems = (EditText)findViewById(R.id.updateNumDevice);
+        updateButton = (Button)findViewById(R.id.updateButtonElectronics);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            stringDateSelected = bundle.getString("SelectedDate");
+            activityKey = bundle.getString("Key");
+        }
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = numItems.getText().toString();
                 if (!str.isEmpty()) {
                     try {
                         double numItemsVal = Double.parseDouble(str);
-                        Log.d("Distance Value", "Parsed value: " + numItemsVal);
-
                         // calculating C02eEmission
                         SECalculation calculate = new SECalculation();
                         double C02eEmission = calculate.getCO2eEmission(selectedElectronicsType, numItemsVal);
                         String C02eEmissionString = String.valueOf(C02eEmission);
-                        Log.v("Electronics C02eEmission", C02eEmissionString);
 
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         user = mAuth.getCurrentUser();
                         if (user == null) {
-                            Toast.makeText(NewElectronicsActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateElectronics.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -102,27 +103,22 @@ public class NewElectronicsActivity extends AppCompatActivity {
                                 .child(stringDateSelected)
                                 .child("Shopping");
 
-                        Map<String, Object> activityData = new HashMap<>();
-                        activityData.put("Activity Type", "Electronics");
-                        activityData.put("Activity", "Purchased " + numItemsVal + " " + selectedElectronicsType + "(s)");
-                        activityData.put("CO2e Emission", C02eEmissionString);
+                        Map<String, Object> updatedData = new HashMap<>();
+                        updatedData.put("Activity Type", "Electronics");
+                        updatedData.put("Activity", "Purchased " + numItemsVal + " " + selectedElectronicsType + "(s)");
+                        updatedData.put("CO2e Emission", C02eEmissionString);
 
-                        String newActivityKey = databaseReference.push().getKey();
-                        if (newActivityKey != null) {
-                            databaseReference.child(newActivityKey)
-                                    .setValue(activityData)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(NewElectronicsActivity.this, "New activity saved!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(NewElectronicsActivity.this, CalendarEcoTracker.class);
-                                        intent.putExtra("SELECTED_DATE", stringDateSelected);
-                                        startActivity(intent);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(NewElectronicsActivity.this, "Failed to save activity", Toast.LENGTH_SHORT).show();
-                                    });
-                        } else {
-                            Toast.makeText(NewElectronicsActivity.this, "Failed to generate unique key for activity", Toast.LENGTH_SHORT).show();
-                        }
+                        databaseReference.child(activityKey)
+                                .updateChildren(updatedData)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(UpdateElectronics.this, "Activity updated successfully!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdateElectronics.this, CalendarEcoTracker.class);
+                                    intent.putExtra("SELECTED_DATE", stringDateSelected);
+                                    startActivity(intent);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(UpdateElectronics.this, "Failed to update activity", Toast.LENGTH_SHORT).show();
+                                });
 
                     } catch (NumberFormatException e) {
                         numItems.setError("Invalid number format");

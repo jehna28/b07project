@@ -1,4 +1,4 @@
-package com.example.b07demosummer2024.EcoTracker.InputNewActivity.Transportation;
+package com.example.b07demosummer2024.EcoTracker.UpdateActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.b07demosummer2024.EcoTracker.Calendar.CalendarEcoTracker;
+import com.example.b07demosummer2024.EcoTracker.InputNewActivity.Transportation.CyclingWalkingActivity;
 import com.example.b07demosummer2024.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,30 +28,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CyclingWalkingActivity extends AppCompatActivity {
+public class UpdateCyclingWalking extends AppCompatActivity {
 
-    Button saveButton;
+    Button updateButton;
     String selectedDistanceUnit;
     EditText distance;
     private FirebaseUser user;
     private DatabaseReference databaseReference;
+    String activityKey; // Unique key of the activity being updated
+    String stringDateSelected; // Selected date for this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_cycling_walking);
-
-        String stringDateSelected = getIntent().getStringExtra("SELECTED_DATE");
-        int cntActs = getIntent().getIntExtra("ACTIVITY_COUNT", 0);
-
+        setContentView(R.layout.activity_update_cycling_walking);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        Spinner spinner1 = (Spinner) findViewById(R.id.mikm2);
+        Spinner spinner1 = (Spinner) findViewById(R.id.updateMiKm2);
         String[] items1 = new String[]{"km", "mi"};
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items1);
         spinner1.setAdapter(adapter2);
@@ -68,10 +66,16 @@ public class CyclingWalkingActivity extends AppCompatActivity {
             }
         });
 
-        distance = (EditText)findViewById(R.id.disCycled);
-        saveButton = (Button)findViewById(R.id.saveButtonCycling);
+        distance = (EditText)findViewById(R.id.updateDisCycled);
+        updateButton = (Button)findViewById(R.id.updateButtonCycling);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            stringDateSelected = bundle.getString("SelectedDate");
+            activityKey = bundle.getString("Key");
+        }
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = distance.getText().toString();
@@ -79,16 +83,13 @@ public class CyclingWalkingActivity extends AppCompatActivity {
                     try {
                         double distanceVal = Double.parseDouble(str);
                         Log.d("Distance Value", "Parsed value: " + distanceVal);
-
-                        // calculating C02eEmission
                         double C02eEmission = 0;
                         String C02eEmissionString = String.valueOf(C02eEmission);
-
 
                         FirebaseAuth mAuth = FirebaseAuth.getInstance();
                         user = mAuth.getCurrentUser();
                         if (user == null) {
-                            Toast.makeText(CyclingWalkingActivity.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UpdateCyclingWalking.this, "User not authenticated", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -99,27 +100,22 @@ public class CyclingWalkingActivity extends AppCompatActivity {
                                 .child(stringDateSelected)
                                 .child("Transportation");
 
-                        Map<String, Object> activityData = new HashMap<>();
-                        activityData.put("Activity Type", "Cycling or Walking");
-                        activityData.put("Activity", "Walked or cycled for " + distanceVal + " " + selectedDistanceUnit);
-                        activityData.put("CO2e Emission", C02eEmissionString);
+                        Map<String, Object> updatedData = new HashMap<>();
+                        updatedData.put("Activity Type", "Cycling or Walking");
+                        updatedData.put("Activity", "Walked or cycled for " + distanceVal + " " + selectedDistanceUnit);
+                        updatedData.put("CO2e Emission", C02eEmissionString);
 
-                        String newActivityKey = databaseReference.push().getKey();
-                        if (newActivityKey != null) {
-                            databaseReference.child(newActivityKey)
-                                    .setValue(activityData)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(CyclingWalkingActivity.this, "New activity saved!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(CyclingWalkingActivity.this, CalendarEcoTracker.class);
-                                        intent.putExtra("SELECTED_DATE", stringDateSelected);
-                                        startActivity(intent);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(CyclingWalkingActivity.this, "Failed to save activity", Toast.LENGTH_SHORT).show();
-                                    });
-                        } else {
-                            Toast.makeText(CyclingWalkingActivity.this, "Failed to generate unique key for activity", Toast.LENGTH_SHORT).show();
-                        }
+                        databaseReference.child(activityKey)
+                                .updateChildren(updatedData)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(UpdateCyclingWalking.this, "Activity updated successfully!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdateCyclingWalking.this, CalendarEcoTracker.class);
+                                    intent.putExtra("SELECTED_DATE", stringDateSelected);
+                                    startActivity(intent);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(UpdateCyclingWalking.this, "Failed to update activity", Toast.LENGTH_SHORT).show();
+                                });
 
                     } catch (NumberFormatException e) {
                         distance.setError("Invalid number format");
