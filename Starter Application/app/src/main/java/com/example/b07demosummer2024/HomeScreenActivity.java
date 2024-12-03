@@ -101,6 +101,10 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
             if (item.getItemId() == R.id.navEcoGauge) {
                 // add code to transition to gauge feature
+                Intent intent = new Intent(getApplicationContext(), EcoGaugeActivity.class);
+                startActivity(intent);
+                return true;
+
             }
             return false;
         });

@@ -104,5 +104,13 @@
     <string name="bill_amount">Bill Amount:</string>
     <string name="time_in_hours_spent_on_public_transport">Time in Hours Spent on Public Transport:</string>
 
+    <string name="Plantze">Eco Gauge</string>
+    <string-array name="time_options">
+        <item>Today</item>
+        <item>This Month</item>
+        <item>This Year</item>
+    </string-array>
+
+
 
 </resources>
