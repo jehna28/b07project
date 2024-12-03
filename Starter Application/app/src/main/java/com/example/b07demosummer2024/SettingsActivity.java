@@ -1,5 +1,8 @@
 package com.example.b07demosummer2024;
 
+import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +17,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,6 +30,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -99,6 +108,14 @@ public class SettingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(SettingsActivity.this, CountrySelectionActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        // On click listener to reset all Data
+        resetAllDataBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showResetAllDataDialog();
             }
         });
 
@@ -222,6 +239,66 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(SettingsActivity.this, e.toString(),
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void showResetAllDataDialog() {
+
+        // Initialize U.I elements and show dialog box
+        Dialog dialog = new Dialog(SettingsActivity.this);
+        dialog.setContentView(R.layout.remove_all_data_dialog_box);
+        dialog.getWindow().setBackgroundDrawable(AppCompatResources.getDrawable(SettingsActivity.this, R.drawable.primary_data_dialog_background));
+
+        Button noBtn, yesBtn;
+        noBtn = dialog.findViewById(R.id.noBtnDialogRemoveAllData);
+        yesBtn = dialog.findViewById(R.id.yesBtnDialogRemoveAllData);
+
+        // Make it so that if user taps outside of dialog box it closes
+        dialog.setCancelable(true);
+
+        dialog.show();
+
+        //if yes gets clicked, remove habit to uses account in firebase db
+        yesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetAllData();
+                dialog.dismiss();
+            }
+        });
+
+        // If no gets clicked, just dismiss the box
+        noBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void resetAllData() {
+
+        // Remove all stored data from firebase aside for name node
+        FirebaseDatabase mDataBase = FirebaseDatabase.getInstance();
+
+        DatabaseReference ref = mDataBase.getReference().child("Users").child(user.getUid());
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    if (!ds.getKey().equals("name")) {
+                        ref.child(ds.getKey()).removeValue();
+                    }
+                }
+
+                Toast.makeText(SettingsActivity.this, "All data has been removed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("FireBase Error", "Failed to reset data: " + databaseError.getMessage());
+            }
+        });
     }
 
 }
