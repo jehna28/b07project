@@ -28,6 +28,7 @@
         android:layout_height="90dp"
         android:src="@drawable/ecogauge_shadow"
         android:layout_marginLeft="60dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/title_text"/>
 
