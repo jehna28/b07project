@@ -130,7 +130,7 @@
         app:menu_fab_size="normal"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
-        app:menu_colorNormal="@color/grey"
+        app:menu_colorNormal="@color/brightBlue"
         app:menu_icon="@drawable/bulleted_list_icon"
         app:menu_openDirection="up"
         app:menu_showShadow="true"
