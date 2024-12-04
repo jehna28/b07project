@@ -87,6 +87,10 @@ public class CalendarEcoTracker extends AppCompatActivity {
             return insets;
         });
 
+        Toast.makeText(getApplicationContext(),
+                "Select a date to view activities",
+                Toast.LENGTH_SHORT).show();
+
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
